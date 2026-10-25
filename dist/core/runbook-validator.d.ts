@@ -1,3 +1,9 @@
+/**
+ * Open UX Harness — Validador de Runbooks de Cenário
+ * Garante que os runbooks declarados em runbooks/runbooks.json
+ * possuam todos os metadados obrigatórios, documentos existentes no disco
+ * e referenciem exclusivamente skills válidas do repositório.
+ */
 export interface RunbookRosterGroup {
     group: string;
     activation: string;
@@ -15,7 +21,13 @@ export interface RunbookDefinition {
 export interface RunbookCatalog {
     runbooks: RunbookDefinition[];
 }
-export declare function validateRunbooks(baseDir: string): {
+export interface RunbookValidationResult {
     valid: boolean;
     errors: string[];
-};
+}
+/**
+ * Valida o catálogo de runbooks em runbooks/runbooks.json relativo a baseDir.
+ * Verifica existência do catálogo, campos obrigatórios, slugs únicos,
+ * existência do arquivo markdown de documentação e existência física de cada skill citada.
+ */
+export declare function validateRunbooks(baseDir: string): RunbookValidationResult;

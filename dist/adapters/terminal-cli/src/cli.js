@@ -1,9 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { ConfigLoader } from '../../../core/config-loader.js';
 import { ContextEngine } from '../../../core/context-engine.js';
 import { CraftGuardianLinter } from '../../../core/craft-guardian-linter.js';
-import { DesignTokensLinter } from '../../../core/lint-tokens.js';
-export function runCli(args) {
+import { resolveSkillsForMode } from '../../../core/modes.js';
+export async function runCli(args) {
     const command = args[0] || 'help';
     console.log(`
 =============================================================
@@ -21,6 +22,28 @@ export function runCli(args) {
             else {
                 console.log('✨ Criado harness.config.json padrão.');
             }
+            break;
+        }
+        case 'run': {
+            let modeArg;
+            for (let i = 1; i < args.length; i++) {
+                if (args[i] === '--mode' && args[i + 1]) {
+                    modeArg = args[i + 1];
+                    i++;
+                }
+                else if (args[i].startsWith('--mode=')) {
+                    modeArg = args[i].substring('--mode='.length);
+                }
+            }
+            const loader = new ConfigLoader(process.cwd());
+            const { config, preset } = loader.getResolvedConfiguration();
+            const skills = resolveSkillsForMode(preset, config, modeArg);
+            const activeMode = modeArg ?? config.mode ?? 'sprint';
+            console.log(`[Harness Runner] Modo ativo: ${activeMode} (${skills.length} skills carregadas)`);
+            console.log('Skills ativas no fluxo:');
+            skills.forEach((skill) => {
+                console.log(` - ${skill}`);
+            });
             break;
         }
         case 'prune': {
@@ -52,6 +75,7 @@ export function runCli(args) {
         case 'tokens': {
             const file = args[1] || path.resolve(process.cwd(), 'templates', 'tokens-starter.json');
             console.log(`🎨 Validando Design Tokens: ${file}`);
+            const { DesignTokensLinter } = await import('../../../core/lint-tokens.js');
             const res = DesignTokensLinter.validateTokenFile(file);
             console.log(`Status: ${res.valid ? '✅ VÁLIDO' : '❌ INVÁLIDO'} | Formato: ${res.format} | Total: ${res.totalTokens} tokens`);
             break;
@@ -63,6 +87,7 @@ Uso: open-ux-harness <comando> [opções]
 
 Comandos disponíveis:
   init             Inicializa configuração do harness no projeto
+  run [--mode M]   Executa o harness no modo especificado (micro, sprint, full)
   prune <skill>    Simula o MCP Pruning dinâmico e exibe economia de tokens
   audit            Executa a auditoria heurística do Craft Guardian
   tokens [caminho] Valida arquivo de Design Tokens contra W3C DTCG
@@ -73,6 +98,8 @@ Comandos disponíveis:
     }
 }
 // Execução direta
-if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('cli.ts')) {
+if (import.meta.url === `file://${process.argv[1]}` ||
+    process.argv[1]?.endsWith('cli.ts') ||
+    process.argv[1]?.endsWith('cli.js')) {
     runCli(process.argv.slice(2));
 }

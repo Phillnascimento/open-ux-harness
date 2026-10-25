@@ -2,19 +2,27 @@
   "mcpServers": {
     "figma": {
       "command": "npx",
-      "args": ["-y", "@figma/mcp-server"],
+      "args": [
+        "-y",
+        "@figma/mcp-server"
+      ],
       "env": {
         "FIGMA_ACCESS_TOKEN": "${FIGMA_ACCESS_TOKEN}"
       }
     },
     "a11y-scanner": {
       "command": "npx",
-      "args": ["-y", "@axe-core/mcp"],
+      "args": [
+        "-y",
+        "@axe-core/mcp"
+      ],
       "env": {}
     },
     "local-tokens": {
       "command": "node",
-      "args": ["./core/mcp-local-tokens.js"],
+      "args": [
+        "./core/mcp-local-tokens.js"
+      ],
       "env": {}
     }
   }

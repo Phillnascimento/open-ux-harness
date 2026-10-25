@@ -29,5 +29,47 @@
   "governance": {
     "confirmMasterChanges": true,
     "allowRapidPrototyping": true
+  },
+  "modes": {
+    "micro": [
+      "05-craft-and-accessibility",
+      "08-reality-gate",
+      "06-zero-drift-handoff"
+    ],
+    "sprint": [
+      "01-briefing-discovery",
+      "02-information-architecture",
+      "03-design-tokens",
+      "04-figma-engineering",
+      "05-craft-and-accessibility",
+      "08-reality-gate",
+      "06-zero-drift-handoff"
+    ],
+    "full": [
+      "00-skill-architect",
+      "01-briefing-discovery",
+      "02-information-architecture",
+      "03-design-tokens",
+      "04-figma-engineering",
+      "05-craft-and-accessibility",
+      "06-zero-drift-handoff",
+      "07-telemetry-and-impact",
+      "08-reality-gate",
+      "09-persona-walkthrough",
+      "li-career",
+      "li-brand",
+      "li-voice",
+      "li-profile",
+      "li-human",
+      "li-plan",
+      "li-repurpose",
+      "li-post",
+      "li-carousel",
+      "li-comment",
+      "li-reply",
+      "li-dm",
+      "li-inbox",
+      "li-audit"
+    ]
   }
 }

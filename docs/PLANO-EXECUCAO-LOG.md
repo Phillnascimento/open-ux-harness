@@ -33,12 +33,12 @@ Registro oficial das ondas de implementação conduzidas pelo modelo orquestrado
 ---
 
 ## Wave 2: P1 (5 Subagentes em Paralelo)
-- [ ] **B1: Modos Full / Sprint / Micro**
-- [ ] **B2: Runbooks por Cenário**
-- [ ] **B3: Skill 09 Persona Walkthrough**
-- [ ] **B4: Lint Determinístico de Skills**
-- [ ] **B5: platforms.json e Novos Adaptadores**
-- [ ] **Gate 2:** Verificação integrada e commit da Wave 2.
+- [x] **B1: Modos Full / Sprint / Micro** (`presets/*.json`, `core/modes.ts`, `core/modes.test.ts`, flag `--mode` na CLI) — 9 testes PASS, AC-MD1..3 atendidos.
+- [x] **B2: Runbooks por Cenário** (`runbooks/**`, `core/runbook-validator.ts`, `core/lint-runbooks.ts`, testes) — 8 testes PASS, AC-RB1..4 atendidos, 4 cenários validados.
+- [x] **B3: Skill 09 Persona Walkthrough** (`skills/09-persona-walkthrough/**`) — AC-PW1..2 atendidos, score de confiança 1.0 no linter de skill.
+- [x] **B4: Lint Determinístico de Skills** (`core/lint-skills.ts`, `core/lint-skills.test.ts`, `docs/SKILLS-LINT-BASELINE.md`) — 6 testes PASS, AC-LS1..3 atendidos, 24/24 skills verificadas.
+- [x] **B5: platforms.json e Novos Adaptadores** (`adapters/platforms.json`, `adapters/build-adapters.ts`, `adapters/build-adapters.test.ts`) — 5 testes PASS, AC-PL1..4 atendidos, 8 adaptadores operacionais.
+- [x] **Gate 2:** Verificação integrada concluída com 69/69 testes passando, 0 erros, todos os linters e compiladores verdes (`npm run test:gate`). Commit da Wave 2 registrado.
 
 ---
 

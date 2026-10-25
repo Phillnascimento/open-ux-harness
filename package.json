@@ -14,7 +14,7 @@
     "lint:tokens": "node --loader ts-node/esm core/lint-tokens.ts",
     "lint:skills": "node --loader ts-node/esm core/lint-skills.ts",
     "lint:runbooks": "node --loader ts-node/esm core/lint-runbooks.ts",
-    "test:gate": "npm run build ; npm test"
+    "test:gate": "npm run build && npm test && npm run lint:tokens && npm run lint:runbooks && npm run lint:skills && npm run build:adapters"
   },
   "keywords": [
     "ux",

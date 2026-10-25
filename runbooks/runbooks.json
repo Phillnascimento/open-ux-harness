@@ -1,0 +1,149 @@
+{
+  "runbooks": [
+    {
+      "slug": "checkout-redesign",
+      "title": "Redesign de Fluxo de Checkout",
+      "mode": "sprint",
+      "duration": "2 semanas",
+      "summary": "Otimização completa do fluxo de conversão e pagamento de e-commerce com Design Tokens W3C DTCG, validação a11y, Reality Gate e Handoff zero-drift.",
+      "doc": "runbooks/scenario-checkout-redesign.md",
+      "roster": [
+        {
+          "group": "Discovery & Framing",
+          "activation": "Fase 1: Alinhamento de objetivos de negócio, levantamento de atritos e mapeamento de wireflow",
+          "skills": [
+            "01-briefing-discovery",
+            "02-information-architecture"
+          ]
+        },
+        {
+          "group": "Design Foundation & UI Construction",
+          "activation": "Fase 2: Estruturação dos design tokens e montagem dos componentes no Figma",
+          "skills": [
+            "03-design-tokens",
+            "04-figma-engineering"
+          ]
+        },
+        {
+          "group": "Quality & Verification",
+          "activation": "Fase 3: Auditoria WCAG 2.1 AA, contraste e veredito do Reality Gate",
+          "skills": [
+            "05-craft-and-accessibility",
+            "08-reality-gate"
+          ]
+        },
+        {
+          "group": "Delivery & Specs",
+          "activation": "Fase 4: Handoff para engenharia sem desvios com evidências de conformidade",
+          "skills": [
+            "06-zero-drift-handoff"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "design-system-audit",
+      "title": "Auditoria de Design System",
+      "mode": "micro",
+      "duration": "2 a 3 dias",
+      "summary": "Auditoria cirúrgica e profunda de tokens W3C DTCG, conformidade a11y WCAG AA/AAA e veredito de integridade com Reality Gate.",
+      "doc": "runbooks/scenario-design-system-audit.md",
+      "roster": [
+        {
+          "group": "Tokens Integrity",
+          "activation": "Fase 1: Validação de taxonomia e regras W3C DTCG nos arquivos de tokens",
+          "skills": [
+            "03-design-tokens"
+          ]
+        },
+        {
+          "group": "Craft & Accessibility",
+          "activation": "Fase 2: Checagem estrita de contraste, alvos de toque e navegação por teclado",
+          "skills": [
+            "05-craft-and-accessibility"
+          ]
+        },
+        {
+          "group": "Reality Gate Evaluation",
+          "activation": "Fase 3: Avaliação de conformidade e emissão de veredito PASS ou HOLD",
+          "skills": [
+            "08-reality-gate"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "landing-page",
+      "title": "Landing Page de Alta Conversão",
+      "mode": "sprint",
+      "duration": "1 semana",
+      "summary": "Criação ágil de landing page institucional e de captação B2B/SaaS focada em conversão, hierarquia visual, design tokens e handoff sem desvios.",
+      "doc": "runbooks/scenario-landing-page.md",
+      "roster": [
+        {
+          "group": "Discovery & Narrative",
+          "activation": "Fase 1: Definição da proposta de valor, público-alvo e hierarquia de seções",
+          "skills": [
+            "01-briefing-discovery",
+            "02-information-architecture"
+          ]
+        },
+        {
+          "group": "Visual Foundation",
+          "activation": "Fase 2: Aplicação e extensão de tokens de tipografia, cores e espaçamento",
+          "skills": [
+            "03-design-tokens"
+          ]
+        },
+        {
+          "group": "Quality Assurance",
+          "activation": "Fase 3: Verificação de contraste, estados de formulário e Reality Gate",
+          "skills": [
+            "05-craft-and-accessibility",
+            "08-reality-gate"
+          ]
+        },
+        {
+          "group": "Delivery & Specs",
+          "activation": "Fase 4: Handoff de assets e componentes responsivos com zero drift",
+          "skills": [
+            "06-zero-drift-handoff"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "linkedin-portfolio",
+      "title": "Perfil e Portfólio de Impacto no LinkedIn",
+      "mode": "sprint",
+      "duration": "1 semana",
+      "summary": "Reposicionamento estratégico de perfil profissional para Product Designers, elaboração de estudos de caso orientados a impacto e auditoria de autoridade.",
+      "doc": "runbooks/scenario-linkedin-portfolio.md",
+      "roster": [
+        {
+          "group": "Strategic Positioning",
+          "activation": "Fase 1: Mapeamento de competências, senioridade e arquétipo de voz",
+          "skills": [
+            "li-career",
+            "li-brand"
+          ]
+        },
+        {
+          "group": "Profile & Case Studies",
+          "activation": "Fase 2: Redação de seções-chave do perfil e estruturação de post de portfólio",
+          "skills": [
+            "li-profile",
+            "li-post"
+          ]
+        },
+        {
+          "group": "Authority Audit",
+          "activation": "Fase 3: Auditoria do perfil sob a ótica de recrutadores e líderes de design",
+          "skills": [
+            "li-audit"
+          ]
+        }
+      ]
+    }
+  ]
+}

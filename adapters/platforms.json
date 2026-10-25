@@ -1,0 +1,85 @@
+{
+  "_note": "Fonte única de verdade para plataformas suportadas pelo Open UX Harness",
+  "platforms": {
+    "antigravity": {
+      "id": "antigravity",
+      "label": "Google Antigravity",
+      "format": "skill-md",
+      "installKind": "per-agent",
+      "dest": {
+        "user": [".gemini/config/skills/{slug}/SKILL.md"],
+        "project": [".agents/skills/{slug}/SKILL.md"]
+      }
+    },
+    "claude-code": {
+      "id": "claude-code",
+      "label": "Claude Code",
+      "format": "claude-md",
+      "installKind": "per-agent",
+      "dest": {
+        "user": [".claude/agents/{slug}.md"],
+        "project": [".claude/agents/{slug}.md"]
+      }
+    },
+    "cursor": {
+      "id": "cursor",
+      "label": "Cursor",
+      "format": "cursor-rules",
+      "installKind": "per-agent",
+      "dest": {
+        "user": [],
+        "project": [".cursor/rules/{slug}.mdc", ".cursorrules"]
+      }
+    },
+    "terminal-cli": {
+      "id": "terminal-cli",
+      "label": "Terminal CLI",
+      "format": "harness-runtime",
+      "installKind": "roster",
+      "dest": {
+        "user": [],
+        "project": ["dist/adapters/terminal-cli/harness-runtime.json", ".harness-runtime.json"]
+      }
+    },
+    "gemini-cli": {
+      "id": "gemini-cli",
+      "label": "Gemini CLI",
+      "format": "gemini-md",
+      "installKind": "per-agent",
+      "dest": {
+        "user": [".gemini/agents/{slug}.md"],
+        "project": [".gemini/agents/{slug}.md", "GEMINI.md"]
+      }
+    },
+    "copilot": {
+      "id": "copilot",
+      "label": "GitHub Copilot",
+      "format": "copilot-instructions",
+      "installKind": "roster",
+      "dest": {
+        "user": [".copilot/agents/{slug}.md", ".github/agents/{slug}.md"],
+        "project": [".github/copilot-instructions.md"]
+      }
+    },
+    "windsurf": {
+      "id": "windsurf",
+      "label": "Windsurf",
+      "format": "windsurf-rules",
+      "installKind": "roster",
+      "dest": {
+        "user": [],
+        "project": [".windsurfrules"]
+      }
+    },
+    "codex": {
+      "id": "codex",
+      "label": "Codex",
+      "format": "codex-toml",
+      "installKind": "per-agent",
+      "dest": {
+        "user": [".codex/agents/{slug}.toml"],
+        "project": [".codex/agents/{slug}.toml", ".codex/harness.toml"]
+      }
+    }
+  }
+}

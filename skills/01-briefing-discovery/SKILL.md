@@ -3,7 +3,7 @@ name: 01-briefing-discovery
 description: >
   Conduz o processo de Briefing, Problem Framing (9 Dimensões), Opportunity Solution Tree (Teresa Torres), extração de Brand & Craft para Freelancers, alinhamento de Stakeholders (Matriz RACI) e Roteamento de Próximos Passos atuando como UX Strategic Framer Pro.
   Use SEMPRE no início de projetos, novas funcionalidades, redesenhos de fluxos, ingestão de transcrições brutas de clientes ou validação de hipóteses de negócio.
-  NUNCA use para desenhar telas finais no Figma, gerar árvores complexas de tokens CSS/DTCG ou auditar código React/Tailwind (para isso, acione as skills 02 a 07 após concluir o framing).
+  NUNCA use para desenhar telas finais no Figma, gerar árvores complexas de tokens CSS/DTCG ou auditar código React/Tailwind (para isso, acione as skills 02 a 07 após concluir o framing). Para simulações cognitivas aprofundadas com personas scroll a scroll, delegue para `09-persona-walkthrough`.
 license: MIT
 compatibility: Node.js >= 18.0.0, TypeScript, Agnóstico de Plataforma (Antigravity, Claude Code, Cursor, Codex CLI)
 allowed-tools: Read Write AskQuestion SearchWeb Bash(node:scripts/*) MCP(posthog:*) MCP(jira-notion:*)

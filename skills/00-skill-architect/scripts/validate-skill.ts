@@ -9,6 +9,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 export interface ValidationIssue {
   code: string;
@@ -284,7 +285,7 @@ const isDirectExecution =
   (typeof process !== 'undefined' &&
     process.argv[1] &&
     path.resolve(process.argv[1]).toLowerCase() ===
-      path.resolve(new URL(import.meta.url).pathname.replace(/^\/([a-zA-Z]:)/, '$1')).toLowerCase());
+      path.resolve(fileURLToPath(import.meta.url)).toLowerCase());
 
 if (isDirectExecution) {
   const targetArg = process.argv[2];

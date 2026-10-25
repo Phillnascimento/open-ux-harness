@@ -1,0 +1,301 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://open-ux-harness.dev/schemas/walkthrough-state.schema.json",
+  "title": "PersonaWalkthroughState",
+  "description": "Schema de estado oficial e determinístico gerado pelo Persona Walkthrough (Skill 09) do Open UX Harness.",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "timestamp",
+    "preset_mode",
+    "confidence_score",
+    "validation_errors",
+    "payload"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "failed", "in_progress"]
+    },
+    "skill_id": {
+      "type": "string",
+      "const": "09-persona-walkthrough"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "preset_mode": {
+      "type": "string",
+      "enum": ["freelance", "enterprise", "default"]
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "severity", "message"],
+        "properties": {
+          "code": { "type": "string" },
+          "severity": { "type": "string", "enum": ["error", "warning"] },
+          "message": { "type": "string" },
+          "foldIndex": { "type": "integer" }
+        }
+      }
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "pageUrlOrPath",
+        "persona",
+        "fiveSecondTest",
+        "folds",
+        "ctaReachability",
+        "findings",
+        "recommendations",
+        "methodologicalDisclaimer"
+      ],
+      "properties": {
+        "pageUrlOrPath": {
+          "type": "string",
+          "description": "URL ou caminho local do fluxo/página avaliada."
+        },
+        "persona": {
+          "type": "object",
+          "required": ["name", "archetype", "urgentGoal", "device"],
+          "properties": {
+            "name": { "type": "string" },
+            "archetype": { "type": "string" },
+            "urgentGoal": { "type": "string" },
+            "device": { "type": "string" },
+            "profileDocumentPath": { "type": "string" }
+          }
+        },
+        "fiveSecondTest": {
+          "type": "object",
+          "required": ["passed", "whatIsThis", "isItForMe", "whatToDoNext", "overallScore"],
+          "properties": {
+            "passed": {
+              "type": "boolean",
+              "description": "Verdadeiro se a primeira dobra atinge clareza mínima de compreensão imediata."
+            },
+            "overallScore": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 15,
+              "description": "Soma das 3 pontuações de 1 a 5."
+            },
+            "whatIsThis": {
+              "type": "object",
+              "required": ["clarityScore", "identifiedValueProposition", "monologueReaction"],
+              "properties": {
+                "clarityScore": { "type": "integer", "minimum": 1, "maximum": 5 },
+                "identifiedValueProposition": { "type": "string" },
+                "monologueReaction": { "type": "string" }
+              }
+            },
+            "isItForMe": {
+              "type": "object",
+              "required": ["resonanceScore", "identifiedAudienceFit", "monologueReaction"],
+              "properties": {
+                "resonanceScore": { "type": "integer", "minimum": 1, "maximum": 5 },
+                "identifiedAudienceFit": { "type": "string" },
+                "monologueReaction": { "type": "string" }
+              }
+            },
+            "whatToDoNext": {
+              "type": "object",
+              "required": ["ctaClarityScore", "primaryActionIdentified", "monologueReaction"],
+              "properties": {
+                "ctaClarityScore": { "type": "integer", "minimum": 1, "maximum": 5 },
+                "primaryActionIdentified": { "type": "string" },
+                "monologueReaction": { "type": "string" }
+              }
+            },
+            "synthesis": {
+              "type": "string",
+              "description": "Resumo executivo do veredito dos 5 segundos."
+            }
+          }
+        },
+        "folds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "foldIndex",
+              "foldName",
+              "personaInternalMonologue",
+              "expertAnalysis",
+              "ctaReachability",
+              "findings"
+            ],
+            "properties": {
+              "foldIndex": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Índice numérico do scroll (1 para primeira dobra / hero, 2 para segunda, etc.)."
+              },
+              "foldName": {
+                "type": "string",
+                "description": "Rótulo descritivo da seção (ex: Hero, Prova Social, Preços, FAQ)."
+              },
+              "viewportScreenshot": {
+                "type": "string",
+                "description": "Caminho da imagem capturada para este scroll, se disponível."
+              },
+              "personaInternalMonologue": {
+                "type": "string",
+                "description": "Voz 1: Monólogo em primeira pessoa refletindo pensamentos brutos, dores, pressa e dúvidas da persona."
+              },
+              "expertAnalysis": {
+                "type": "object",
+                "required": ["liftAnalysis", "foggBehaviorModel", "cialdiniPrinciples"],
+                "properties": {
+                  "liftAnalysis": {
+                    "type": "object",
+                    "required": ["valueProposition", "relevance", "clarity", "urgency", "anxiety", "distraction"],
+                    "properties": {
+                      "valueProposition": { "type": "string" },
+                      "relevance": { "type": "string" },
+                      "clarity": { "type": "string" },
+                      "urgency": { "type": "string" },
+                      "anxiety": { "type": "string" },
+                      "distraction": { "type": "string" }
+                    }
+                  },
+                  "foggBehaviorModel": {
+                    "type": "object",
+                    "required": ["motivationLevel", "abilityEffort", "promptClarity", "behaviorLikelihood"],
+                    "properties": {
+                      "motivationLevel": { "type": "string", "enum": ["low", "medium", "high"] },
+                      "abilityEffort": { "type": "string", "enum": ["easy", "moderate", "hard", "blocked"] },
+                      "promptClarity": { "type": "string", "enum": ["clear", "subtle", "missing", "confusing"] },
+                      "behaviorLikelihood": { "type": "string", "enum": ["high", "moderate", "unlikely"] }
+                    }
+                  },
+                  "cialdiniPrinciples": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  }
+                }
+              },
+              "ctaReachability": {
+                "type": "object",
+                "required": ["isPrimaryCtaVisible", "effortToAct", "stickyOrAccessible"],
+                "properties": {
+                  "isPrimaryCtaVisible": { "type": "boolean" },
+                  "ctaLabel": { "type": "string" },
+                  "effortToAct": { "type": "string", "enum": ["immediate", "low_scroll", "high_scroll", "lost"] },
+                  "stickyOrAccessible": { "type": "boolean" },
+                  "notes": { "type": "string" }
+                }
+              },
+              "findings": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/FindingItem"
+                }
+              }
+            }
+          }
+        },
+        "ctaReachability": {
+          "type": "object",
+          "required": ["overallRating", "deadZones", "stickyNavPresent", "recommendations"],
+          "properties": {
+            "overallRating": {
+              "type": "string",
+              "enum": ["optimal", "acceptable", "friction_heavy", "unreachable"]
+            },
+            "deadZones": {
+              "type": "array",
+              "items": { "type": "integer" },
+              "description": "Lista de índices de dobra onde não há CTA visível nem acessível sem rolar extensivamente."
+            },
+            "stickyNavPresent": { "type": "boolean" },
+            "averageScrollDistanceToCtaPx": { "type": "number" },
+            "recommendations": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FindingItem"
+          }
+        },
+        "recommendations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "priority", "foldTarget", "action", "expectedImpact"],
+            "properties": {
+              "id": { "type": "string" },
+              "priority": { "type": "string", "enum": ["P0", "P1", "P2"] },
+              "foldTarget": { "type": "integer" },
+              "action": { "type": "string" },
+              "rationale": { "type": "string" },
+              "expectedImpact": { "type": "string" }
+            }
+          }
+        },
+        "methodologicalDisclaimer": {
+          "type": "string",
+          "const": "Este relatório é uma simulação cognitiva qualitativa baseada em arquétipos comportamentais, não constituindo evidência estatística. Seus achados representam fortes hipóteses a serem validadas com testes de usabilidade reais ou telemetria pós-lançamento."
+        }
+      }
+    },
+    "nextStepRouting": {
+      "type": "object",
+      "required": ["recommendedPath", "pathA", "pathB"],
+      "properties": {
+        "recommendedPath": { "type": "string", "enum": ["A", "B"] },
+        "pathA": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": { "type": "string" },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        },
+        "pathB": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": { "type": "string" },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "FindingItem": {
+      "type": "object",
+      "required": ["id", "severity", "category", "description", "recommendation"],
+      "properties": {
+        "id": { "type": "string" },
+        "severity": { "type": "string", "enum": ["critical", "major", "minor"] },
+        "category": {
+          "type": "string",
+          "enum": ["5_second_test", "value_proposition", "clarity", "anxiety", "cta_reachability", "social_proof", "cognitive_load"]
+        },
+        "foldIndex": { "type": "integer" },
+        "description": { "type": "string" },
+        "personaQuote": { "type": "string" },
+        "recommendation": { "type": "string" }
+      }
+    }
+  }
+}
