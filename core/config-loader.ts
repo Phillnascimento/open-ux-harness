@@ -1,10 +1,19 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+export type HarnessMode = 'micro' | 'sprint' | 'full';
+
+export interface RetryPolicy {
+  maxAttempts: number;
+  onExhausted: 'escalate' | 'abort';
+}
+
 export interface HarnessConfig {
   name: string;
   version: string;
   profile: 'freelance' | 'enterprise' | 'default' | 'custom';
+  mode?: HarnessMode;
+  retryPolicy?: RetryPolicy;
   platforms: {
     target: string[];
     outputDir: string;
@@ -60,6 +69,7 @@ export interface PresetConfig {
   };
   mcpServers: string[];
   governance: Record<string, boolean>;
+  modes?: Record<HarnessMode, string[]>;
 }
 
 export class ConfigLoader {

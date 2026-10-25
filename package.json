@@ -11,7 +11,10 @@
     "build:adapters": "node --loader ts-node/esm adapters/build-adapters.ts",
     "harness:init": "node --loader ts-node/esm adapters/terminal-cli/src/cli.ts init",
     "harness:run": "node --loader ts-node/esm adapters/terminal-cli/src/cli.ts run",
-    "lint:tokens": "node --loader ts-node/esm core/lint-tokens.ts"
+    "lint:tokens": "node --loader ts-node/esm core/lint-tokens.ts",
+    "lint:skills": "node --loader ts-node/esm core/lint-skills.ts",
+    "lint:runbooks": "node --loader ts-node/esm core/lint-runbooks.ts",
+    "test:gate": "npm run build ; npm test"
   },
   "keywords": [
     "ux",

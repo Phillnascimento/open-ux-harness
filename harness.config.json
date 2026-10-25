@@ -3,6 +3,11 @@
   "name": "My UX Project",
   "version": "1.0.0",
   "profile": "freelance",
+  "mode": "sprint",
+  "retryPolicy": {
+    "maxAttempts": 3,
+    "onExhausted": "escalate"
+  },
   "platforms": {
     "target": ["antigravity", "claude-code", "cursor", "terminal-cli"],
     "outputDir": "./dist/adapters"
@@ -37,6 +42,8 @@
     "05-craft-and-accessibility",
     "06-zero-drift-handoff",
     "07-telemetry-and-impact",
+    "08-reality-gate",
+    "09-persona-walkthrough",
     "li-career",
     "li-brand",
     "li-voice",
