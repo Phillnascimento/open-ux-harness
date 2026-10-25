@@ -4,6 +4,7 @@ import { ConfigLoader } from '../../../core/config-loader.js';
 import { ContextEngine } from '../../../core/context-engine.js';
 import { CraftGuardianLinter } from '../../../core/craft-guardian-linter.js';
 import { resolveSkillsForMode } from '../../../core/modes.js';
+import { listAvailable, installSelective } from './install.js';
 export async function runCli(args) {
     const command = args[0] || 'help';
     console.log(`
@@ -80,6 +81,55 @@ export async function runCli(args) {
             console.log(`Status: ${res.valid ? '✅ VÁLIDO' : '❌ INVÁLIDO'} | Formato: ${res.format} | Total: ${res.totalTokens} tokens`);
             break;
         }
+        case 'list': {
+            const catalog = listAvailable(process.cwd());
+            console.log('📦 Plataformas disponíveis:');
+            catalog.platforms.forEach(p => {
+                console.log(` - ${p}`);
+            });
+            console.log(`\n🎯 Skills disponíveis (${catalog.skills.length}):`);
+            catalog.skills.forEach(s => {
+                console.log(` - ${s}`);
+            });
+            break;
+        }
+        case 'install': {
+            let platform;
+            let skills;
+            let dryRun = false;
+            for (let i = 1; i < args.length; i++) {
+                const arg = args[i];
+                if (arg === '--platform' && args[i + 1]) {
+                    platform = args[i + 1];
+                    i++;
+                }
+                else if (arg.startsWith('--platform=')) {
+                    platform = arg.substring('--platform='.length);
+                }
+                else if (arg === '--skills' && args[i + 1]) {
+                    skills = args[i + 1].split(',').map(s => s.trim()).filter(Boolean);
+                    i++;
+                }
+                else if (arg.startsWith('--skills=')) {
+                    skills = arg.substring('--skills='.length).split(',').map(s => s.trim()).filter(Boolean);
+                }
+                else if (arg === '--dry-run') {
+                    dryRun = true;
+                }
+            }
+            const result = installSelective({
+                platform,
+                skills,
+                dryRun,
+                baseDir: process.cwd()
+            });
+            console.log(`\n${result.message}`);
+            console.log(`\nArquivos de destino (${result.targetPaths.length}):`);
+            result.targetPaths.forEach(p => {
+                console.log(` - ${p}`);
+            });
+            break;
+        }
         case 'help':
         default: {
             console.log(`
@@ -91,6 +141,8 @@ Comandos disponíveis:
   prune <skill>    Simula o MCP Pruning dinâmico e exibe economia de tokens
   audit            Executa a auditoria heurística do Craft Guardian
   tokens [caminho] Valida arquivo de Design Tokens contra W3C DTCG
+  list             Lista plataformas e skills ativas suportadas
+  install [opções] Instalação seletiva (--platform <id>, --skills <s1,s2>, --dry-run)
   help             Exibe esta mensagem de ajuda
 `);
             break;

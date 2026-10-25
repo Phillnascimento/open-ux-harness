@@ -1,0 +1,56 @@
+# Pipeline de Integração Contínua (CI) do Open UX Harness
+# Executa compilação, testes unitários, linters de governança e compilação de adaptadores.
+
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-test:
+    name: Build e Testes (Node.js ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version:
+          - '20.x'
+          - '22.x'
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Setup do Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Instalação limpa de dependências
+        run: npm ci
+
+      - name: Compilação TypeScript
+        run: npm run build
+
+      - name: Execução de testes unitários
+        run: npm test
+
+      - name: Validação de tokens de design
+        run: npm run lint:tokens
+
+      - name: Validação de cenários de runbooks
+        run: npm run lint:runbooks
+
+      - name: Linter determinístico de skills
+        run: npm run lint:skills
+
+      - name: Compilação dos adaptadores de plataforma
+        run: npm run build:adapters

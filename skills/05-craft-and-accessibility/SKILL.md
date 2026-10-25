@@ -39,6 +39,10 @@ Sua missão é erradicar o *"visual slop"* gerado por LLMs e atuar como um **Qua
 <reference_index>
 Carregue os arquivos abaixo **sob demanda (estritamente 1 arquivo por vez)** apenas na fase correspondente para preservar o KV-Cache:
 - **Matriz Normativa WCAG 2.2, APCA & Heurísticas de Craft:** [references/wcag22-and-ui-craft-gates.md](references/wcag22-and-ui-craft-gates.md) — Carregar na Fase 2.
+- **Protocolo de Auditoria com Tecnologias Assistivas (Leitores, Foco e ARIA):** [references/assistive-tech-audit.md](references/assistive-tech-audit.md) — Carregar sob demanda na Fase 2/3.
+- **Diretrizes de Visuais Inclusivos, Viés de IA e Daltonismo (CVD):** [references/inclusive-visuals.md](references/inclusive-visuals.md) — Carregar sob demanda na Fase 1/2.
+- **Engenharia de Micro-Interações, Easing e Deleite Funcional:** [references/micro-interactions-and-delight.md](references/micro-interactions-and-delight.md) — Carregar sob demanda na Fase 2/4.
+- **Nudges Comportamentais Éticos e Prevenção de Dark Patterns:** [references/behavioral-nudges.md](references/behavioral-nudges.md) — Carregar sob demanda na Fase 1/2.
 - **Template do Relatório Oficial do Craft Guardian:** [assets/craft-a11y-audit-report-template.md](assets/craft-a11y-audit-report-template.md) — Carregar na Fase 3.
 - **Schema JSON de Handoff (`craft-audit-state.json`):** [assets/craft-audit-state-schema.json](assets/craft-audit-state-schema.json) — Carregar na Fase 4.
 - **Motor Determinístico de Auditoria WCAG/APCA/Craft:** [scripts/audit-craft-a11y.ts](scripts/audit-craft-a11y.ts) — Executar via CLI na Fase 2/3.

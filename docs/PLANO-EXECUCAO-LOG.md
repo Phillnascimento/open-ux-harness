@@ -43,11 +43,11 @@ Registro oficial das ondas de implementação conduzidas pelo modelo orquestrado
 ---
 
 ## Wave 3: P2 (4 Subagentes em Paralelo)
-- [ ] **C1: CLI Install Seletivo**
-- [ ] **C2: Memória com Rollback**
-- [ ] **C3: Referências de UX Adjacentes**
-- [ ] **C4: Pipeline de CI GitHub Actions**
-- [ ] **Gate 3:** Verificação integrada e commit da Wave 3.
+- [x] **C1: CLI Install Seletivo** (`adapters/terminal-cli/src/install.ts`, `install.test.ts`, `cli.ts`) — 9 testes PASS, AC-IN1..4 atendidos.
+- [x] **C2: Memória com Rollback** (`core/memory-manager.ts`, `core/memory-manager.test.ts`) — 7 testes PASS, AC-ME1..4 atendidos, savepoints não-destrutivos.
+- [x] **C3: Referências de UX Adjacentes** (`skills/05-craft-and-accessibility/references/**`) — AC-RF1..3 atendidos, 4 manuais originais (≤150 linhas) integrados à skill 05 (score 1.0).
+- [x] **C4: Pipeline de CI GitHub Actions** (`.github/workflows/ci.yml`) — AC-CI1..2 atendidos, sintaxe YAML validada, matriz Node 20/22.
+- [x] **Gate 3:** Verificação integrada concluída com 85/85 testes passando, 0 erros, todos os linters e compiladores verdes (`npm run test:gate`). Commit da Wave 3 registrado.
 
 ---
 
