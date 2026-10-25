@@ -1,0 +1,261 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Open UX Harness — Skill 01 Framing State Handoff Contract",
+  "description": "Contrato de estado e handoff salvo em .harness/memory/framing-state.json pela Skill 01 (01-briefing-discovery), compatível com handoff-schema-template.json e contendo as 9 dimensões obrigatórias de framing, brandFoundations, raciMatrix, opportunitySolutionTree e nextStepRouting.",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "timestamp",
+    "preset_mode",
+    "confidence_score",
+    "validation_errors",
+    "payload",
+    "nextStepRouting"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "warning", "failed", "SCHEMA_MISMATCH"],
+      "description": "Status final da execução da skill ou do script determinístico validate-framing-state.ts."
+    },
+    "skill_id": {
+      "type": "string",
+      "const": "01-briefing-discovery",
+      "description": "Identificador único da skill (idêntico ao nome da pasta em skills/)."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data e hora ISO 8601 da conclusão do handoff."
+    },
+    "preset_mode": {
+      "type": "string",
+      "enum": ["freelance", "enterprise", "default"],
+      "description": "Perfil operacional em que a skill foi executada."
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Grau de confiança nas evidências e validações (0.0 a 1.0). Valores < 0.7 exigem revisão humana ou UX Discovery."
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "severity"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "severity": { "type": "string", "enum": ["error", "warning", "info"] },
+          "field_or_line": { "type": "string" }
+        }
+      },
+      "description": "Lista de erros encontrados pelo script determinístico validate-framing-state.ts."
+    },
+    "payload": {
+      "type": "object",
+      "description": "As 9 dimensões obrigatórias do Mapa de Framing + Opportunity Solution Tree.",
+      "required": [
+        "projectId",
+        "projectName",
+        "operationMode",
+        "businessGoals",
+        "problemDefinition",
+        "targetUser",
+        "successMetrics",
+        "brandFoundations",
+        "scopeAndConstraints",
+        "raciMatrix",
+        "hypothesesAndRisk",
+        "opportunitySolutionTree",
+        "finalDeliverables"
+      ],
+      "properties": {
+        "projectId": { "type": "string" },
+        "projectName": { "type": "string" },
+        "operationMode": {
+          "type": "string",
+          "enum": ["strategic-full", "lean-fast-track"]
+        },
+        "businessGoals": {
+          "type": "object",
+          "description": "Dimensão 1: Visão Geral e Metas de Negócio",
+          "required": ["executiveSummary", "strategicObjective"],
+          "properties": {
+            "executiveSummary": { "type": "string" },
+            "strategicObjective": { "type": "string" }
+          }
+        },
+        "problemDefinition": {
+          "type": "object",
+          "description": "Dimensão 2: Problema Principal (Causa Raiz vs. Sintomas) e Cost of Inaction (COI)",
+          "required": ["rootCauseStatement", "costOfInaction", "currentEvidence"],
+          "properties": {
+            "rootCauseStatement": { "type": "string" },
+            "symptomsObserved": { "type": "array", "items": { "type": "string" } },
+            "costOfInaction": { "type": "string" },
+            "currentEvidence": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "targetUser": {
+          "type": "object",
+          "description": "Dimensão 3: Perfil do Usuário e Dores Reais",
+          "required": ["personaName", "contextOfUse", "jobToBeDone", "corePains"],
+          "properties": {
+            "personaName": { "type": "string" },
+            "contextOfUse": { "type": "string" },
+            "jobToBeDone": { "type": "string" },
+            "corePains": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "successMetrics": {
+          "type": "object",
+          "description": "Dimensão 4: Métricas de Sucesso (Business KPIs & UX Metrics)",
+          "required": ["businessKpis", "uxMetrics"],
+          "properties": {
+            "businessKpis": { "type": "array", "items": { "type": "string" } },
+            "uxMetrics": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "brandFoundations": {
+          "type": "object",
+          "description": "Dimensão 5: Fundações Visuais, Brand Identity & Craft Existente",
+          "required": [
+            "primaryColor",
+            "secondaryColor",
+            "surfaceColor",
+            "textColor",
+            "fontFamily",
+            "toneOfVoice",
+            "cornerRadiusStyle",
+            "iconLibrary"
+          ],
+          "properties": {
+            "primaryColor": {
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "secondaryColor": {
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "surfaceColor": {
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "textColor": {
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "fontFamily": { "type": "string" },
+            "toneOfVoice": { "type": "string" },
+            "forbiddenTerms": { "type": "array", "items": { "type": "string" } },
+            "cornerRadiusStyle": { "type": "string" },
+            "iconLibrary": { "type": "string" },
+            "existingSystemPatterns": { "type": "string" }
+          }
+        },
+        "scopeAndConstraints": {
+          "type": "object",
+          "description": "Dimensão 6: Escopo e Restrições",
+          "required": ["inScope", "outOfScope", "techStack", "deadline"],
+          "properties": {
+            "inScope": { "type": "array", "items": { "type": "string" } },
+            "outOfScope": { "type": "array", "items": { "type": "string" } },
+            "techStack": { "type": "string" },
+            "deadline": { "type": "string" },
+            "flowEntrypoint": { "type": "string" },
+            "keySteps": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "raciMatrix": {
+          "type": "object",
+          "description": "Dimensão 7: Mapeamento de Stakeholders (RACI)",
+          "required": ["responsible", "accountable", "consulted", "informed"],
+          "properties": {
+            "responsible": { "type": "string" },
+            "accountable": { "type": "string" },
+            "consulted": { "type": "array", "items": { "type": "string" } },
+            "informed": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "hypothesesAndRisk": {
+          "type": "object",
+          "description": "Dimensão 8: Nível de Certeza vs. Suposições",
+          "required": ["requiresDiscovery", "maxRiskScore", "items"],
+          "properties": {
+            "requiresDiscovery": { "type": "boolean" },
+            "maxRiskScore": { "type": "number", "minimum": 1, "maximum": 25 },
+            "discoveryRecommendations": { "type": "array", "items": { "type": "string" } },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["id", "statement", "type", "impact", "probability", "riskScore"],
+                "properties": {
+                  "id": { "type": "string" },
+                  "statement": { "type": "string" },
+                  "type": { "type": "string", "enum": ["fact", "assumption"] },
+                  "evidenceSource": { "type": "string" },
+                  "impact": { "type": "number", "minimum": 1, "maximum": 5 },
+                  "probability": { "type": "number", "minimum": 1, "maximum": 5 },
+                  "riskScore": { "type": "number", "minimum": 1, "maximum": 25 }
+                }
+              }
+            }
+          }
+        },
+        "opportunitySolutionTree": {
+          "type": "object",
+          "description": "Opportunity Solution Tree (Teresa Torres) conectando Outcome -> Opportunities -> Solutions -> Assumption Tests",
+          "required": ["desiredOutcome", "opportunities", "solutions", "assumptionTests"],
+          "properties": {
+            "desiredOutcome": { "type": "string" },
+            "opportunities": { "type": "array", "items": { "type": "string" } },
+            "solutions": { "type": "array", "items": { "type": "string" } },
+            "assumptionTests": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "finalDeliverables": {
+          "type": "array",
+          "description": "Dimensão 9: Entregáveis Finais do Projeto",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      }
+    },
+    "nextStepRouting": {
+      "type": "object",
+      "required": ["recommendedPath", "pathA", "pathB"],
+      "properties": {
+        "recommendedPath": {
+          "type": "string",
+          "enum": ["A", "B"],
+          "description": "Rota recomendada pela skill com base na complexidade do fluxo e confidence_score."
+        },
+        "pathA": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": { "type": "string", "const": "02-information-architecture" },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" },
+            "command": { "type": "string" }
+          }
+        },
+        "pathB": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": { "type": "string", "const": "03-design-tokens" },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" },
+            "command": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

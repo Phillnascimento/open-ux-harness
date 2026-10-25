@@ -1,0 +1,35 @@
+{
+  "name": "open-ux-harness",
+  "version": "1.0.0",
+  "description": "Agentic Harness agnóstico e otimizado para Product Designers e UX/UI Designers (Open Source)",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/**/*.test.js",
+    "test:src": "node --test --loader ts-node/esm src/**/*.test.ts",
+    "build:adapters": "node --loader ts-node/esm adapters/build-adapters.ts",
+    "harness:init": "node --loader ts-node/esm adapters/terminal-cli/src/cli.ts init",
+    "harness:run": "node --loader ts-node/esm adapters/terminal-cli/src/cli.ts run",
+    "lint:tokens": "node --loader ts-node/esm core/lint-tokens.ts"
+  },
+  "keywords": [
+    "ux",
+    "product-design",
+    "ai-agent",
+    "harness",
+    "mcp",
+    "model-context-protocol",
+    "design-tokens",
+    "figma",
+    "storybook",
+    "a11y"
+  ],
+  "author": "Open UX Harness Community",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0",
+    "ts-node": "^10.9.2"
+  }
+}

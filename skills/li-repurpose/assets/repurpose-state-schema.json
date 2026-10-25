@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInRepurposeState",
+  "type": "object",
+  "required": [
+    "source_summary",
+    "nda_sanitized",
+    "extracted_inventory",
+    "posts_matrix"
+  ],
+  "properties": {
+    "source_summary": { "type": "string" },
+    "nda_sanitized": { "type": "boolean" },
+    "extracted_inventory": {
+      "type": "object",
+      "required": ["claims", "numbers", "tradeoffs", "mechanisms"],
+      "properties": {
+        "claims": { "type": "array", "items": { "type": "string" } },
+        "numbers": { "type": "array", "items": { "type": "string" } },
+        "tradeoffs": { "type": "array", "items": { "type": "string" } },
+        "mechanisms": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "posts_matrix": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["slot_number", "angle_type", "hook_id", "format", "hook_pt", "hook_en"],
+        "properties": {
+          "slot_number": { "type": "integer" },
+          "angle_type": { "type": "string" },
+          "hook_id": { "type": "string" },
+          "format": { "type": "string", "enum": ["carousel_pdf", "text_with_artifact", "native_video", "text_only"] },
+          "hook_pt": { "type": "string" },
+          "hook_en": { "type": "string" }
+        }
+      }
+    }
+  }
+}

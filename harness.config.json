@@ -1,0 +1,65 @@
+{
+  "$schema": "./core/schemas/config.schema.json",
+  "name": "My UX Project",
+  "version": "1.0.0",
+  "profile": "freelance",
+  "platforms": {
+    "target": ["antigravity", "claude-code", "cursor", "terminal-cli"],
+    "outputDir": "./dist/adapters"
+  },
+  "llmEngine": {
+    "defaultProvider": "anthropic",
+    "defaultModel": "claude-3-7-sonnet",
+    "fallbackProvider": "openai",
+    "fallbackModel": "gpt-4o",
+    "allowLocalOllama": true,
+    "ollamaModel": "llama3.3:70b"
+  },
+  "memory": {
+    "semanticPath": "./memory/semantic",
+    "episodicPath": "./memory/episodic",
+    "proceduralPath": "./memory/procedural",
+    "decayDays": 90,
+    "compressionEnabled": true
+  },
+  "governance": {
+    "zeroYoloMode": true,
+    "allowAutoFixMinorA11y": true,
+    "requireHumanConfirmationOnMasterTokens": true,
+    "requireHumanConfirmationOnStorybookPush": true
+  },
+  "activeSkills": [
+    "00-skill-architect",
+    "01-briefing-discovery",
+    "02-information-architecture",
+    "03-design-tokens",
+    "04-figma-engineering",
+    "05-craft-and-accessibility",
+    "06-zero-drift-handoff",
+    "07-telemetry-and-impact",
+    "li-career",
+    "li-brand",
+    "li-voice",
+    "li-profile",
+    "li-human",
+    "li-plan",
+    "li-repurpose",
+    "li-post",
+    "li-carousel",
+    "li-comment",
+    "li-reply",
+    "li-dm",
+    "li-inbox",
+    "li-audit"
+  ],
+  "mcpProfiles": {
+    "freelance": {
+      "description": "Perfil ágil para freelancers e pequenos projetos. Não depende de Storybook nem PostHog.",
+      "enabledServers": ["figma", "a11y-scanner", "local-tokens"]
+    },
+    "enterprise": {
+      "description": "Perfil corporativo completo com Storybook, Figma Console bidirecional, W3C DTCG e PostHog.",
+      "enabledServers": ["figma-console", "storybook", "posthog", "asimonim-dtcg", "a11y-scanner", "jira-notion"]
+    }
+  }
+}

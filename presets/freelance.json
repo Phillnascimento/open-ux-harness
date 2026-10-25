@@ -1,0 +1,33 @@
+{
+  "id": "freelance",
+  "name": "Freelancer / Lean UX",
+  "description": "Perfil otimizado para designers autônomos e pequenos produtos. Usa tokens em JSON simples, protótipos em HTML/Tailwind/React e auditoria A11y local, sem dependência de Storybook corporativo ou telemetria em nuvem.",
+  "tokens": {
+    "format": "simple-json",
+    "strictDtcg": false,
+    "outputFiles": ["./tokens/tokens.json", "./tokens/tailwind.tokens.js"]
+  },
+  "figma": {
+    "mode": "rest-or-manual",
+    "useDesktopBridge": false,
+    "fallbackToCodeOnly": true
+  },
+  "handoff": {
+    "destination": "code-snippets",
+    "formats": ["react-tailwind", "html-css"],
+    "requireStorybook": false
+  },
+  "analytics": {
+    "provider": "local-feedback",
+    "requireTelemetryServer": false
+  },
+  "mcpServers": [
+    "figma",
+    "a11y-scanner",
+    "local-tokens"
+  ],
+  "governance": {
+    "confirmMasterChanges": true,
+    "allowRapidPrototyping": true
+  }
+}

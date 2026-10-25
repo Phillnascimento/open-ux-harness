@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInWeeklyPlan",
+  "type": "object",
+  "required": [
+    "week_of",
+    "routine_mode",
+    "language_strategy",
+    "posts_schedule",
+    "engagement_radar_3tiers"
+  ],
+  "properties": {
+    "week_of": { "type": "string" },
+    "routine_mode": { "type": "string", "enum": ["sustainable-20m", "sprint-40m"] },
+    "language_strategy": { "type": "string", "enum": ["pt-BR", "en", "bilingual"] },
+    "posts_schedule": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["day", "time", "language", "post_type", "pillar_id", "hook_id", "format", "specific_angle"],
+        "properties": {
+          "day": { "type": "string" },
+          "time": { "type": "string" },
+          "language": { "type": "string", "enum": ["pt-BR", "en"] },
+          "post_type": { "type": "string", "enum": ["PROOF_CASE", "TRADEOFF_STORY", "TEACH_FRAMEWORK", "OPINION_POV", "OFFER_B2B"] },
+          "pillar_id": { "type": "string" },
+          "hook_id": { "type": "string" },
+          "format": { "type": "string", "enum": ["carousel_pdf", "text_with_artifact", "native_video", "text_only"] },
+          "specific_angle": { "type": "string" }
+        }
+      }
+    },
+    "engagement_radar_3tiers": {
+      "type": "object",
+      "required": ["tier_1_decision_makers", "tier_2_recruiters_connectors", "tier_3_niche_peers"],
+      "properties": {
+        "tier_1_decision_makers": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
+        "tier_2_recruiters_connectors": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
+        "tier_3_niche_peers": { "type": "array", "items": { "type": "string" }, "minItems": 2 }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "enterprise",
+  "name": "Enterprise / Scale DesignOps",
+  "description": "Perfil de alto rigor técnico para equipes multidisciplinares corporativas. Conecta Figma Console bidirecional via WebSocket, W3C DTCG 2025.10 com linter asimonim, Storybook MCP com visual regression Playwright, e telemetria analítica com PostHog.",
+  "tokens": {
+    "format": "w3c-dtcg-2025.10",
+    "strictDtcg": true,
+    "linter": "asimonim",
+    "outputFiles": ["./tokens/design-tokens.tokens.json", "./tokens/style-dictionary.config.json"]
+  },
+  "figma": {
+    "mode": "figma-console-websocket",
+    "useDesktopBridge": true,
+    "fallbackToCodeOnly": false
+  },
+  "handoff": {
+    "destination": "storybook-and-repo",
+    "formats": ["react-typescript", "storybook-stories", "figma-code-connect"],
+    "requireStorybook": true
+  },
+  "analytics": {
+    "provider": "posthog",
+    "requireTelemetryServer": true
+  },
+  "mcpServers": [
+    "figma-console",
+    "storybook",
+    "posthog",
+    "asimonim-dtcg",
+    "a11y-scanner",
+    "jira-notion"
+  ],
+  "governance": {
+    "confirmMasterChanges": true,
+    "designGateRequired": true,
+    "requirePrApproval": true
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInUXProfileDossier",
+  "type": "object",
+  "required": [
+    "updated_at",
+    "mode",
+    "seniority_real",
+    "target_roles_pt",
+    "target_roles_en",
+    "vagas_analyzed_count",
+    "primary_keywords",
+    "secondary_keywords",
+    "scores",
+    "approved_copy"
+  ],
+  "properties": {
+    "updated_at": { "type": "string" },
+    "mode": { "type": "string", "enum": ["carreira", "negocios", "hibrido"] },
+    "seniority_real": { "type": "string" },
+    "target_roles_pt": { "type": "array", "items": { "type": "string" } },
+    "target_roles_en": { "type": "array", "items": { "type": "string" } },
+    "target_companies": { "type": "array", "items": { "type": "string" } },
+    "vagas_analyzed_count": { "type": "integer", "minimum": 1 },
+    "primary_keywords": { "type": "array", "items": { "type": "string" } },
+    "secondary_keywords": { "type": "array", "items": { "type": "string" } },
+    "verified_projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "context", "craft_decisions", "outcome"],
+        "properties": {
+          "name": { "type": "string" },
+          "context": { "type": "string" },
+          "craft_decisions": { "type": "string" },
+          "outcome": { "type": "string" }
+        }
+      }
+    },
+    "scores": {
+      "type": "object",
+      "required": ["initial_score", "revised_score"],
+      "properties": {
+        "initial_score": { "type": "integer" },
+        "revised_score": { "type": "integer" }
+      }
+    },
+    "approved_copy": {
+      "type": "object",
+      "required": ["pt_br", "en"],
+      "properties": {
+        "pt_br": {
+          "type": "object",
+          "properties": {
+            "headline": { "type": "string" },
+            "about": { "type": "string" },
+            "top_5_skills": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "en": {
+          "type": "object",
+          "properties": {
+            "headline": { "type": "string" },
+            "about": { "type": "string" },
+            "top_5_skills": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    }
+  }
+}

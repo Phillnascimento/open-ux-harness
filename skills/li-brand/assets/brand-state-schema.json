@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInUXBrandState",
+  "type": "object",
+  "required": [
+    "mode",
+    "seniority_real",
+    "archetype_primary",
+    "positioning",
+    "pillars_360brew",
+    "visual_tokens",
+    "banner_spec"
+  ],
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["carreira-clt", "remoto-global", "negocios-b2b", "hibrido-autoridade"]
+    },
+    "seniority_real": {
+      "type": "string",
+      "description": "Senioridade real comprovada do designer (ex: Pleno, Sênior, Staff, Lead)."
+    },
+    "archetype_primary": { "type": "string" },
+    "archetype_secondary": { "type": "string" },
+    "positioning": {
+      "type": "object",
+      "required": ["pt_br", "en"],
+      "properties": {
+        "pt_br": {
+          "type": "object",
+          "required": ["uvp_statement", "contrarian_thesis", "target_titles", "industries"],
+          "properties": {
+            "uvp_statement": { "type": "string" },
+            "contrarian_thesis": { "type": "string" },
+            "target_titles": { "type": "array", "items": { "type": "string" } },
+            "industries": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "en": {
+          "type": "object",
+          "required": ["uvp_statement", "contrarian_thesis", "target_titles", "industries"],
+          "properties": {
+            "uvp_statement": { "type": "string" },
+            "contrarian_thesis": { "type": "string" },
+            "target_titles": { "type": "array", "items": { "type": "string" } },
+            "industries": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "pillars_360brew": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "name_pt", "name_en", "weight", "topics"],
+        "properties": {
+          "id": { "type": "string" },
+          "name_pt": { "type": "string" },
+          "name_en": { "type": "string" },
+          "weight": { "type": "integer", "minimum": 10, "maximum": 70 },
+          "topics": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "visual_tokens": {
+      "type": "object",
+      "required": ["surface_color", "text_color", "primary_accent", "secondary_accent", "heading_font", "body_font"],
+      "properties": {
+        "style_name": { "type": "string" },
+        "surface_color": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "text_color": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "primary_accent": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "secondary_accent": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "heading_font": { "type": "string" },
+        "body_font": { "type": "string" },
+        "mono_font": { "type": "string" }
+      }
+    },
+    "banner_spec": {
+      "type": "object",
+      "required": ["headline_pt", "headline_en", "cta_destination", "visual_direction"],
+      "properties": {
+        "headline_pt": { "type": "string" },
+        "headline_en": { "type": "string" },
+        "cta_destination": { "type": "string" },
+        "visual_direction": { "type": "string" }
+      }
+    }
+  }
+}

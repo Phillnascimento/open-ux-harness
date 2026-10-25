@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FramingStateHandoff",
+  "description": "Contrato de transição de estado gerado pela Skill 01 para alimentar automaticamente as Skills 02 (Wireflows) e 03 (Tokens).",
+  "type": "object",
+  "required": [
+    "projectId",
+    "projectName",
+    "mode",
+    "problemStatement",
+    "targetUser",
+    "brandFoundations",
+    "flowEntrypoint",
+    "keySteps",
+    "nextStepRouting",
+    "successCriteria"
+  ],
+  "properties": {
+    "projectId": { "type": "string" },
+    "projectName": { "type": "string" },
+    "mode": { "type": "string", "enum": ["strategic-full", "lean-fast-track"] },
+    "problemStatement": { "type": "string" },
+    "costOfInaction": { "type": "string" },
+    "targetUser": {
+      "type": "object",
+      "properties": {
+        "personaName": { "type": "string" },
+        "context": { "type": "string" },
+        "jobToBeDone": { "type": "string" }
+      },
+      "required": ["personaName", "context"]
+    },
+    "brandFoundations": {
+      "type": "object",
+      "description": "Fundações visuais e tom de voz mapeados na fase de framing",
+      "properties": {
+        "primaryColor": { "type": "string", "description": "Cor primária em formato hexadecimal (#HEX)" },
+        "secondaryColor": { "type": "string" },
+        "surfaceColor": { "type": "string" },
+        "textColor": { "type": "string" },
+        "fontFamily": { "type": "string" },
+        "toneOfVoice": { "type": "string" },
+        "visualStyle": { "type": "string" },
+        "existingSystemPatterns": { "type": "string" }
+      },
+      "required": ["primaryColor", "textColor", "fontFamily"]
+    },
+    "flowEntrypoint": { "type": "string", "description": "Gatilho de início para o wireflow Mermaid" },
+    "keySteps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Lista sequencial de telas ou decisões do fluxo"
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "inScope": { "type": "array", "items": { "type": "string" } },
+        "outOfScope": { "type": "array", "items": { "type": "string" } },
+        "techStack": { "type": "string" }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "responsible": { "type": "string" },
+        "accountable": { "type": "string" },
+        "consulted": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "nextStepRouting": {
+      "type": "object",
+      "description": "Roteamento das duas alternativas de próximo passo para o designer",
+      "properties": {
+        "recommendedPath": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "targetSkill": { "type": "string" },
+            "reason": { "type": "string" },
+            "command": { "type": "string" }
+          },
+          "required": ["name", "targetSkill", "command"]
+        },
+        "alternativePath": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "targetSkill": { "type": "string" },
+            "reason": { "type": "string" },
+            "command": { "type": "string" }
+          },
+          "required": ["name", "targetSkill", "command"]
+        }
+      },
+      "required": ["recommendedPath", "alternativePath"]
+    },
+    "successCriteria": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

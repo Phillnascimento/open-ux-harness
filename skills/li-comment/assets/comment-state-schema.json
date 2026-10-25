@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInCommentState",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "language",
+    "options",
+    "validation_errors"
+  ],
+  "properties": {
+    "status": { "type": "string", "enum": ["passed", "failed"] },
+    "skill_id": { "type": "string", "const": "li-comment" },
+    "language": { "type": "string", "enum": ["pt-BR", "en"] },
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["archetype", "text", "word_count"],
+        "properties": {
+          "archetype": { "type": "string" },
+          "text": { "type": "string" },
+          "word_count": { "type": "integer", "minimum": 16, "maximum": 75 }
+        }
+      }
+    },
+    "validation_errors": { "type": "array", "items": { "type": "object" } }
+  }
+}

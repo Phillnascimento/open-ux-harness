@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInPostState",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "hook_formula_id",
+    "languages_generated",
+    "metrics",
+    "validation_errors"
+  ],
+  "properties": {
+    "status": { "type": "string", "enum": ["passed", "failed"] },
+    "skill_id": { "type": "string", "const": "li-post" },
+    "hook_formula_id": { "type": "integer", "minimum": 1, "maximum": 25 },
+    "languages_generated": { "type": "array", "items": { "type": "string" } },
+    "metrics": {
+      "type": "object",
+      "required": ["hook_char_count", "total_char_count", "human_score", "verdict"],
+      "properties": {
+        "hook_char_count": { "type": "integer", "maximum": 150 },
+        "total_char_count": { "type": "integer" },
+        "human_score": { "type": "number" },
+        "verdict": { "type": "string", "enum": ["PASS", "REVIEW", "FLAGGED"] }
+      }
+    },
+    "validation_errors": { "type": "array", "items": { "type": "object" } }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "color": {
+    "brand": {
+      "primary": {
+        "$value": "#2563EB",
+        "$type": "color",
+        "$description": "Cor primária para CTAs e elementos de destaque"
+      },
+      "secondary": {
+        "$value": "#475569",
+        "$type": "color",
+        "$description": "Cor de apoio e ênfase secundária"
+      }
+    },
+    "surface": {
+      "base": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "Fundo de cartões e telas em modo claro"
+      },
+      "subtle": {
+        "$value": "#F8FAFC",
+        "$type": "color"
+      }
+    },
+    "text": {
+      "primary": {
+        "$value": "#0F172A",
+        "$type": "color",
+        "$description": "Texto principal com contraste mínimo de 7:1 contra surface.base"
+      },
+      "muted": {
+        "$value": "#64748B",
+        "$type": "color",
+        "$description": "Texto de apoio com contraste mínimo de 4.5:1"
+      }
+    },
+    "feedback": {
+      "success": { "$value": "#16A34A", "$type": "color" },
+      "error": { "$value": "#DC2626", "$type": "color" }
+    }
+  },
+  "spacing": {
+    "scale": {
+      "none": { "$value": "0px", "$type": "dimension" },
+      "xs": { "$value": "4px", "$type": "dimension" },
+      "sm": { "$value": "8px", "$type": "dimension" },
+      "md": { "$value": "16px", "$type": "dimension" },
+      "lg": { "$value": "24px", "$type": "dimension" },
+      "xl": { "$value": "32px", "$type": "dimension" },
+      "2xl": { "$value": "48px", "$type": "dimension" }
+    }
+  },
+  "borderRadius": {
+    "sm": { "$value": "4px", "$type": "dimension" },
+    "md": { "$value": "8px", "$type": "dimension" },
+    "lg": { "$value": "12px", "$type": "dimension" },
+    "full": { "$value": "9999px", "$type": "dimension" }
+  }
+}

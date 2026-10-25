@@ -1,0 +1,263 @@
+{
+  "version": "2.0",
+  "note": "25 bilingual (PT-BR & EN) hook formulas calibrated for LinkedIn's 360Brew algorithm and UX/Product Designers. Line 1 must survive mobile truncation (~140 chars) before '...ver mais / ...see more'.",
+  "rules": [
+    "Uma única ideia por hook. Se precisar de duas orações longas, são dois posts.",
+    "A Linha 2 não é aquecimento: ela entrega a tensão ou o contraste prometido na Linha 1.",
+    "Números concretos vencem adjetivos ('de 9 para 4 etapas' vence 'muito mais simples').",
+    "Se o hook servir para qualquer pessoa de qualquer área, está genérico demais.",
+    "Sempre valide que a Linha 1 tem <= 140 caracteres para não cortar no meio no mobile."
+  ],
+  "hooks": [
+    {
+      "id": 1,
+      "name": "Contrarian Take / Contra o Senso Comum",
+      "template_pt": "Todo mundo repete que {conselho_comum}. Depois de {experiencia_especifica}, vi na prática por que isso falha.",
+      "template_en": "Everyone says {common_advice}. After {specific_experience}, I saw why that fails in production.",
+      "example_pt": "Todo mundo diz que menos cliques significa melhor UX. Adicionar 1 modal de confirmação cortou 62% dos estornos no nosso B2B.",
+      "example_en": "Everyone says fewer clicks means better UX. Adding one confirmation step cut costly B2B payout reversals by 62%.",
+      "best_for": "Estabelecer ponto de vista sênior e gerar comentários longos (>15 palavras).",
+      "trap": "Discordar de algo que ninguém defende de verdade."
+    },
+    {
+      "id": 2,
+      "name": "Number Reveal / Experimento com Números",
+      "template_pt": "Analisei/Fiz {acao} em {N} {unidades}. Aqui está o que realmente aconteceu.",
+      "template_en": "I ran/analyzed {action} across {N} {units}. Here is what actually happened.",
+      "example_pt": "Rodei 12 testes de usabilidade no nosso fluxo de cadastro em 5 dias. 9 usuários travaram no mesmo campo.",
+      "example_en": "We ran 12 usability tests on our onboarding flow in 5 days. 9 users got stuck on the exact same field.",
+      "best_for": "Pesquisas de UX, testes de usabilidade, auditorias e experimentos.",
+      "trap": "Esconder o número no meio do parágrafo em vez de abrir a frase com ele."
+    },
+    {
+      "id": 3,
+      "name": "Mistake Confession / Erro Real de Projeto",
+      "template_pt": "{Custo_ou_retrabalho} foi o que {um_erro_especifico} custou para o nosso time.",
+      "template_en": "{Specific_cost} is what {one_specific_mistake} cost our product squad.",
+      "example_pt": "Três semanas de retrabalho no front-end foi o que desenhar apenas o 'happy path' nos custou no Q2.",
+      "example_en": "Three weeks of frontend rework is what designing only the happy path cost our squad last quarter.",
+      "best_for": "Construir confiança imediata com Design Managers e Tech Leads.",
+      "trap": "Falso defeito ('meu erro foi ser perfeccionista demais')."
+    },
+    {
+      "id": 4,
+      "name": "Before / After Transformation",
+      "template_pt": "Há {tempo}, nosso {fluxo_ou_processo} estava {estado_ruim}. Hoje {estado_atual}. A virada foi {uma_alavanca}.",
+      "template_en": "{Time_ago} our {flow_or_process} was {low_state}. Today {high_state}. One change did it.",
+      "example_pt": "Há 3 meses nosso checkout mobile levava 4m30s. Hoje leva 1m40s. A virada foi puxar o CEP para o primeiro campo.",
+      "example_en": "3 months ago our mobile checkout took 4m30s. Today it takes 1m40s. Moving the ZIP lookup to step 1 did it.",
+      "best_for": "Provar impacto mensurável em entrevistas e captação de clientes.",
+      "trap": "Listar 5 causas diferentes na mesma abertura."
+    },
+    {
+      "id": 5,
+      "name": "The List Promise / Lições de Marco Real",
+      "template_pt": "{N} coisas que eu gostaria de saber antes de {marco_real_de_produto}.",
+      "template_en": "{N} things I wish I knew before {real_product_milestone}.",
+      "example_pt": "5 coisas que eu gostaria de saber antes de migrar 140 componentes do Figma para Design Tokens.",
+      "example_en": "5 things I wish I knew before migrating 140 Figma components to semantic Design Tokens.",
+      "best_for": "Altíssima taxa de Salvamentos (Saves = 5x peso de Like no 360Brew).",
+      "trap": "Prometer mais de 7 itens e entregar dicas óbvias."
+    },
+    {
+      "id": 6,
+      "name": "Insider Reality / O Que Não Contam na Vaga",
+      "template_pt": "Depois de {N} anos atuando com {dominio}, esta é a parte que nenhum curso ou vaga de UX mostra.",
+      "template_en": "After {N} years designing {domain}, here is the part no bootcamp or job description mentions.",
+      "example_pt": "Depois de 5 anos desenhando sistemas B2B, esta é a parte que nenhum case de bootcamp mostra: 70% do trabalho é negociar regras de negócio.",
+      "example_en": "After 5 years designing enterprise B2B software, here is what bootcamps skip: 70% of the job is untangling legacy business rules.",
+      "best_for": "Demonstrar maturidade real de mercado versus teoria.",
+      "trap": "Usar anos de experiência que não correspondem à verdade do perfil."
+    },
+    {
+      "id": 7,
+      "name": "The Callout / Pare de Fazer Isso",
+      "template_pt": "Se você ainda entrega {pratica_antiga_ou_falha} no handoff, pare agora.",
+      "template_en": "If you are still handing off {outdated_practice} to engineering, stop.",
+      "example_pt": "Se você ainda entrega telas no Figma sem estado vazio, loading e erro de API, o dev vai ter que adivinhar no código.",
+      "example_en": "If you still hand off Figma screens without empty, loading, and API error states, engineers have to design in code.",
+      "best_for": "Posts curtos e diretos sobre boas práticas de Craft e DesignOps.",
+      "trap": "Soar arrogante em vez de mostrar a solução prática."
+    },
+    {
+      "id": 8,
+      "name": "Scenario Dilemma / O Que Você Faria?",
+      "template_pt": "{Cenario_real_de_conflito_em_produto}. Como você destrava isso na sprint?",
+      "template_en": "{Specific_product_conflict_scenario}. How do you resolve this inside the sprint?",
+      "example_pt": "O Diretor Comercial pede 8 campos obrigatórios no cadastro, mas o PM sabe que isso derruba a conversão em 30%. Como você resolve?",
+      "example_en": "Marketing wants 8 mandatory fields on the signup modal, while Product needs higher conversion. How do you arbitrate?",
+      "best_for": "Atrair comentários técnicos de PMs, Design Managers e Staff Designers.",
+      "trap": "Criar um dilema falso onde uma das opções é obviamente absurda."
+    },
+    {
+      "id": 9,
+      "name": "Story Cold Open / Frase Real de Reunião",
+      "template_pt": "\"{Frase_exata_dita_por_usuario_ou_stakeholder}\"\n\n{Quem_disse_e_por_que_mudou_o_projeto}.",
+      "template_en": "\"{Exact_line_of_dialogue}\"\n\n{Who_said_it_and_why_it_changed_the_project}.",
+      "example_pt": "\"Eu abro o sistema, tiro foto da tela com o celular e digito tudo de novo no Excel.\"\n\nFoi o que um operador me disse aos 8 minutos de entrevista.",
+      "example_en": "\"I take a photo of your dashboard on my phone and type the numbers into Excel.\"\n\nA warehouse manager told me that 8 minutes into a user interview.",
+      "best_for": "Storytelling de UX Research e bastidores de clientes (altíssimo Dwell Time).",
+      "trap": "Inventar falas teatrais que nenhum usuário ou dev falaria na vida real."
+    },
+    {
+      "id": 10,
+      "name": "The Receipt / A Prova na Tela",
+      "template_pt": "{Numero_ou_resultado_verificavel}. {Uma_frase_de_contexto_do_que_foi_feito}.",
+      "template_en": "{Hard_metric_or_outcome}. {One_sentence_of_what_drove_it}.",
+      "example_pt": "42% menos chamados no suporte em 30 dias. Tudo o que mudamos foi a mensagem de erro do pagamento recusado.",
+      "example_en": "42% fewer support tickets in 30 days. All we changed was the microcopy on our declined payment state.",
+      "best_for": "Posts acompanhados de print anotado da tela (1.5x alcance).",
+      "trap": "Mostrar o número sem explicar o mecanismo que levou a ele."
+    },
+    {
+      "id": 11,
+      "name": "Myth Bust / O Verdadeiro Gargalo",
+      "template_pt": "{Explicacao_popular} não é o motivo pelo qual {problema_real} está acontecendo no seu produto.",
+      "template_en": "{Popular_explanation} is not why {bad_outcome} is happening in your product.",
+      "example_pt": "Falta de documentação não é o motivo pelo qual ninguém usa o seu Design System.",
+      "example_en": "Lack of documentation is not why engineers keep bypassing your Design System.",
+      "best_for": "Reenquadrar problemas de produto e mostrar visão sistêmica.",
+      "trap": "Derrubar o mito e não entregar a causa real até a linha 4."
+    },
+    {
+      "id": 12,
+      "name": "The Comparison / Abordagem A vs. Abordagem B",
+      "template_pt": "{Opcao_pesada_tradicional} vs. {Opcao_enxuta_pragmatica}. {Veredito_real}.",
+      "template_en": "{Heavy_traditional_option} vs. {Lean_pragmatic_option}. {Real_verdict}.",
+      "example_pt": "3 semanas criando personas em PDF vs. 5 testes guerrilha com protótipo clicável em 2 dias. O protótipo salvou o trimestre.",
+      "example_en": "3 weeks building slide-deck personas vs. 5 guerrilla usability tests in 48 hours. The prototype saved our roadmap.",
+      "best_for": "Comparar métodos de Discovery e processos ágeis.",
+      "trap": "Não reconhecer quando a opção mais robusta realmente é necessária."
+    },
+    {
+      "id": 13,
+      "name": "Permission Slip / Alívio Real de Trincheira",
+      "template_pt": "Tudo bem se o seu {entregavel_de_ux} não tiver {fetiche_estetico_de_rede_social}.",
+      "template_en": "You are allowed to ship {ux_deliverable} without {aesthetic_theatre}.",
+      "example_pt": "Tudo bem se o seu estudo de caso não tiver foto de post-its coloridos na parede. Nenhum Design Manager contrata por causa disso.",
+      "example_en": "You are allowed to build a UX portfolio without a single photo of colorful sticky notes. Hiring managers skip straight to the trade-offs.",
+      "best_for": "Conexão genuína com pares e recrutadores.",
+      "trap": "Cair em autoajuda genérica fora do contexto técnico de produto."
+    },
+    {
+      "id": 14,
+      "name": "Pattern Interrupt / Frase Curta de Impacto",
+      "template_pt": "{Afirmacao_curta_de_3_a_5_palavras}.\n\n{Explicacao_imediata_na_linha_2}.",
+      "template_en": "{Three_to_five_word_statement}.\n\n{Immediate_payoff_in_line_2}.",
+      "example_pt": "Jogamos o protótipo fora.\n\nDepois de 10 dias desenhando, descobrimos que a API não retornava o saldo em tempo real.",
+      "example_en": "We deleted the prototype.\n\nTen days into design, we learned the legacy API couldn't return real-time balances.",
+      "best_for": "Parar o scroll imediatamente no mobile.",
+      "trap": "Usar toda semana (perde o efeito surpresa)."
+    },
+    {
+      "id": 15,
+      "name": "The Hidden Cost / O Custo Invisível",
+      "template_pt": "{Pratica_comum_na_squad} está custando silenciosamente {impacto_negativo} toda semana.",
+      "template_en": "{Common_squad_habit} is quietly costing your team {negative_impact} every week.",
+      "example_pt": "Deixar para discutir restrições de front-end só no dia do handoff está custando 1 sprint inteira de retrabalho por mês.",
+      "example_en": "Waiting until handoff day to involve frontend engineers is quietly costing your squad a full sprint of rework every month.",
+      "best_for": "Atrair fundadores B2B, CTOs e Heads de Produto.",
+      "trap": "Apontar o problema sem mostrar o ritual que corrige o problema."
+    },
+    {
+      "id": 16,
+      "name": "Junior vs. Senior / Evolução de Maturidade",
+      "template_pt": "No começo eu focava em {foco_superficial}. Hoje eu começo por {foco_estrategico}.",
+      "template_en": "Early on I obsessed over {surface_focus}. Today I start with {strategic_focus}.",
+      "example_pt": "Quando eu era júnior, defendia minhas telas falando de estética. Hoje defendo mostrando quanto custa não resolver a fricção.",
+      "example_en": "Early in my career I defended designs with visual aesthetics. Today I defend them with Cost of Inaction and funnel drop-off.",
+      "best_for": "Mostrar evolução de maturidade sem diminuir outros profissionais.",
+      "trap": "Soar pedante dizendo 'designers bons vs. designers ruins'."
+    },
+    {
+      "id": 17,
+      "name": "Time Anchor / Compressão de Tempo",
+      "template_pt": "{Tarefa_de_design} costumava nos tomar {tempo_longo}. Hoje leva {tempo_curto}.",
+      "template_en": "{Design_task} used to take us {long_time}. It now takes {short_time}.",
+      "example_pt": "Auditar contraste WCAG e espaçamento em 20 telas costumava levar uma tarde inteira. Hoje fazemos em 12 minutos.",
+      "example_en": "Auditing WCAG contrast and token spacing across 20 screens used to take all afternoon. Now it takes 12 minutes.",
+      "best_for": "Posts sobre automação, IA aplicada a UX, DesignOps e produtividade.",
+      "trap": "Prometer tempos irreais ('de 5 dias para 3 segundos')."
+    },
+    {
+      "id": 18,
+      "name": "The Unpopular Rule / Nossa Regra Interna",
+      "template_pt": "Adotamos uma regra simples na squad: nunca {acao_comum} antes de {condicao_obrigatoria}.",
+      "template_en": "We adopted one strict rule in our squad: never {common_action} before {mandatory_condition}.",
+      "example_pt": "Adotamos uma regra simples: nenhuma tela vai para alta fidelidade no Figma antes de alinharmos os 4 estados de erro com o dev.",
+      "example_en": "We set one rule in our squad: no screen moves to high-fidelity in Figma until we map all 4 error states with an engineer.",
+      "best_for": "Posicionamento de liderança técnica e governança.",
+      "trap": "Inventar uma regra teórica que nunca foi aplicada."
+    },
+    {
+      "id": 19,
+      "name": "Curiosity Paradox / O Paradoxo de Produto",
+      "template_pt": "A tela mais {adjetivo} que desenhamos este ano foi a que {quebrou_regra_estetica}.",
+      "template_en": "The highest-performing screen we shipped this year {broke_an_obvious_rule}.",
+      "example_pt": "A tela que mais converteu no nosso produto este ano parece uma tabela simples de 2014.",
+      "example_en": "The highest-converting screen we shipped this year looks like a plain spreadsheet from 2014.",
+      "best_for": "Gerar alta taxa de clique em '...ver mais'.",
+      "trap": "Não explicar nos primeiros 2 parágrafos por que funcionou."
+    },
+    {
+      "id": 20,
+      "name": "The Cut / O Que Decidimos Cortar",
+      "template_pt": "Removemos {funcionalidade_querida} do produto. {Resultado_pratico}.",
+      "template_en": "We removed {feature_or_step} from the product. {Practical_outcome}.",
+      "example_pt": "Tiramos o carrossel promocional do topo da home. Os cliques na busca principal subiram 28% na mesma semana.",
+      "example_en": "We deleted the hero promotional carousel from our homepage. Search activation jumped 28% that same week.",
+      "best_for": "Provar mentalidade de produto enxuto e foco em métricas.",
+      "trap": "Esquecer de contar a resistência interna que houve antes do corte."
+    },
+    {
+      "id": 21,
+      "name": "Direct Value / O Artefato Aberto",
+      "template_pt": "Este é o checklist/estrutura exato que uso para {objetivo_especifico}. Pode usar no seu projeto:",
+      "template_en": "Here is the exact checklist/framework I use to {specific_goal}. Feel free to use it:",
+      "example_pt": "Este é o roteiro de 6 perguntas que uso antes de desenhar qualquer tela nova com PMs. Pode copiar:",
+      "example_en": "Here are the exact 6 framing questions I ask PMs before opening Figma on a new feature:",
+      "best_for": "Maximizar Salvamentos (Saves) e compartilhamentos por DM no Slack das empresas.",
+      "trap": "Pedir 'comente EU QUERO' em vez de entregar o conteúdo direto no post."
+    },
+    {
+      "id": 22,
+      "name": "UX/Engineering Trade-Off (Especial UX)",
+      "template_pt": "Queríamos desenhar {fluxo_ideal}, mas a engenharia só tinha {restricao_real}. Veja o meio-termo que salvou a entrega:",
+      "template_en": "We wanted to build {ideal_ux_flow}, but engineering had {real_constraint}. Here is the trade-off that shipped:",
+      "example_pt": "Queríamos fazer busca em tempo real na tabela, mas a API legado travava acima de 500 itens. O meio-termo que desenhamos em 2 dias:",
+      "example_en": "We wanted live instant filtering on the table, but the legacy API timed out over 500 rows. Here is the compromise we shipped in 2 days:",
+      "best_for": "Sinalizar senioridade imediata para Design Managers e Tech Leads.",
+      "trap": "Culpar a engenharia em vez de mostrar parceria técnica."
+    },
+    {
+      "id": 23,
+      "name": "UI Decision Anatomy / Antes vs. Depois (Especial UX)",
+      "template_pt": "Mudamos {N} detalhes nesta tela de {contexto} para resolver {problema}. Aqui está o racional de cada mudança:",
+      "template_en": "We changed {N} details on this {context} screen to fix {problem}. Here is the rationale behind each decision:",
+      "example_pt": "Mudamos 3 detalhes na tela de fechamento de pedido para reduzir dúvidas de frete. Aqui está o racional por trás do layout:",
+      "example_en": "We changed 3 details on the order summary screen to stop shipping-cost drop-offs. Here is the anatomy of the redesign:",
+      "best_for": "Acompanhar imagens Antes/Depois ou Carrosséis PDF.",
+      "trap": "Falar apenas de 'deixar o visual mais limpo' sem explicar a hierarquia da informação."
+    },
+    {
+      "id": 24,
+      "name": "Broken Hypothesis / Choque de Realidade com Usuário (Especial UX)",
+      "template_pt": "Nossa hipótese na squad era {hipotese_inicial}. Bastaram {N} usuários testando o protótipo para provar o oposto.",
+      "template_en": "Our squad assumed {initial_hypothesis}. Watching {N} users test the prototype proved the exact opposite.",
+      "example_pt": "Achávamos que o cliente B2B queria configurar 10 gráficos no dashboard inicial. Bastaram 5 entrevistas para ver que ele só olhava 2 números.",
+      "example_en": "We assumed B2B admins wanted customizable widgets on day one. Watching 5 users showed they only cared about 2 daily numbers.",
+      "best_for": "Demonstrar domínio real de Product Discovery e humildade científica.",
+      "trap": "Não contar qual decisão de design foi tomada após a descoberta."
+    },
+    {
+      "id": 25,
+      "name": "System & Token Architecture (Especial DesignOps)",
+      "template_pt": "Como estruturamos {elemento_do_sistema} no Figma para eliminar {dor_entre_design_e_dev}:",
+      "template_en": "How we structured {system_element} in Figma to eliminate {design_dev_friction}:",
+      "example_pt": "Como organizamos os tokens de cor semânticos (Surface, Text, Border) para que o modo escuro funcionasse de primeira no front-end:",
+      "example_en": "How we structured semantic color tokens (Surface, Text, Border) so dark mode worked out-of-the-box in React:",
+      "best_for": "Atrair vagas Sênior/Staff e projetos de consultoria de Design Systems.",
+      "trap": "Usar jargão excessivamente abstrato sem mostrar um exemplo prático de nomenclatura."
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInUXVoiceProfile",
+  "type": "object",
+  "required": [
+    "persona_style",
+    "tone_axes",
+    "cadence_rules",
+    "bilingual_registers",
+    "lexicon_rules"
+  ],
+  "properties": {
+    "persona_style": { "type": "string" },
+    "tone_axes": {
+      "type": "object",
+      "required": ["formality", "pragmatism_vs_narrative", "technical_density", "assertiveness"],
+      "properties": {
+        "formality": { "type": "number", "minimum": 1, "maximum": 5 },
+        "pragmatism_vs_narrative": { "type": "number", "minimum": 1, "maximum": 5 },
+        "technical_density": { "type": "number", "minimum": 1, "maximum": 5 },
+        "assertiveness": { "type": "number", "minimum": 1, "maximum": 5 }
+      }
+    },
+    "cadence_rules": {
+      "type": "object",
+      "required": ["avg_sentence_words_target", "min_burstiness_cv", "max_paragraph_lines"],
+      "properties": {
+        "avg_sentence_words_target": { "type": "number" },
+        "min_burstiness_cv": { "type": "number" },
+        "max_paragraph_lines": { "type": "integer" }
+      }
+    },
+    "bilingual_registers": {
+      "type": "object",
+      "required": ["pt_br", "en"],
+      "properties": {
+        "pt_br": {
+          "type": "object",
+          "required": ["voice_stance", "opening_style", "sample_paragraph"],
+          "properties": {
+            "voice_stance": { "type": "string" },
+            "opening_style": { "type": "string" },
+            "sample_paragraph": { "type": "string" }
+          }
+        },
+        "en": {
+          "type": "object",
+          "required": ["voice_stance", "opening_style", "sample_paragraph"],
+          "properties": {
+            "voice_stance": { "type": "string" },
+            "opening_style": { "type": "string" },
+            "sample_paragraph": { "type": "string" }
+          }
+        }
+      }
+    },
+    "lexicon_rules": {
+      "type": "object",
+      "required": ["signature_phrases_pt", "signature_phrases_en", "banned_words_pt", "banned_words_en"],
+      "properties": {
+        "signature_phrases_pt": { "type": "array", "items": { "type": "string" } },
+        "signature_phrases_en": { "type": "array", "items": { "type": "string" } },
+        "banned_words_pt": { "type": "array", "items": { "type": "string" } },
+        "banned_words_en": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

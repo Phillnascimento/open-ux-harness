@@ -1,0 +1,10 @@
+flowchart TD
+    Cart["Carrinho de Compras"] --> ReviewItems{"Itens Válidos?"}
+    ReviewItems -- Não --> EmptyCart["Empty State: Carrinho Vazio"]
+    ReviewItems -- Sim --> SelectAddress["Seleção de Endereço (Cartões 16px padding)"]
+    SelectAddress --> SelectPayment["Seleção de Pagamento (Pix / Cartão 1-Clique)"]
+    SelectPayment --> ProcessOrder["Processando Pedido (Skeleton / Loading State)"]
+    ProcessOrder --> GatewayResponse{"Resposta do Gateway"}
+    GatewayResponse -- Erro --> ErrorState["Error State: Falha no Cartão + Botão Tentar Novamente"]
+    GatewayResponse -- Sucesso --> SuccessReceipt(["Sucesso: Comprovante e Rastreio"])
+    ErrorState --> SelectPayment

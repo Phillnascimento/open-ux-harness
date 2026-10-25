@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Open UX Harness — Skill 02 Information Architecture State Contract",
+  "description": "Schema determinístico salvo em .harness/memory/ia-state.json contendo a modelagem OOUX/ORCA, nós de navegação, diagramas Mermaid validados e auditoria de Cognitive Walkthrough.",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "timestamp",
+    "preset_mode",
+    "confidence_score",
+    "validation_errors",
+    "payload",
+    "nextStepRouting"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "warning", "failed", "SCHEMA_MISMATCH"],
+      "description": "Status final da execução da skill e do validador Mermaid."
+    },
+    "skill_id": {
+      "type": "string",
+      "const": "02-information-architecture"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "preset_mode": {
+      "type": "string",
+      "enum": ["freelance", "enterprise", "default"]
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "severity"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "severity": { "type": "string", "enum": ["error", "warning", "info"] },
+          "field_or_line": { "type": "string" }
+        }
+      }
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "objects_orca",
+        "sitemap_nodes",
+        "mermaid_diagrams",
+        "cognitive_walkthrough_passed"
+      ],
+      "properties": {
+        "source_framing_ref": {
+          "type": "string",
+          "description": "Caminho ou timestamp do framing-state.json utilizado como base."
+        },
+        "objects_orca": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Matriz OOUX/ORCA dos objetos de domínio mapeados.",
+          "items": {
+            "type": "object",
+            "required": ["object_name", "relationships", "ctas", "core_attributes", "metadata_attributes"],
+            "properties": {
+              "object_name": { "type": "string" },
+              "relationships": { "type": "array", "items": { "type": "string" } },
+              "ctas": { "type": "array", "items": { "type": "string" } },
+              "core_attributes": { "type": "array", "items": { "type": "string" } },
+              "metadata_attributes": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "sitemap_nodes": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Lista de nós navegacionais com cobertura dos 4 estados (happy, empty, loading, error).",
+          "items": {
+            "type": "object",
+            "required": ["node_id", "label", "node_type", "states_covered"],
+            "properties": {
+              "node_id": { "type": "string" },
+              "label": { "type": "string" },
+              "node_type": {
+                "type": "string",
+                "enum": ["entrypoint", "screen", "decision", "modal", "service", "goal"]
+              },
+              "states_covered": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["happy", "empty", "loading", "error"]
+                }
+              }
+            }
+          }
+        },
+        "mermaid_diagrams": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Blocos Mermaid validados pelo script validate-ia-mermaid.ts.",
+          "items": {
+            "type": "object",
+            "required": ["diagram_id", "diagram_type", "code"],
+            "properties": {
+              "diagram_id": { "type": "string" },
+              "diagram_type": {
+                "type": "string",
+                "enum": ["flowchart TD", "flowchart LR", "stateDiagram-v2", "erDiagram"]
+              },
+              "code": { "type": "string" }
+            }
+          }
+        },
+        "cognitive_walkthrough_passed": {
+          "type": "boolean",
+          "description": "Indica se todos os passos críticos passaram nas 4 perguntas de Cognitive Walkthrough."
+        }
+      }
+    },
+    "nextStepRouting": {
+      "type": "object",
+      "required": ["recommendedPath", "pathA", "pathB"],
+      "properties": {
+        "recommendedPath": {
+          "type": "string",
+          "enum": ["A", "B"]
+        },
+        "pathA": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": { "type": "string", "const": "03-design-tokens" },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        },
+        "pathB": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": { "type": "string", "const": "04-figma-engineering" },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

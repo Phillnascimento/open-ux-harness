@@ -1,0 +1,33 @@
+{
+  "id": "default",
+  "name": "Standard Balanced UX",
+  "description": "Perfil equilibrado com suporte a tokens W3C simples, prototipação em React/Tailwind e auditoria WCAG 2.2 automatizada.",
+  "tokens": {
+    "format": "w3c-dtcg-2025.10",
+    "strictDtcg": false,
+    "outputFiles": ["./tokens/tokens.json"]
+  },
+  "figma": {
+    "mode": "rest-with-plugin-option",
+    "useDesktopBridge": false,
+    "fallbackToCodeOnly": true
+  },
+  "handoff": {
+    "destination": "components-and-specs",
+    "formats": ["react-tailwind", "html-css"],
+    "requireStorybook": false
+  },
+  "analytics": {
+    "provider": "optional-posthog",
+    "requireTelemetryServer": false
+  },
+  "mcpServers": [
+    "figma",
+    "a11y-scanner",
+    "local-tokens"
+  ],
+  "governance": {
+    "confirmMasterChanges": true,
+    "designGateRequired": false
+  }
+}

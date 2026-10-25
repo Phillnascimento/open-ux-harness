@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInCarouselDeck",
+  "type": "object",
+  "required": [
+    "title",
+    "language",
+    "author_name",
+    "author_handle",
+    "slides",
+    "post_caption"
+  ],
+  "properties": {
+    "title": { "type": "string" },
+    "language": { "type": "string", "enum": ["pt-BR", "en"] },
+    "author_name": { "type": "string" },
+    "author_handle": { "type": "string" },
+    "pillar_tag": { "type": "string" },
+    "post_caption": { "type": "string" },
+    "slides": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": ["slide_type", "headline"],
+        "properties": {
+          "slide_type": { "type": "string", "enum": ["cover", "stake", "content", "recap", "cta"] },
+          "kicker": { "type": "string" },
+          "headline": { "type": "string" },
+          "body": { "type": "string" },
+          "bullets": { "type": "array", "items": { "type": "string" } },
+          "callout_metric": { "type": "string" }
+        }
+      }
+    }
+  }
+}

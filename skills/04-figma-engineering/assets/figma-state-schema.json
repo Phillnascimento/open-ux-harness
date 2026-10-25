@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Open UX Harness — 04-figma-engineering State & Handoff Contract",
+  "description": "Schema do estado persistido em .harness/memory/figma-state.json após engenharia de Auto Layout, vínculo de variáveis e Code Connect no Figma.",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "timestamp",
+    "preset_mode",
+    "confidence_score",
+    "validation_errors",
+    "payload",
+    "nextStepRouting"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "warning", "failed", "SCHEMA_MISMATCH"],
+      "description": "Status final da execução da skill e do validador determinístico validate-figma-spec.ts."
+    },
+    "skill_id": {
+      "type": "string",
+      "const": "04-figma-engineering",
+      "description": "Identificador canônico da skill 04-figma-engineering."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp ISO 8601 da conclusão do handoff."
+    },
+    "preset_mode": {
+      "type": "string",
+      "enum": ["freelance", "enterprise", "default"],
+      "description": "Perfil operacional em que a skill foi executada."
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Score determinístico calculado pelo validate-figma-spec.ts (0.0 a 1.0)."
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "severity"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "severity": { "type": "string", "enum": ["error", "warning", "info"] },
+          "field_or_line": { "type": "string" }
+        }
+      },
+      "description": "Lista de violações geométricas, nomes genéricos ou falta de boundVariables."
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "fileKey",
+        "nodeIds",
+        "savepointId",
+        "variablesBound",
+        "codeConnectReady",
+        "specArtifactPath"
+      ],
+      "properties": {
+        "fileKey": {
+          "type": "string",
+          "description": "Identificador do arquivo Figma ou 'local-figma-spec' no modo offline/freelance."
+        },
+        "nodeIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "Lista de nodeIds raiz criados, inspecionados ou refatorados no Figma."
+        },
+        "savepointId": {
+          "type": "string",
+          "description": "ID do ponto de restauração (Savepoint Protocol) criado antes de mutações em lote."
+        },
+        "mcpServerUsed": {
+          "type": "string",
+          "enum": ["@figma/mcp-server", "figma-console", "local-spec-only"],
+          "description": "Servidor MCP ou modo local utilizado na operação."
+        },
+        "variablesBound": {
+          "type": "boolean",
+          "description": "Indica se 100% dos paddings, gaps e cores estruturais estão vinculados a variáveis (boundVariables)."
+        },
+        "codeConnectReady": {
+          "type": "boolean",
+          "description": "Indica se os componentes possuem mapeamento declarativo Figma Code Connect (.figma.tsx)."
+        },
+        "specArtifactPath": {
+          "type": "string",
+          "description": "Caminho do arquivo Markdown ou JSON da especificação da árvore de nós."
+        }
+      }
+    },
+    "nextStepRouting": {
+      "type": "object",
+      "required": ["recommendedPath", "pathA", "pathB"],
+      "properties": {
+        "recommendedPath": {
+          "type": "string",
+          "enum": ["A", "B"],
+          "description": "Rota recomendada: A (05-craft-and-accessibility) ou B (03-design-tokens)."
+        },
+        "pathA": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": {
+              "type": "string",
+              "const": "05-craft-and-accessibility"
+            },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        },
+        "pathB": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": {
+              "type": "string",
+              "const": "03-design-tokens"
+            },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

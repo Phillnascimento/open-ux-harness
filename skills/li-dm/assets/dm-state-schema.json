@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInDMSequenceState",
+  "type": "object",
+  "required": [
+    "playbook_type",
+    "language",
+    "invite_note",
+    "first_dm",
+    "followup_day4",
+    "followup_day10"
+  ],
+  "properties": {
+    "playbook_type": {
+      "type": "string",
+      "enum": ["recruiter_outreach", "manager_coffee_chat", "b2b_social_selling", "recommendation_request"]
+    },
+    "language": { "type": "string", "enum": ["pt-BR", "en"] },
+    "invite_note": { "type": "string", "maxLength": 200 },
+    "first_dm": { "type": "string" },
+    "followup_day4": { "type": "string" },
+    "followup_day10": { "type": "string" }
+  }
+}

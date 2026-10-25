@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInReplyState",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "bucket_counts",
+    "triaged_comments",
+    "validation_errors"
+  ],
+  "properties": {
+    "status": { "type": "string", "enum": ["passed", "failed"] },
+    "skill_id": { "type": "string", "const": "li-reply" },
+    "bucket_counts": { "type": "object" },
+    "triaged_comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["commenter_name", "bucket", "draft_reply"],
+        "properties": {
+          "commenter_name": { "type": "string" },
+          "bucket": {
+            "type": "string",
+            "enum": ["LEAD_OR_RECRUITER", "TECHNICAL_SUBSTANCE", "STRATEGIC_PEER", "SUPPORT", "NOISE_SPAM"]
+          },
+          "draft_reply": { "type": "string" }
+        }
+      }
+    },
+    "validation_errors": { "type": "array", "items": { "type": "object" } }
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "primitive": {
+    "color": {
+      "$type": "color",
+      "neutral": {
+        "50": { "$value": "oklch(0.985 0.004 260)", "$description": "Branco suavizado com matiz frio sutil (#F8FAFC)" },
+        "100": { "$value": "oklch(0.96 0.006 260)", "$description": "Superfície neutra muito clara (#F1F5F9)" },
+        "200": { "$value": "oklch(0.91 0.010 260)", "$description": "Borda neutra sutil (#E2E8F0)" },
+        "300": { "$value": "oklch(0.84 0.014 260)", "$description": "Borda padrão para inputs (#CBD5E1)" },
+        "500": { "$value": "oklch(0.55 0.018 260)", "$description": "Texto silenciado / placeholder (#64748B)" },
+        "600": { "$value": "oklch(0.44 0.018 260)", "$description": "Texto secundário com contraste AA (#475569)" },
+        "800": { "$value": "oklch(0.27 0.016 260)", "$description": "Superfície elevada em Dark Mode (#1E293B)" },
+        "900": { "$value": "oklch(0.19 0.015 260)", "$description": "Texto primário de alto contraste (#0F172A)" },
+        "950": { "$value": "oklch(0.14 0.012 260)", "$description": "Canvas base para Dark Mode (#020617)" }
+      },
+      "brand": {
+        "100": { "$value": "oklch(0.93 0.04 260)", "$description": "Fundo sutil da marca" },
+        "500": { "$value": "oklch(0.62 0.19 260)", "$description": "Cor primária vibrante para Dark Mode" },
+        "600": { "$value": "oklch(0.55 0.21 260)", "$description": "Cor primária padrão para CTAs em Light Mode (#2563EB)" },
+        "700": { "$value": "oklch(0.48 0.20 260)", "$description": "Estado hover da cor primária (#1D4ED8)" }
+      },
+      "emerald": {
+        "100": { "$value": "oklch(0.94 0.05 150)", "$description": "Fundo sutil de sucesso" },
+        "600": { "$value": "oklch(0.54 0.16 150)", "$description": "Indicador e texto de sucesso (#059669)" }
+      },
+      "amber": {
+        "100": { "$value": "oklch(0.95 0.06 85)", "$description": "Fundo sutil de alerta" },
+        "600": { "$value": "oklch(0.58 0.16 75)", "$description": "Indicador e texto de alerta (#D97706)" }
+      },
+      "rose": {
+        "100": { "$value": "oklch(0.94 0.05 20)", "$description": "Fundo sutil de erro/perigo" },
+        "600": { "$value": "oklch(0.55 0.21 25)", "$description": "Indicador e texto de erro crítico (#E11D48)" }
+      }
+    },
+    "spacing": {
+      "$type": "dimension",
+      "0": { "$value": "0px", "$description": "Espaçamento nulo" },
+      "4": { "$value": "4px", "$description": "Micro-espaçamento interno (0.5x grid)" },
+      "8": { "$value": "8px", "$description": "Unidade base do grid espacial (1x)" },
+      "12": { "$value": "12px", "$description": "Espaçamento compacto (1.5x)" },
+      "16": { "$value": "16px", "$description": "Padding padrão de componentes e cards (2x)" },
+      "24": { "$value": "24px", "$description": "Separação entre grupos de conteúdo (3x)" },
+      "32": { "$value": "32px", "$description": "Espaçamento entre seções de layout (4x)" },
+      "48": { "$value": "48px", "$description": "Respiro macro de página (6x)" },
+      "64": { "$value": "64px", "$description": "Divisão estrutural de blocos hero/página (8x)" }
+    },
+    "radius": {
+      "$type": "dimension",
+      "none": { "$value": "0px" },
+      "sm": { "$value": "4px", "$description": "Badges e checkboxes" },
+      "md": { "$value": "8px", "$description": "Botões, inputs e dropdowns" },
+      "lg": { "$value": "12px", "$description": "Cards e painéis" },
+      "xl": { "$value": "16px", "$description": "Modais e drawers" },
+      "full": { "$value": "9999px", "$description": "Pílulas e avatares circulares" }
+    },
+    "typography": {
+      "family": {
+        "$type": "fontFamily",
+        "sans": { "$value": "Inter, system-ui, -apple-system, sans-serif" },
+        "mono": { "$value": "JetBrains Mono, monospace" }
+      },
+      "size": {
+        "$type": "dimension",
+        "xs": { "$value": "12px" },
+        "sm": { "$value": "14px" },
+        "base": { "$value": "16px" },
+        "lg": { "$value": "20px" },
+        "xl": { "$value": "24px" },
+        "2xl": { "$value": "32px" }
+      },
+      "weight": {
+        "$type": "fontWeight",
+        "regular": { "$value": 400 },
+        "medium": { "$value": 500 },
+        "semibold": { "$value": 600 },
+        "bold": { "$value": 700 }
+      }
+    }
+  },
+  "semantic": {
+    "surface": {
+      "$type": "color",
+      "canvas": {
+        "$value": "{primitive.color.neutral.50}",
+        "$description": "Plano de fundo primário da aplicação"
+      },
+      "card": {
+        "$value": "{primitive.color.neutral.100}",
+        "$description": "Superfície de containers, cartões e painéis laterais"
+      },
+      "inverse": {
+        "$value": "{primitive.color.neutral.950}",
+        "$description": "Superfície de alto contraste ou base para Dark Mode"
+      }
+    },
+    "text": {
+      "$type": "color",
+      "primary": {
+        "$value": "{primitive.color.neutral.900}",
+        "$description": "Texto principal de títulos e leitura longa (WCAG AAA >= 12:1)"
+      },
+      "secondary": {
+        "$value": "{primitive.color.neutral.600}",
+        "$description": "Subtítulos, rótulos de apoio e metadados (WCAG AA >= 4.5:1)"
+      },
+      "muted": {
+        "$value": "{primitive.color.neutral.500}",
+        "$description": "Texto auxiliar não essencial e dicas"
+      },
+      "on-action": {
+        "$value": "{primitive.color.neutral.50}",
+        "$description": "Texto sobre botões primários coloridos"
+      }
+    },
+    "border": {
+      "$type": "color",
+      "subtle": {
+        "$value": "{primitive.color.neutral.200}",
+        "$description": "Divisores internos de listas e bordas de cartões"
+      },
+      "default": {
+        "$value": "{primitive.color.neutral.300}",
+        "$description": "Contorno padrão de campos de formulário ( >= 3:1 quando ativo)"
+      },
+      "focus": {
+        "$value": "{primitive.color.brand.600}",
+        "$description": "Anel de foco acessível para navegação via teclado"
+      }
+    },
+    "action": {
+      "$type": "color",
+      "primary-bg": {
+        "$value": "{primitive.color.brand.600}",
+        "$description": "Cor de fundo do Call-to-Action principal da tela"
+      },
+      "primary-hover": {
+        "$value": "{primitive.color.brand.700}",
+        "$description": "Estado hover/active do CTA principal"
+      },
+      "subtle-bg": {
+        "$value": "{primitive.color.brand.100}",
+        "$description": "Fundo para itens selecionados na navegação"
+      }
+    },
+    "status": {
+      "$type": "color",
+      "success-bg": { "$value": "{primitive.color.emerald.100}", "$description": "Fundo de banner de confirmação" },
+      "success-text": { "$value": "{primitive.color.emerald.600}", "$description": "Texto e ícone de operação concluída" },
+      "warning-bg": { "$value": "{primitive.color.amber.100}", "$description": "Fundo de alerta preventivo" },
+      "warning-text": { "$value": "{primitive.color.amber.600}", "$description": "Texto e ícone de atenção" },
+      "danger-bg": { "$value": "{primitive.color.rose.100}", "$description": "Fundo de alerta de erro destrutivo" },
+      "danger-text": { "$value": "{primitive.color.rose.600}", "$description": "Texto e ícone de falha de validação ou exclusão" }
+    },
+    "layout": {
+      "$type": "dimension",
+      "gap-xs": { "$value": "{primitive.spacing.4}", "$description": "Distância entre ícone e rótulo" },
+      "gap-sm": { "$value": "{primitive.spacing.8}", "$description": "Distância entre elementos irmãos compactos" },
+      "gap-md": { "$value": "{primitive.spacing.16}", "$description": "Padding interno padrão de cartões e formulários" },
+      "gap-lg": { "$value": "{primitive.spacing.24}", "$description": "Espaçamento entre blocos de conteúdo" },
+      "gap-xl": { "$value": "{primitive.spacing.32}", "$description": "Margem estrutural entre seções da tela" },
+      "radius-control": { "$value": "{primitive.radius.md}", "$description": "Arredondamento padrão para botões e inputs" },
+      "radius-container": { "$value": "{primitive.radius.lg}", "$description": "Arredondamento padrão para cartões e painéis" }
+    }
+  }
+}

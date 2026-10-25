@@ -1,0 +1,96 @@
+{
+  "$schema": "../core/schemas/mcp-registry.schema.json",
+  "servers": {
+    "figma": {
+      "name": "Official Figma MCP Server",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@figma/mcp-server"],
+      "env": {
+        "FIGMA_ACCESS_TOKEN": "${FIGMA_ACCESS_TOKEN}"
+      },
+      "capabilities": ["read-components", "read-styles", "read-nodes"],
+      "usedBySkills": ["01-briefing-discovery", "04-figma-engineering", "06-zero-drift-handoff"],
+      "filteringStrategy": "markdown-summary"
+    },
+    "figma-console": {
+      "name": "Figma Console MCP (Southleft Bidirectional)",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "figma-console-mcp"],
+      "env": {
+        "FIGMA_DESKTOP_BRIDGE_PORT": "12345"
+      },
+      "capabilities": [
+        "read-components",
+        "create-components",
+        "batch-variables",
+        "update-layout",
+        "inspect-tree"
+      ],
+      "usedBySkills": ["03-design-tokens", "04-figma-engineering", "05-craft-and-accessibility"],
+      "filteringStrategy": "markdown-summary"
+    },
+    "asimonim-dtcg": {
+      "name": "Asimonim W3C DTCG Linter MCP",
+      "transport": "stdio",
+      "command": "asimonim",
+      "args": ["mcp"],
+      "capabilities": ["validate-tokens", "resolve-aliases", "check-circular-deps"],
+      "usedBySkills": ["03-design-tokens"],
+      "filteringStrategy": "linter-output"
+    },
+    "local-tokens": {
+      "name": "Local JSON Tokens Manager MCP",
+      "transport": "stdio",
+      "command": "node",
+      "args": ["./core/mcp-local-tokens.js"],
+      "capabilities": ["read-tokens", "write-tokens", "export-tailwind"],
+      "usedBySkills": ["03-design-tokens"],
+      "filteringStrategy": "direct"
+    },
+    "a11y-scanner": {
+      "name": "Axe-Core Accessibility Scanner MCP",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@axe-core/mcp"],
+      "capabilities": ["audit-wcag", "calculate-contrast", "inspect-aria"],
+      "usedBySkills": ["05-craft-and-accessibility"],
+      "filteringStrategy": "markdown-summary"
+    },
+    "storybook": {
+      "name": "Storybook MCP Server",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "storybook-mcp-server"],
+      "capabilities": ["get-components-props", "get-stories", "render-component"],
+      "usedBySkills": ["06-zero-drift-handoff"],
+      "filteringStrategy": "props-summary"
+    },
+    "posthog": {
+      "name": "PostHog Analytics MCP",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@posthog/mcp-server"],
+      "env": {
+        "POSTHOG_API_KEY": "${POSTHOG_API_KEY}",
+        "POSTHOG_HOST": "${POSTHOG_HOST}"
+      },
+      "capabilities": ["characterize-metric-anomaly", "query-funnel", "query-trends"],
+      "usedBySkills": ["01-briefing-discovery", "07-telemetry-and-impact"],
+      "filteringStrategy": "metrics-summary"
+    },
+    "jira-notion": {
+      "name": "Jira & Notion Document MCP",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@notionhq/mcp-server"],
+      "env": {
+        "NOTION_API_KEY": "${NOTION_API_KEY}"
+      },
+      "capabilities": ["get-prd", "get-tickets", "search-pages"],
+      "usedBySkills": ["01-briefing-discovery"],
+      "filteringStrategy": "markdown-summary"
+    }
+  }
+}

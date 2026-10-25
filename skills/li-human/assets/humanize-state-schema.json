@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInHumanizeState",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "language_detected",
+    "human_score_after",
+    "verdict",
+    "validation_errors"
+  ],
+  "properties": {
+    "status": { "type": "string", "enum": ["passed", "failed"] },
+    "skill_id": { "type": "string", "const": "li-human" },
+    "language_detected": { "type": "string", "enum": ["pt-BR", "en"] },
+    "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "human_score_before": { "type": "number" },
+    "human_score_after": { "type": "number" },
+    "verdict": { "type": "string", "enum": ["PASS", "REVIEW", "FLAGGED"] },
+    "artefacts_removed": { "type": "integer" },
+    "validation_errors": { "type": "array", "items": { "type": "object" } }
+  }
+}

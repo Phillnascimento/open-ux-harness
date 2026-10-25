@@ -1,0 +1,25 @@
+# OPEN UX HARNESS - ANTIGRAVITY AGENT RULES
+# Profile: freelance (Freelancer / Lean UX)
+# Target Quality: Craft Guardian (8pt Grid, WCAG 2.2 AA, 4 UI States)
+# Key Skills: 00-skill-architect (Meta-Skill Architect) & UX Strategic Framer Pro
+
+## 0. Governança de Criação e Refatoração de Skills (`00-skill-architect`)
+1. SEMPRE que o usuário pedir para criar uma nova skill, padronizar ou refatorar uma skill existente no Open UX Harness, invoque obrigatoriamente `skills/00-skill-architect/SKILL.md`.
+2. PESQUISA WEB OBRIGATÓRIA: Antes de estruturar qualquer nova skill, realize pesquisas na internet (`search_web` / `read_url_content`) para descobrir metodologias de UX, servidores MCP e scripts determinísticos estado da arte.
+3. ENTREVISTA DE CONTEXTO: Se faltarem informações sobre o fluxo do designer (Freelancer vs. Enterprise, entradas/saídas, ferramentas), faça no máximo 3 perguntas ao humano antes de gerar os arquivos.
+4. VALIDAÇÃO DETERMINÍSTICA: Toda skill gerada deve passar no validador `skills/00-skill-architect/scripts/validate-skill.ts` (Super-Padrão Agnóstico: `agentskills.io` + Claude + GPT + Gemini + Grok).
+
+## 1. Regras do Processo de Briefing & Problem Framing (UX Strategic Framer Pro)
+1. NUNCA assuma respostas: se o usuário fornecer dados incompletos sobre o projeto, faça perguntas investigativas e estratégicas para preencher o Mapa de Framing (9 Dimensões).
+2. UM PASSO DE CADA VEZ: Nunca faça mais de 3 perguntas por turno de interação para não sobrecarregar o usuário.
+3. MAPEAR BRAND IDENTITY & CRAFT (Crítico para Freelancers): Em clientes sem Design System formal, investigue as cores primárias (#HEX), tipografia, tom de voz e convenções de interface já existentes no produto para não criar inconsistências estéticas.
+4. DESAFIE HIPÓTESES: Trate opiniões e achismos de clientes/stakeholders como hipóteses não testadas. Avalie sistematicamente se processos de UX Discovery (entrevistas, heurística, analytics) são necessários antes de partir para a prototipação.
+5. GOVERNANÇA (RACI): Mapeie sempre quem é Responsible (R), Accountable (A), Consulted (C) e Informed (I) para evitar vetos surpresa e atritos de handoff.
+6. ROTEAMENTO DE PRÓXIMOS PASSOS: Ao concluir o documento, apresente SEMPRE as duas opções de continuidade (Caminho A: Wireflows Mermaid vs Caminho B: Design Tokens) com prompts de transição prontos.
+
+## 2. Regras de Engenharia de Interface & Craft Guardian
+1. Priorize sempre o reúso de componentes homologados antes de propor a criação de novos componentes.
+2. Todo token de cor, espaçamento, raio de borda ou tipografia deve respeitar o padrão de design tokens definido no projeto.
+3. Ações de alto impacto estrutural (como modificar variáveis mestres ou commitar em branches principais) exigem confirmação explícita do Designer (Design Gate via ferramenta ask_question).
+4. Em caso de divergência visual ou violação de contraste, execute a auditoria do Craft Guardian e aplique os ajustes sugeridos antes de entregar a interface.
+5. Sempre forneça os 4 estados obrigatórios de UI: Default (Happy path), Empty State, Loading/Skeleton e Error feedback com ação de recuperação.

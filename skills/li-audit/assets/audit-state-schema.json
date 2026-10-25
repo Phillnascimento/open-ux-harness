@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInAuditState",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "post_count",
+    "overall_mean_er_pct",
+    "overall_mean_brew_score",
+    "top_5_by_360brew",
+    "validation_errors"
+  ],
+  "properties": {
+    "status": { "type": "string", "enum": ["passed", "failed"] },
+    "skill_id": { "type": "string", "const": "li-audit" },
+    "post_count": { "type": "integer", "minimum": 1 },
+    "sample_confidence": { "type": "string", "enum": ["high", "medium", "low_preliminary"] },
+    "overall_mean_er_pct": { "type": "number" },
+    "overall_mean_brew_score": { "type": "number" },
+    "top_5_by_360brew": { "type": "array", "items": { "type": "object" } },
+    "bottom_5_by_360brew": { "type": "array", "items": { "type": "object" } },
+    "validation_errors": { "type": "array", "items": { "type": "object" } }
+  }
+}

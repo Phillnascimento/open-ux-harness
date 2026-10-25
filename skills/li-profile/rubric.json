@@ -1,0 +1,131 @@
+{
+  "version": "3.0",
+  "total": 100,
+  "market": "Brazil & Global Remote (pt-BR + EN Bilingual Output)",
+  "modes": {
+    "career": "Carreira (CLT / Internacional) - ser encontrado e selecionado proativamente por Tech Recruiters, Design Managers e pelo LinkedIn Hiring Assistant para vagas alvo.",
+    "business": "Negócios (Consultoria / Freelance / Fractional) - ser encontrado e contratado por Founders, PMs, Heads de Produto e C-Levels buscando especialistas em UX/Product Design.",
+    "hibrido": "Híbrido (Emprego Principal + Autoridade / Consultoria Seletiva / Palestras) - ranquear no topo do LinkedIn Recruiter sem parecer desesperado e manter canal aberto para projetos e convites."
+  },
+  "note": "Quatorze itens (total 100 pontos). Use full_marks_career, full_marks_business ou full_marks_hibrido conforme o modo do usuário; caso contrário, use full_marks. Pontue apenas o que foi fornecido ou visto. Seções ausentes revisadas recebem 0 (Crítico). Seções não fornecidas recebem 'Não verificado' (excluídas do máximo verificável). Nunca arredonde para cima por gentileza.",
+  "status_rules": {
+    "OK": "80% ou mais dos pontos do item",
+    "Ajustar": "40-79% dos pontos do item",
+    "Crítico": "abaixo de 40%, ou seção revisada e vazia",
+    "Não verificado": "não fornecido e não visível - excluído do máximo verificável"
+  },
+  "bands": [
+    { "min": 0, "max": 39, "label": "Inicial" },
+    { "min": 40, "max": 59, "label": "Em construção" },
+    { "min": 60, "max": 79, "label": "Competitivo" },
+    { "min": 80, "max": 100, "label": "Referência" }
+  ],
+  "items": [
+    {
+      "id": "headline",
+      "label_pt": "Título (Headline - 220 chars / 65 mobile)",
+      "points": 12,
+      "full_marks_career": "Abre nos primeiros 65 caracteres com o título exato buscado nas 20-30 vagas alvo e a senioridade real (ex.: 'Senior Product Designer | UX/UI'), seguido de especialidade/domínio (B2B SaaS, Fintech, Design Systems) e 1 prova de impacto real. Sem clichês ('apaixonado por UX', 'em busca de recolocação'). Possui versão calibrada em PT-BR e EN.",
+      "full_marks_business": "Declara o que entrega, para qual tipo de empresa/produto e 1 prova de resultado nos primeiros 220 caracteres, preservando o termo buscável nos primeiros 65 chars (ex.: 'Consultor de Product Design & UX Strategy | B2B SaaS').",
+      "full_marks_hibrido": "Combina o cargo sênior reconhecível pelo mercado nos primeiros 65 caracteres com posicionamento de autoridade/impacto de negócio e especialidade técnica (ex.: 'Staff Product Designer | Design Systems, AI UX & Product Discovery').",
+      "partial": "Apenas cargo sem especialidade ou prova ganha 3-6. Títulos inventados que ninguém busca ('UX Ninja', 'Transformador de Experiências') ganham 0-3."
+    },
+    {
+      "id": "keywords_seo",
+      "label_pt": "SEO e Engenharia Reversa (20-30 Vagas)",
+      "points": 10,
+      "full_marks": "Os 5 termos primários e 10 secundários extraídos das 20-30 vagas alvo (via job-seo-scanner.py + ux-vagas-brasil-benchmark.md) aparecem de forma consistente na Headline, Cargo Atual, Sobre, Descrições de Experiência e nas 50 Competências. Inclui variantes bilíngues (PT-BR e EN) contextualizadas com resultados reais (ex.: onde aplicou Product Discovery, Design Systems ou Usability Testing e qual métrica mudou). Zero texto em Unicode estilizado.",
+      "partial": "Termos presentes apenas em 1-2 campos ganham 4-6. Termos desconectados das vagas alvo ganham 0-3."
+    },
+    {
+      "id": "about_open",
+      "label_pt": "Sobre - Gancho Inicial (Primeiros 200-280 chars)",
+      "points": 8,
+      "full_marks": "As duas primeiras linhas antes do '...ver mais' declaram identidade profissional, especialidade de UX/Produto, domínio de atuação e impacto central. Faz sentido sozinho no mobile. Sem 'Sou apaixonado por', sem biografia em 3ª pessoa.",
+      "partial": "Abertura clara mas genérica ganha 3-5. Clichês de IA ou abertura cronológica genérica ganha 0-2."
+    },
+    {
+      "id": "about_body",
+      "label_pt": "Sobre - Corpo, Provas e Top 5 Skills",
+      "points": 8,
+      "full_marks_career": "Primeira pessoa. Conecta visão de design a métricas de negócio (conversão, retenção, adoção, redução de suporte, eficiência de engenharia), destaca 2-3 conquistas verificáveis, lista especialidades em contexto e fecha com as 5 Principais Competências fixadas e CTA direto.",
+      "full_marks_business": "Fala diretamente com a dor do decisor (Founder/CPO/Head), mostra como resolve via Design/Discovery, apresenta 2-3 resultados comprovados e fecha com CTA claro para diagnóstico ou contato.",
+      "full_marks_hibrido": "Equilibra profundidade técnica e liderança de produto com provas concretas de impacto e abertura seletiva para conexões estratégicas, mentorias ou projetos.",
+      "partial": "Resumo tipo currículo sem evidências de impacto ganha 2-4. Sobre com menos de 4 linhas ganha 0-1 no corpo."
+    },
+    {
+      "id": "current_role",
+      "label_pt": "Experiência Atual (Contexto + Métricas)",
+      "points": 9,
+      "full_marks": "Título de cargo padronizado com o mercado (ou título oficial + equivalente de mercado). 1-2 linhas de escopo (produto, squad, modelo B2B/B2C) + 3 a 4 bullets no formato [Desafio] -> [Ação/Método UX] -> [Resultado/Métrica] + competências vinculadas ao cargo.",
+      "partial": "Apenas lista de tarefas ('Responsável por criar telas no Figma') ganha 3-5. Apenas título sem descrição ganha 0-2."
+    },
+    {
+      "id": "experience_depth",
+      "label_pt": "Histórico de Experiências e Progressão",
+      "points": 6,
+      "full_marks": "As 2-3 experiências mais recentes detalhadas com resultados e evolução técnica. Experiências antigas ou de transição de carreira condensadas destacando habilidades transferíveis para UX/Produto.",
+      "partial": "Todas as experiências vazias ou puramente operacionais ganham 2-3."
+    },
+    {
+      "id": "skills",
+      "label_pt": "50 Competências + Top 5 Fixadas + Certificações",
+      "points": 7,
+      "full_marks": "Top 5 competências fixadas no Sobre batem 100% com o Top 5 exigido pelas 20-30 vagas alvo. Até 50 competências preenchidas e vinculadas às experiências correspondentes. Cursos livres (Mergo, Tera, Interaction Design Foundation, NN/g, Alura) em Licenças e Certificados, nunca em Formação Acadêmica.",
+      "partial": "Competências desalinhadas ou não vinculadas às experiências ganham 2-4."
+    },
+    {
+      "id": "featured",
+      "label_pt": "Destaques (Featured Section)",
+      "points": 6,
+      "full_marks": "Até 3 blocos estratégicos com miniaturas de alto contraste: [1] Portfólio / Case Study Principal com métricas visíveis, [2] Post ou Carrossel de maior autoridade técnica, [3] Link direto de conversão/agenda ou Case secundário.",
+      "partial": "Apenas 1 link antigo ou genérico ganha 2-3. Seção vazia ganha 0."
+    },
+    {
+      "id": "photo",
+      "label_pt": "Foto de Perfil",
+      "points": 5,
+      "full_marks": "Rosto ocupando ~60% do quadro, iluminação nítida, expressão acessível e confiante, fundo limpo/neutro ou com cor sutil da paleta pessoal.",
+      "partial": "Foto distante, escura ou recortada de evento ganha 2-3."
+    },
+    {
+      "id": "banner",
+      "label_pt": "Capa (Banner 1584x396px)",
+      "points": 4,
+      "full_marks": "Banner alinhado aos tokens visuais de li-brand: proposta de valor em 1 linha, 3 pilares de especialidade e destino claro, posicionados no centro-direita (fora da zona coberta pelo avatar no mobile).",
+      "partial": "Imagem abstrata sem proposta de valor ganha 1-2. Banner padrão cinza do LinkedIn ganha 0."
+    },
+    {
+      "id": "recommendations",
+      "label_pt": "Recomendações Estratégicas",
+      "points": 6,
+      "full_marks_career": "Pelo menos 3 recomendações recentes recebidas de PMs, Tech Leads/Engenheiros e Design Managers citando impacto real de colaboração e entrega.",
+      "full_marks_business": "Pelo menos 3 recomendações recentes de clientes (Founders, Diretores, Heads) citando retorno de negócio e confiabilidade na entrega.",
+      "full_marks_hibrido": "Combinação de recomendações de pares multifuncionais (PM/Engenharia/Liderança) e stakeholders/clientes.",
+      "partial": "Recomendações antigas (>3 anos) ou puramente elogiosas sem citar entregas ganham 2-3."
+    },
+    {
+      "id": "activity",
+      "label_pt": "Atividade Recente e Coerência 360Brew",
+      "points": 7,
+      "full_marks": "Publicou conteúdo autoral nos seus 2-3 pilares de UX/Produto ou fez comentários técnicos substantivos (>15 palavras) nos últimos 7 dias.",
+      "partial": "Atividade nos últimos 30 dias ganha 3-5. Apenas curtidas ou compartilhamentos sem texto ganham 1-2."
+    },
+    {
+      "id": "contact_url",
+      "label_pt": "URL Personalizada e Canal de Contato",
+      "points": 5,
+      "full_marks": "URL limpa (linkedin.com/in/nome-ux ou nome-sobrenome), link clicável personalizado no topo do perfil (Portfólio ou Agenda) e informações de contato sem dados sensíveis (zero CPF, endereço completo ou telefone exposto publicamente).",
+      "partial": "URL com números aleatórios no final ou sem link de portfólio ganha 2-3."
+    },
+    {
+      "id": "location_preferences",
+      "label_pt": "Localização, Idioma Secundário e Spotlights",
+      "points": 7,
+      "full_marks_career": "Cidade/Estado estratégicos, setor configurado, 'Open to Work' configurado com até 5 cargos exatos das vagas alvo e Perfil em Segundo Idioma (Inglês) ativo para buscas globais/multinacionais.",
+      "full_marks_business": "Localização configurada, Página de Serviços ('Prestar serviços') ativa com categorias de UX/Product Design e Perfil em Segundo Idioma (Inglês) ativo.",
+      "full_marks_hibrido": "Localização configurada, Perfil em Segundo Idioma (Inglês) ativo, Página de Serviços ativa e 'Open to Work' configurado apenas para recrutadores nos cargos alvo.",
+      "partial": "Apenas localização sem preferências, sem página de serviços e sem perfil em inglês ganha 2-3."
+    }
+  ]
+}

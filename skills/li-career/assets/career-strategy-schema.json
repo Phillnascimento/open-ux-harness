@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UXCareerStrategyMemory",
+  "type": "object",
+  "required": [
+    "version",
+    "updated_at",
+    "profile_summary",
+    "competency_radar",
+    "evidence_inventory",
+    "action_plan",
+    "agent_memory_directives"
+  ],
+  "properties": {
+    "version": { "type": "string", "const": "1.0.0" },
+    "updated_at": { "type": "string" },
+    "profile_summary": {
+      "type": "object",
+      "required": [
+        "current_level",
+        "target_level",
+        "current_company_type",
+        "target_company_type",
+        "current_domain",
+        "target_domain",
+        "target_geography",
+        "english_cefr",
+        "target_companies"
+      ],
+      "properties": {
+        "current_level": {
+          "type": "string",
+          "enum": ["junior", "pleno", "senior", "staff_principal", "design_manager"]
+        },
+        "target_level": {
+          "type": "string",
+          "enum": ["pleno", "senior", "staff_principal", "design_manager", "head_director"]
+        },
+        "current_company_type": {
+          "type": "string",
+          "enum": ["agency_consultancy", "startup", "scaleup_unicorn", "enterprise_industry"]
+        },
+        "target_company_type": {
+          "type": "string",
+          "enum": ["startup", "scaleup_unicorn", "big_tech", "enterprise_industry", "high_ticket_consultancy"]
+        },
+        "current_domain": {
+          "type": "string",
+          "enum": ["b2b", "b2c", "both", "internal_tools"]
+        },
+        "target_domain": {
+          "type": "string",
+          "enum": ["b2b", "b2c", "both", "ai_native"]
+        },
+        "target_geography": {
+          "type": "string",
+          "enum": ["br_local", "latam_remote", "global_remote_usd_eur"]
+        },
+        "english_cefr": {
+          "type": "string",
+          "enum": ["A1", "A2", "B1", "B2", "C1", "C2"]
+        },
+        "target_companies": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "competency_radar": {
+      "type": "object",
+      "required": ["readiness_score_pct", "scores", "top_strengths", "critical_gaps"],
+      "properties": {
+        "readiness_score_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "scores": {
+          "type": "object",
+          "required": [
+            "data_and_business_impact",
+            "craft_and_visual_execution",
+            "tooling_and_design_engineering",
+            "ai_augmented_ux_maturity",
+            "opportunity_discovery_and_framing",
+            "domain_and_product_repertoire",
+            "stakeholder_influence_and_leadership",
+            "global_readiness_and_english"
+          ],
+          "properties": {
+            "data_and_business_impact": { "type": "number", "minimum": 1, "maximum": 5 },
+            "craft_and_visual_execution": { "type": "number", "minimum": 1, "maximum": 5 },
+            "tooling_and_design_engineering": { "type": "number", "minimum": 1, "maximum": 5 },
+            "ai_augmented_ux_maturity": { "type": "number", "minimum": 1, "maximum": 5 },
+            "opportunity_discovery_and_framing": { "type": "number", "minimum": 1, "maximum": 5 },
+            "domain_and_product_repertoire": { "type": "number", "minimum": 1, "maximum": 5 },
+            "stakeholder_influence_and_leadership": { "type": "number", "minimum": 1, "maximum": 5 },
+            "global_readiness_and_english": { "type": "number", "minimum": 1, "maximum": 5 }
+          }
+        },
+        "top_strengths": { "type": "array", "items": { "type": "string" } },
+        "critical_gaps": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "evidence_inventory": {
+      "type": "object",
+      "required": [
+        "cases_with_hard_metrics",
+        "cases_needing_metric_reconstruction",
+        "missing_domain_proofs"
+      ],
+      "properties": {
+        "cases_with_hard_metrics": { "type": "array", "items": { "type": "string" } },
+        "cases_needing_metric_reconstruction": { "type": "array", "items": { "type": "string" } },
+        "missing_domain_proofs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "action_plan": {
+      "type": "object",
+      "required": ["horizon_30_days", "horizon_60_days", "horizon_90_days", "bridge_projects"],
+      "properties": {
+        "horizon_30_days": { "type": "array", "items": { "type": "string" } },
+        "horizon_60_days": { "type": "array", "items": { "type": "string" } },
+        "horizon_90_days": { "type": "array", "items": { "type": "string" } },
+        "bridge_projects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["title", "gap_addressed", "deliverable_for_linkedin"],
+            "properties": {
+              "title": { "type": "string" },
+              "gap_addressed": { "type": "string" },
+              "deliverable_for_linkedin": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "agent_memory_directives": {
+      "type": "object",
+      "required": [
+        "li_brand_positioning_focus",
+        "li_profile_seo_and_framing",
+        "li_plan_and_post_priority_themes",
+        "li_repurpose_case_angles",
+        "li_comment_and_dm_target_personas"
+      ],
+      "properties": {
+        "li_brand_positioning_focus": { "type": "string" },
+        "li_profile_seo_and_framing": { "type": "string" },
+        "li_plan_and_post_priority_themes": { "type": "array", "items": { "type": "string" } },
+        "li_repurpose_case_angles": { "type": "array", "items": { "type": "string" } },
+        "li_comment_and_dm_target_personas": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

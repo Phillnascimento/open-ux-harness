@@ -1,0 +1,29 @@
+{
+  "color": {
+    "brand": {
+      "primary": { "$value": "#2563EB", "$type": "color" }
+    },
+    "surface": {
+      "base": { "$value": "#FFFFFF", "$type": "color" },
+      "subtle": { "$value": "#F8FAFC", "$type": "color" }
+    },
+    "text": {
+      "primary": { "$value": "#0F172A", "$type": "color" },
+      "muted": { "$value": "#64748B", "$type": "color" }
+    },
+    "feedback": {
+      "error": { "$value": "#DC2626", "$type": "color" },
+      "success": { "$value": "#16A34A", "$type": "color" }
+    }
+  },
+  "spacing": {
+    "inset": {
+      "sm": { "$value": "8px", "$type": "dimension" },
+      "md": { "$value": "16px", "$type": "dimension" },
+      "lg": { "$value": "24px", "$type": "dimension" }
+    }
+  },
+  "borderRadius": {
+    "card": { "$value": "8px", "$type": "dimension" }
+  }
+}

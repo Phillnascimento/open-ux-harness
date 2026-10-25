@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedInInboxState",
+  "type": "object",
+  "required": ["version", "processed_at", "summary", "items"],
+  "properties": {
+    "version": { "type": "string", "const": "1.0.0" },
+    "processed_at": { "type": "string" },
+    "summary": {
+      "type": "object",
+      "required": ["total_messages", "p0_high_priority"],
+      "properties": {
+        "total_messages": { "type": "integer", "minimum": 1 },
+        "p0_high_priority": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "sender", "category", "priority", "language", "reply_advance", "reply_decline_polite"],
+        "properties": {
+          "id": { "type": "string" },
+          "sender": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": ["RECRUITER_OPPORTUNITY", "CLIENT_LEAD", "PEER_NETWORKING", "COLD_PITCH_SPAM"]
+          },
+          "priority": { "type": "string", "enum": ["P0", "P2", "P3"] },
+          "language": { "type": "string", "enum": ["pt-BR", "en", "bilingual"] },
+          "reply_advance": { "type": "string" },
+          "reply_decline_polite": { "type": "string" }
+        }
+      }
+    }
+  }
+}

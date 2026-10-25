@@ -1,0 +1,67 @@
+{
+  "projectId": "checkout-mobile-v2",
+  "projectName": "Checkout Rápido Mobile v2",
+  "mode": "strategic-full",
+  "problemStatement": "Queda de 12% na conversão mobile devido a dropdowns longos e lentos na seleção de frete e pagamento.",
+  "costOfInaction": "R$ 180.000,00 por mês em receita líquida perdida.",
+  "targetUser": {
+    "personaName": "Comprador Mobile Recorrente",
+    "context": "Compra em smartphone no trajeto ou pausas rápidas com rede 4G oscilante",
+    "jobToBeDone": "Pagar em 1 ou 2 toques sem formulários repetitivos para garantir o pedido rapidamente."
+  },
+  "brandFoundations": {
+    "primaryColor": "#2563EB",
+    "secondaryColor": "#475569",
+    "surfaceColor": "#FFFFFF",
+    "textColor": "#0F172A",
+    "fontFamily": "Inter, sans-serif",
+    "toneOfVoice": "Claro, ágil e acolhedor",
+    "visualStyle": "Modern SaaS, Tailwind rounded-lg (8px)",
+    "existingSystemPatterns": "Lucide icons 2px stroke, botões min-height 44px"
+  },
+  "flowEntrypoint": "Carrinho de Compras",
+  "keySteps": [
+    "Carrinho de Compras",
+    "Seleção de Endereço (Cartões táteis 16px)",
+    "Seleção de Pagamento (Cartão 1-Clique / Pix)",
+    "Processamento de Pedido (Skeleton Loading)",
+    "Resposta do Gateway (Sucesso ou Erro com Retry)",
+    "Comprovante e Rastreio"
+  ],
+  "scope": {
+    "inScope": [
+      "Redesenho da seleção de pagamento e endereço com cartões táteis",
+      "Pagamento 1-clique",
+      "Cobertura dos 4 estados de UI"
+    ],
+    "outOfScope": [
+      "Alteração de gateway de pagamento backend",
+      "App nativo iOS/Android"
+    ],
+    "techStack": "React + Tailwind CSS"
+  },
+  "governance": {
+    "responsible": "Felipe (Lead Designer)",
+    "accountable": "Mariana (GPM)",
+    "consulted": ["Carlos (Tech Lead)", "Renata (Head CS)"]
+  },
+  "nextStepRouting": {
+    "recommendedPath": {
+      "name": "Caminho A: Arquitetura de Informação & Wireflows",
+      "targetSkill": "02-information-architecture",
+      "reason": "O fluxo possui múltiplos estados de bifurcação (erro de gateway, cartão sem limite, carrinho vazio) que precisam ser mapeados em Mermaid antes da interface visual.",
+      "command": "/run skill-02-ia"
+    },
+    "alternativePath": {
+      "name": "Caminho B: Formalização de Design Tokens W3C",
+      "targetSkill": "03-design-tokens",
+      "reason": "Formalização imediata da paleta de cores (#2563EB, #0F172A) e escala de espaçamentos no padrão W3C DTCG 2025.10.",
+      "command": "/run skill-03-tokens"
+    }
+  },
+  "successCriteria": [
+    "Recuperação de no mínimo +10% na taxa de conversão em 14 dias",
+    "Tempo de checkout reduzido para menos de 2 minutos",
+    "100% de conformidade com WCAG 2.2 AA"
+  ]
+}

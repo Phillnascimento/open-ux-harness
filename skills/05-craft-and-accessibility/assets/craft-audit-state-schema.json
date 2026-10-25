@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Open UX Harness — 05-craft-and-accessibility State & Handoff Contract",
+  "description": "Schema do estado persistido em .harness/memory/craft-audit-state.json após auditoria determinística de WCAG 2.2 AA/AAA, APCA e UI Craft Gates.",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "timestamp",
+    "preset_mode",
+    "confidence_score",
+    "validation_errors",
+    "payload",
+    "nextStepRouting"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "warning", "failed", "SCHEMA_MISMATCH"],
+      "description": "Status final da execução do Craft Guardian e do script audit-craft-a11y.ts."
+    },
+    "skill_id": {
+      "type": "string",
+      "const": "05-craft-and-accessibility",
+      "description": "Identificador canônico da skill 05-craft-and-accessibility."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp ISO 8601 da conclusão da auditoria."
+    },
+    "preset_mode": {
+      "type": "string",
+      "enum": ["freelance", "enterprise", "default"],
+      "description": "Perfil operacional em que a auditoria foi executada."
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Score combinado de Craft e Acessibilidade (0.0 a 1.0)."
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "severity"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "severity": { "type": "string", "enum": ["error", "warning", "info"] },
+          "field_or_line": { "type": "string" }
+        }
+      },
+      "description": "Lista de violações de contraste, touch target, grid espacial ou estados ausentes."
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "gate_passed",
+        "wcag_level_achieved",
+        "contrast_audits",
+        "states_covered",
+        "spatial_grid_compliant",
+        "auditReportPath"
+      ],
+      "properties": {
+        "gate_passed": {
+          "type": "boolean",
+          "description": "True exclusivamente quando zero violações bloqueantes (error) foram encontradas."
+        },
+        "wcag_level_achieved": {
+          "type": "string",
+          "enum": ["AAA", "AA", "FAIL"],
+          "description": "Nível de conformidade WCAG 2.2 comprovado matematicamente."
+        },
+        "contrast_audits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pair_id", "foreground", "background", "wcag_ratio", "apca_lc", "passed"],
+            "properties": {
+              "pair_id": { "type": "string" },
+              "foreground": { "type": "string" },
+              "background": { "type": "string" },
+              "wcag_ratio": { "type": "number" },
+              "apca_lc": { "type": "number" },
+              "passed": { "type": "boolean" }
+            }
+          }
+        },
+        "states_covered": {
+          "type": "object",
+          "required": ["default", "loading", "empty", "error"],
+          "properties": {
+            "default": { "type": "boolean" },
+            "loading": { "type": "boolean" },
+            "empty": { "type": "boolean" },
+            "error": { "type": "boolean" }
+          }
+        },
+        "spatial_grid_compliant": {
+          "type": "boolean",
+          "description": "Indica se todos os espaçamentos auditados respeitam a grade de 4px/8px."
+        },
+        "tabular_nums_enforced": {
+          "type": "boolean",
+          "description": "Indica se elementos numéricos/financeiros aplicam font-variant-numeric: tabular-nums."
+        },
+        "auditReportPath": {
+          "type": "string",
+          "description": "Caminho do relatório Markdown detalhado gerado para o usuário."
+        }
+      }
+    },
+    "nextStepRouting": {
+      "type": "object",
+      "required": ["recommendedPath", "pathA", "pathB"],
+      "properties": {
+        "recommendedPath": {
+          "type": "string",
+          "enum": ["A", "B"],
+          "description": "A (06-zero-drift-handoff) se gate_passed == true; B (retorno para 03/04) se reprovado."
+        },
+        "pathA": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": {
+              "type": "string",
+              "const": "06-zero-drift-handoff"
+            },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        },
+        "pathB": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": {
+              "type": "string",
+              "enum": ["03-design-tokens", "04-figma-engineering"]
+            },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
