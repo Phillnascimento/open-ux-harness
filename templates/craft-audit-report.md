@@ -3,6 +3,7 @@
 **Componente / Tela:** [Nome do Artefato]  
 **Data da Avaliação:** [AAAA-MM-DD HH:MM]  
 **Resultado Global:** [APROVADO | APROVADO COM RESSALVAS | REPROVADO]  
+**Veredito do Gate:** [PASS | HOLD]  
 
 ---
 
@@ -25,6 +26,17 @@
 - [x] **Empty State:** Ilustração leve, texto de orientação e botão de ação primária.
 - [x] **Loading / Skeleton:** Layout em blocos com animação suave de pulso.
 - [x] **Error State:** Borda de erro, ícone de alerta e mensagem contextualizada com retry.
+
+---
+
+## Evidências Anexadas
+| Tipo de Evidência | Viewport / Contexto | Caminho do Artefato | Status |
+| :--- | :--- | :--- | :--- |
+| `screenshot` | `desktop` (1440x900) | `evidence/desktop-default.png` | Anexado |
+| `screenshot` | `tablet` (768x1024) | `evidence/tablet-default.png` | Anexado |
+| `screenshot` | `mobile` (375x812) | `evidence/mobile-default.png` | Anexado |
+| `audit-report` | N/A | `reports/craft-a11y-audit.md` | Anexado |
+| `design-contract` | N/A | `specs/design-contract.md` | Anexado |
 
 ---
 

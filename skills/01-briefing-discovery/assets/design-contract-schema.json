@@ -1,0 +1,237 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Open UX Harness — Design Contract Schema",
+  "description": "Schema oficial de validação estruturada do Design Contract gerado na fase de Briefing & Discovery (Skill 01). Garante especificidade de produto, fundamentos de domínio e bloqueio a anti-patterns visuais (visual slop).",
+  "type": "object",
+  "required": [
+    "userAndMainJob",
+    "highFrequencyFlow",
+    "domainObjects",
+    "marketReferences",
+    "deliberateDesignChoices",
+    "forbiddenGenericPatterns"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "default": "1.0.0",
+      "description": "Versão do contrato de design."
+    },
+    "productOrFeatureName": {
+      "type": "string",
+      "description": "Nome do produto ou da funcionalidade coberta por este contrato."
+    },
+    "userAndMainJob": {
+      "type": "object",
+      "description": "Perfil do usuário-alvo, contexto de uso e Job-to-be-Done principal.",
+      "required": ["targetUser", "contextOfUse", "jobToBeDone"],
+      "properties": {
+        "targetUser": {
+          "type": "string",
+          "description": "Perfil específico do usuário (persona primária)."
+        },
+        "contextOfUse": {
+          "type": "string",
+          "description": "Ambiente operacional, dispositivos e condições de pressão ou tempo."
+        },
+        "jobToBeDone": {
+          "type": "string",
+          "description": "Declaração JTBD: Situação, Motivação/Ação Chave e Resultado Esperado."
+        },
+        "successCriterion": {
+          "type": "string",
+          "description": "Critério objetivo que define conclusão da tarefa pelo usuário."
+        }
+      }
+    },
+    "highFrequencyFlow": {
+      "type": "object",
+      "description": "Fluxo crítico executado com maior frequência no produto.",
+      "required": ["flowName", "entrypoint", "coreSteps"],
+      "properties": {
+        "flowName": {
+          "type": "string",
+          "description": "Nome identificador do fluxo de maior frequência."
+        },
+        "entrypoint": {
+          "type": "string",
+          "description": "Ponto exato de partida do usuário na interface."
+        },
+        "coreSteps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 2,
+          "description": "Passos essenciais sem bifurcações desnecessárias."
+        },
+        "targetCompletionTime": {
+          "type": "string",
+          "description": "Tempo estimado ou meta máxima para completar o fluxo."
+        }
+      }
+    },
+    "domainObjects": {
+      "type": "array",
+      "description": "Entidades centrais do domínio manipuladas pelo usuário neste fluxo.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "keyAttributes", "lifecycleStates"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome da entidade (ex.: Fatura, Pedido, Lote de Conciliação)."
+          },
+          "keyAttributes": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Atributos de informação essenciais da entidade."
+          },
+          "lifecycleStates": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Estados válidos do ciclo de vida da entidade."
+          }
+        }
+      }
+    },
+    "marketReferences": {
+      "type": "array",
+      "description": "Pelo menos 3 referências de mercado reais com o que adotar e o que evitar.",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["productName", "whatToAdopt", "whatToAvoid"],
+        "properties": {
+          "productName": {
+            "type": "string",
+            "description": "Nome do produto ou serviço de referência real de mercado."
+          },
+          "whatToAdopt": {
+            "type": "string",
+            "description": "Padrão de UX/UI ou craft a ser absorvido conscientemente."
+          },
+          "whatToAvoid": {
+            "type": "string",
+            "description": "Decisão da referência que não faz sentido para este contexto."
+          }
+        }
+      }
+    },
+    "deliberateDesignChoices": {
+      "type": "object",
+      "description": "Escolhas conscientes de craft de design para guiar os linters e gates.",
+      "required": [
+        "informationDensity",
+        "typography",
+        "layoutRhythm",
+        "interactionModel",
+        "dataAndImageTreatment",
+        "responsivePriorities"
+      ],
+      "properties": {
+        "informationDensity": {
+          "type": "object",
+          "required": ["mode", "rationale"],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": ["compact", "balanced", "comfortable", "alta-densidade", "balanceada", "confortavel"],
+              "description": "Nível de densidade de informação adotado."
+            },
+            "rationale": {
+              "type": "string",
+              "description": "Justificativa da densidade com base no job do usuário."
+            }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "required": ["fontFamily", "scaleRatio", "rationale"],
+          "properties": {
+            "fontFamily": {
+              "type": "string",
+              "description": "Família tipográfica primária (ex.: Inter, Roboto Mono)."
+            },
+            "scaleRatio": {
+              "type": "string",
+              "description": "Proporção da escala tipográfica (ex.: Major Third 1.250)."
+            },
+            "tabularNumerals": {
+              "type": "boolean",
+              "default": true,
+              "description": "Se números tabulares (tnum) são ativados para alinhamento numérico."
+            },
+            "rationale": {
+              "type": "string",
+              "description": "Justificativa da escolha tipográfica."
+            }
+          }
+        },
+        "layoutRhythm": {
+          "type": "object",
+          "required": ["gridBase", "structuralCadence"],
+          "properties": {
+            "gridBase": {
+              "type": "string",
+              "description": "Unidade base do grid (ex.: 8pt)."
+            },
+            "structuralCadence": {
+              "type": "string",
+              "description": "Regras de espaçamento, alinhamento de baseline e divisores."
+            }
+          }
+        },
+        "interactionModel": {
+          "type": "object",
+          "required": ["keyboardSupport", "navigationStyle"],
+          "properties": {
+            "keyboardSupport": {
+              "type": "string",
+              "description": "Atalhos de teclado e padrão de foco."
+            },
+            "navigationStyle": {
+              "type": "string",
+              "description": "Padrão de navegação (menus, sheets, drawers ou command palette)."
+            }
+          }
+        },
+        "dataAndImageTreatment": {
+          "type": "object",
+          "required": ["dataVisualizationRules", "imageryRules"],
+          "properties": {
+            "dataVisualizationRules": {
+              "type": "string",
+              "description": "Regras de apresentação de dados e gráficos."
+            },
+            "imageryRules": {
+              "type": "string",
+              "description": "Diretrizes de iconografia e restrição a ilustrações decorativas."
+            }
+          }
+        },
+        "responsivePriorities": {
+          "type": "object",
+          "required": ["primaryViewport", "adaptationStrategy"],
+          "properties": {
+            "primaryViewport": {
+              "type": "string",
+              "description": "Resolução e formato prioritário de uso."
+            },
+            "adaptationStrategy": {
+              "type": "string",
+              "description": "Estratégia de colapso, priorização ou ocultamento em viewports menores."
+            }
+          }
+        }
+      }
+    },
+    "forbiddenGenericPatterns": {
+      "type": "array",
+      "description": "Lista explícita de no mínimo 3 anti-patterns genéricos expressamente proibidos neste produto.",
+      "minItems": 3,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

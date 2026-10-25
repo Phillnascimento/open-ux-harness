@@ -42,12 +42,14 @@ Carregue os arquivos abaixo **sob demanda (estritamente 1 arquivo por vez)** ape
 - **Contratos de Componentes, Code Connect e CSF 3.0:** [`references/zero-drift-component-contracts.md`](./references/zero-drift-component-contracts.md) — Carregar na **Fase 2**.
 - **Guia de 8 Estados Interativos de UI em Gherkin:** [`references/gherkin-ui-states-guide.md`](./references/gherkin-ui-states-guide.md) — Carregar na **Fase 2** ao redigir cenários comportamentais.
 - **Template Executivo de Especificação Zero-Drift:** [`assets/handoff-spec-template.md`](./assets/handoff-spec-template.md) — Carregar na **Fase 3**.
+- **Schema JSON do Envelope de Handoff:** [`assets/handoff-envelope-schema.json`](./assets/handoff-envelope-schema.json) — Carregar na **Fase 1** e **Fase 4**.
 - **Schema JSON do Estado de Handoff:** [`assets/handoff-state-schema.json`](./assets/handoff-state-schema.json) — Carregar na **Fase 4**.
 </reference_index>
 
 <execution_steps>
 ## Fase 1: Diagnóstico de Contexto e Auditoria de Catálogo (*Reuse Discovery*)
-1. Analise os contratos precedentes em `.harness/memory/` (`craft-audit-state.json`, `figma-state.json` e `tokens-state.json`).
+1. Analise os contratos precedentes e envelopes em `.harness/memory/` (`craft-audit-state.json`, `figma-state.json` e `tokens-state.json`).
+   - **Reality Gate Pré-requisito Mandatório:** Verifique se o veredito do Reality Gate é `PASS` (com evidências verificadas). Se o veredito for `HOLD` ou `FAIL`, NUNCA avance para o handoff; interrompa a execução imediatamente e retorne o feedback estruturado com as correções pendentes.
    - Se `craft-audit-state.json` indicar `wcag_status == "FAIL"` ou bloqueios críticos de acessibilidade não resolvidos, alerte o usuário antes de congelar o handoff.
 2. **Inspeção Paralela de Catálogo (*Parallel Batching*):**
    - No modo `enterprise`, consulte o `@storybook/mcp-server` para listar componentes e props existentes.

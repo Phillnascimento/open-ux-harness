@@ -29,6 +29,15 @@ export class GuardrailsEngine {
             };
         }
         // 2. Ações que demandam confirmação do Designer (ASK - Design Gate)
+        if (actionType === 'escalate_retry_exhausted') {
+            return {
+                action: actionType,
+                level: 'ASK',
+                reason: 'Tentativas automáticas esgotadas no loop Dev-QA. Exige mediação humana (Design Gate).',
+                requiresPromptToUser: true,
+                blocked: false
+            };
+        }
         if (actionType === 'modify_global_tokens' ||
             actionType === 'batch_update_master_components' ||
             actionType === 'publish_storybook_package' ||

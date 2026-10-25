@@ -24,11 +24,11 @@ Registro oficial das ondas de implementação conduzidas pelo modelo orquestrado
 ---
 
 ## Wave 1: P0 (4 Subagentes em Paralelo)
-- [ ] **A1: Design Contract** (`templates/design-contract.md`, `core/design-contract.ts`, testes, skill `01`)
-- [ ] **A2: Reality Gate** (`skills/08-reality-gate/**`, `core/reality-gate.ts`, testes, templates de auditoria)
-- [ ] **A3: Retry Policy** (`core/retry-policy.ts`, `core/guardrails.ts`, testes)
-- [ ] **A4: Handoff Envelope & QA Verdicts** (`templates/handoff-*.md`, `core/handoff-validator.ts`, testes, skill `06`)
-- [ ] **Gate 1:** Verificação integrada e commit da Wave 1.
+- [x] **A1: Design Contract** (`templates/design-contract.md`, `core/design-contract.ts`, `core/design-contract.test.ts`, skill `01`) — 8 testes PASS, AC-DC1..4 atendidos.
+- [x] **A2: Reality Gate** (`skills/08-reality-gate/**`, `core/reality-gate.ts`, `core/reality-gate.test.ts`, templates de auditoria) — 10 testes PASS, AC-RG1..3 atendidos, score 1.0 no linter de skill.
+- [x] **A3: Retry Policy** (`core/retry-policy.ts`, `core/retry-policy.test.ts`, `core/guardrails.ts`) — 10 testes PASS, AC-RP1..4 atendidos.
+- [x] **A4: Handoff Envelope & QA Verdicts** (`templates/handoff-*.md`, `core/handoff-validator.ts`, `core/handoff-validator.test.ts`, skill `06`) — 8 testes PASS, AC-HO1..4 atendidos.
+- [x] **Gate 1:** Verificação integrada concluída com 41/41 testes passando, 0 erros e 100% de conformidade com os limites de arquivos. Commit da Wave 1 registrado.
 
 ---
 

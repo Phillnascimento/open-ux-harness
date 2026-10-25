@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Open UX Harness — Handoff Envelope Schema",
+  "description": "Schema JSON formal para validação de envelopes de handoff padronizados entre agentes no Open UX Harness.",
+  "type": "object",
+  "required": [
+    "from",
+    "to",
+    "phase",
+    "taskId",
+    "priority",
+    "timestamp",
+    "context",
+    "deliverableRequest",
+    "qualityExpectations"
+  ],
+  "properties": {
+    "from": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identificador do agente remetente do envelope."
+    },
+    "to": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identificador do agente destinatário do envelope."
+    },
+    "phase": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Fase do ciclo em que o handoff ocorre (ex: 06-zero-drift-handoff)."
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identificador único da tarefa vinculada."
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "Critical",
+        "High",
+        "Medium",
+        "Low"
+      ],
+      "description": "Nível de prioridade da tarefa transferida."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp ISO 8601 da criação do envelope."
+    },
+    "context": {
+      "type": "object",
+      "required": [
+        "currentState",
+        "relevantFiles"
+      ],
+      "properties": {
+        "currentState": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Descrição detalhada do estado atual do artefato e da tarefa."
+        },
+        "relevantFiles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Lista de arquivos relevantes com pelo menos um caminho."
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Lista opcional de dependências de artefatos ou serviços."
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Lista opcional de restrições arquiteturais ou de design."
+        }
+      },
+      "additionalProperties": false
+    },
+    "deliverableRequest": {
+      "type": "object",
+      "required": [
+        "description",
+        "acceptanceCriteria"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Descrição clara e objetiva do entregável solicitado."
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Lista de critérios mensuráveis para aprovação com pelo menos um item."
+        },
+        "referenceMaterials": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Lista opcional de caminhos ou referências a materiais auxiliares."
+        }
+      },
+      "additionalProperties": false
+    },
+    "qualityExpectations": {
+      "type": "object",
+      "required": [
+        "mustPass",
+        "evidenceRequired"
+      ],
+      "properties": {
+        "mustPass": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Lista não vazia de critérios mandatórios que devem ser atendidos sem exceção."
+        },
+        "evidenceRequired": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Lista não vazia de evidências exigidas para validação (capturas de tela, logs)."
+        },
+        "handoffToNext": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Destinatário ou fase subsequente recomendada após aprovação."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

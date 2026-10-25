@@ -23,6 +23,14 @@ export interface RealityGateResult {
     missingEvidence: string[];
     suspiciousPerfectScore: boolean;
 }
+/**
+ * RealityGate — Portão de realidade determinístico para certificação pré-handoff.
+ * Garante que nenhuma interface avance com aprovações fantasiosas ou sem evidência visual real.
+ */
 export declare class RealityGate {
+    /**
+     * Avalia as evidências e parâmetros da interface contra regras de prontidão estritas.
+     * Por padrão, assume 'HOLD' caso qualquer critério falhe.
+     */
     evaluate(input: RealityGateInput): RealityGateResult;
 }

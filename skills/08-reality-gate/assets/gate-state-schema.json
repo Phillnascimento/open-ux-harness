@@ -1,0 +1,184 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Open UX Harness — 08-reality-gate State & Gate Contract",
+  "description": "Schema do estado persistido em .harness/memory/reality-gate-state.json após avaliação determinística de prontidão pré-handoff.",
+  "type": "object",
+  "required": [
+    "status",
+    "skill_id",
+    "timestamp",
+    "preset_mode",
+    "confidence_score",
+    "validation_errors",
+    "payload",
+    "nextStepRouting"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "warning", "failed", "SCHEMA_MISMATCH"],
+      "description": "Status final da execução do Reality Gate."
+    },
+    "skill_id": {
+      "type": "string",
+      "const": "08-reality-gate",
+      "description": "Identificador canônico da skill 08-reality-gate."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp ISO 8601 da avaliação de prontidão."
+    },
+    "preset_mode": {
+      "type": "string",
+      "enum": ["freelance", "enterprise", "default"],
+      "description": "Perfil operacional em que o Reality Gate foi executado."
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Nível de confiança determinístico na integridade das evidências (0.0 a 1.0)."
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "severity"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "severity": { "type": "string", "enum": ["error", "warning", "info"] },
+          "field_or_line": { "type": "string" }
+        }
+      },
+      "description": "Lista de inconsistências ou ausências estruturais detectadas durante a validação."
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "verdict",
+        "craftPassed",
+        "claimedStates",
+        "evidence",
+        "findings",
+        "reasons",
+        "missingEvidence",
+        "suspiciousPerfectScore"
+      ],
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": ["PASS", "HOLD"],
+          "description": "Veredito determinístico binário: PASS autoriza o handoff; HOLD bloqueia e exige correções."
+        },
+        "craftPassed": {
+          "type": "boolean",
+          "description": "Indicação se a auditoria prévia do Craft Guardian foi aprovada sem violações críticas."
+        },
+        "craftScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Pontuação numérica atribuída pelo Craft Guardian (0 a 100)."
+        },
+        "claimedStates": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Estados de interface declarados como implementados (deve incluir default, empty, loading e error)."
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["kind", "path"],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": ["screenshot", "test-result", "file", "audit-report"]
+              },
+              "viewport": {
+                "type": "string",
+                "enum": ["desktop", "tablet", "mobile"]
+              },
+              "path": { "type": "string" }
+            }
+          },
+          "description": "Lista de evidências concretas anexadas para comprovação da interface."
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["severity", "message"],
+            "properties": {
+              "severity": {
+                "type": "string",
+                "enum": ["critical", "major", "minor"]
+              },
+              "message": { "type": "string" }
+            }
+          },
+          "description": "Apontamentos técnicos e inconformidades levantadas sobre a interface."
+        },
+        "reasons": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Justificativas técnicas detalhadas para o veredito emitido."
+        },
+        "missingEvidence": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Identificadores de evidências mandatórias ausentes (ex: screenshot:mobile, audit-report)."
+        },
+        "suspiciousPerfectScore": {
+          "type": "boolean",
+          "description": "Flag que indica se uma pontuação perfeita (>=100) sem falhas foi submetida a teste de contra-prova anti-fantasia."
+        },
+        "designContractPath": {
+          "type": "string",
+          "description": "Caminho do Design Contract anti-visual-slop utilizado na avaliação de contra-prova."
+        },
+        "gateReportPath": {
+          "type": "string",
+          "description": "Caminho do relatório executivo gerado pela execução do Reality Gate."
+        }
+      }
+    },
+    "nextStepRouting": {
+      "type": "object",
+      "required": ["recommendedPath", "pathA", "pathB"],
+      "properties": {
+        "recommendedPath": {
+          "type": "string",
+          "enum": ["A", "B"],
+          "description": "A se verdict == PASS (avança para handoff); B se verdict == HOLD (retorna para correção)."
+        },
+        "pathA": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": {
+              "type": "string",
+              "const": "06-zero-drift-handoff"
+            },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        },
+        "pathB": {
+          "type": "object",
+          "required": ["targetSkillId", "label", "rationale"],
+          "properties": {
+            "targetSkillId": {
+              "type": "string",
+              "enum": ["05-craft-and-accessibility", "04-figma-engineering", "03-design-tokens"]
+            },
+            "label": { "type": "string" },
+            "rationale": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

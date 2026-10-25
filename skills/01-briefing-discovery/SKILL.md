@@ -47,12 +47,13 @@ Carregue os arquivos abaixo sob demanda (*Just-In-Time*). **REGRA DE KV-CACHE:**
 5. [`references/discovery-decision-matrix.md`](./references/discovery-decision-matrix.md): Matriz de Risco vs. Certeza, estrutura *Opportunity Solution Tree (Teresa Torres)* e métodos de UX Discovery.
 6. [`references/stakeholder-tradeoff-matrix.md`](./references/stakeholder-tradeoff-matrix.md): Protocolos de arbitragem de conflitos (PM vs. UX vs. Engenharia, *Progressive Profiling* e matriz MoSCoW).
 
-### Templates e Contratos Estáticos (`/assets` — 5 arquivos)
+### Templates e Contratos Estáticos (`/assets` — 6 arquivos)
 1. [`assets/validation-document-template.md`](./assets/validation-document-template.md): Template completo em 10 seções + subseção *Opportunity Solution Tree* + Roteador de Próximos Passos.
 2. [`assets/lean-framing-template.md`](./assets/lean-framing-template.md): Template expresso Lean Fast-Track com Brand & Craft Kit para demandas rápidas.
 3. [`assets/raci-governance-template.md`](./assets/raci-governance-template.md): Matriz RACI completa por etapa do processo de UX/UI.
 4. [`assets/hypothesis-validation-sheet.md`](./assets/hypothesis-validation-sheet.md): Planilha de Fatos vs. Suposições, cálculo de Nível de Risco ($\text{Impacto} \times \text{Probabilidade}$) e decomposição OST.
 5. [`assets/framing-state-schema.json`](./assets/framing-state-schema.json): JSON Schema oficial de handoff compatível com o contrato global do Open UX Harness.
+6. [`assets/design-contract-schema.json`](./assets/design-contract-schema.json): JSON Schema oficial do Design Contract para prevenção de visual slop e blindagem contra anti-patterns genéricos.
 </reference_index>
 
 <execution_steps>
@@ -86,12 +87,14 @@ Conduza turnos curtos cobrindo exclusivamente as dimensões que ainda estão em 
 ### Fase 3: Síntese Executiva, Auditoria de Hipóteses e Geração de Estado
 1. Avalie o risco de cada premissa usando [`assets/hypothesis-validation-sheet.md`](./assets/hypothesis-validation-sheet.md) e [`references/discovery-decision-matrix.md`](./references/discovery-decision-matrix.md). Se qualquer hipótese atingir $\text{Risco} \ge 15$, inclua recomendação mandatória de **UX Discovery / Assumption Tests**.
 2. Gere o documento executivo em Markdown utilizando [`assets/validation-document-template.md`](./assets/validation-document-template.md) (Modo Completo) ou [`assets/lean-framing-template.md`](./assets/lean-framing-template.md) (Modo Expresso).
-3. Salve o contrato de estado em `.harness/memory/framing-state.json` obedecendo estritamente ao schema [`assets/framing-state-schema.json`](./assets/framing-state-schema.json).
+3. Gere o **Design Contract** baseado em `templates/design-contract.md` e compatível com [`assets/design-contract-schema.json`](./assets/design-contract-schema.json), registrando usuário e job principal, fluxo de maior frequência, objetos do domínio, mínimo de 3 referências reais de mercado, escolhas deliberadas de craft e no mínimo 3 padrões genéricos proibidos contra visual slop.
+4. Salve o contrato de estado em `.harness/memory/framing-state.json` obedecendo estritamente ao schema [`assets/framing-state-schema.json`](./assets/framing-state-schema.json).
 
 ### Fase 4: Validação Determinística (*Code as Action*) e Roteamento
 1. Execute o validador determinístico da skill para auditar o arquivo gerado:
    `node --experimental-strip-types skills/01-briefing-discovery/scripts/validate-framing-state.ts .harness/memory/framing-state.json`
-2. Apresente ao usuário a **Caixa Executiva de Roteamento de Próximos Passos (Next-Step Decision Box)** oferecendo o **Caminho A (`02-information-architecture`)** e o **Caminho B (`03-design-tokens`)**.
+2. Valide o Design Contract gerado contra as regras de conformidade e anti-patterns.
+3. Apresente ao usuário a **Caixa Executiva de Roteamento de Próximos Passos (Next-Step Decision Box)** oferecendo o **Caminho A (`02-information-architecture`)** e o **Caminho B (`03-design-tokens`)**.
 </execution_steps>
 
 <examples>

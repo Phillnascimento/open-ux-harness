@@ -2,6 +2,7 @@
 
 > **Projeto / Escopo Auditado:** `<Nome da Tela, Fluxo ou Componente>`
 > **Veredito do Gate (`gate_passed`):** `<✅ APROVADO (PASSED) | ❌ REPROVADO (BLOCKED)>`
+> **Veredito do Gate:** [PASS | HOLD]
 > **Nível WCAG 2.2 Atingido:** `<AAA | AA | FALHA>` | **Score de Craft:** `<0.00 - 1.00>` | **Data:** `<YYYY-MM-DD>`
 
 ---
@@ -53,3 +54,16 @@
 | `V-01` | **Blocker** | `CONTRAST_WCAG_AA_FAIL` | `MutedCaption` (`#94A3B8`) | Substituir por token `color.text.secondary` (`#475569`, contraste `7.58:1`, `Lc 82.5`). |
 | `V-02` | **Blocker** | `TARGET_SIZE_TOO_SMALL` | `CloseModalIconBtn` (`20x20px`) | Expandir container para `32x32px` (Desktop) ou `44x44px` (Mobile) usando `space.inset.sm` (`8px`). |
 | `V-03` | **Major** | `MISSING_UI_STATE` | `TransactionList` (`empty`) | Adicionar variante `State=Empty` no Figma com componente `EmptyStateCard` e CTA `"Nova Transação"`. |
+
+---
+
+## Evidências Anexadas
+
+| Tipo de Evidência | Viewport | Caminho / Identificador | Observação |
+| :--- | :--- | :--- | :--- |
+| `screenshot` | `desktop` | `<caminho/screenshot-desktop.png>` | Resolução canônica (ex: 1440x900) |
+| `screenshot` | `tablet` | `<caminho/screenshot-tablet.png>` | Resolução canônica (ex: 768x1024) |
+| `screenshot` | `mobile` | `<caminho/screenshot-mobile.png>` | Resolução canônica (ex: 375x812) |
+| `audit-report` | N/A | `<caminho/craft-audit-report.md>` | Relatório executivo de auditoria |
+| `design-contract` | N/A | `<caminho/design-contract.md>` | Contrato de design anti-visual-slop |
+
