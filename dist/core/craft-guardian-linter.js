@@ -1,3 +1,4 @@
+import { AntiSlopEngine } from './anti-slop-engine.js';
 export class CraftGuardianLinter {
     /**
      * Calcula a taxa de contraste (WCAG 2.1 / 2.2) entre duas cores hexadecimais (#RRGGBB).
@@ -26,7 +27,7 @@ export class CraftGuardianLinter {
         return pixelValue % 4 === 0;
     }
     /**
-     * Executa auditoria heurística completa em uma especificação de UI.
+     * Executa auditoria heurística completa em uma especificação de UI em memória.
      */
     auditComponent(spec) {
         const issues = [];
@@ -36,6 +37,7 @@ export class CraftGuardianLinter {
             issues.push({
                 type: 'contrast',
                 severity: 'error',
+                priority: 'P1',
                 message: `Relação de contraste insuficiente: ${ratio}:1. O padrão WCAG 2.2 AA exige no mínimo 4.5:1.`,
                 suggestedFix: 'Ajuste a cor do texto para uma tonalidade mais escura ou o fundo para mais claro.'
             });
@@ -46,6 +48,7 @@ export class CraftGuardianLinter {
                 issues.push({
                     type: 'grid',
                     severity: 'error',
+                    priority: 'P2',
                     message: `Valor de espaçamento ${p}px viola o sistema espacial de 8 pontos.`,
                     suggestedFix: `Ajuste para ${Math.round(p / 8) * 8}px ou múltiplo de 4px mais próximo.`
                 });
@@ -58,6 +61,7 @@ export class CraftGuardianLinter {
             issues.push({
                 type: 'state',
                 severity: 'warning',
+                priority: 'P1',
                 message: `Estados defensivos ausentes na especificação: [${missingStates.join(', ')}].`,
                 suggestedFix: 'Projete explicitamente os estados de carregamento (skeleton), vazio e erro com botão de recuperação.'
             });
@@ -69,6 +73,27 @@ export class CraftGuardianLinter {
             passed: errorsCount === 0,
             score,
             issues
+        };
+    }
+    /**
+     * Executa auditoria heurística profunda diretamente no código-fonte de interface,
+     * integrando o AntiSlopEngine e as 62 regras de qualidade e blindagem visual.
+     */
+    auditSourceCode(code, filePath, knownTokens) {
+        const slopResult = AntiSlopEngine.scan(code, filePath, knownTokens);
+        const issues = slopResult.findings.map(f => ({
+            type: f.category,
+            severity: f.severity === 'advisory' ? 'warning' : f.severity,
+            priority: f.priority,
+            message: `[${f.ruleId}] ${f.message}`,
+            element: f.line ? `linha ${f.line}` : undefined,
+            suggestedFix: f.suggestedFix
+        }));
+        return {
+            passed: slopResult.passed,
+            score: slopResult.score,
+            issues,
+            slopFindings: slopResult.findings
         };
     }
 }

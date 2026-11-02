@@ -1,3 +1,5 @@
+import { BlastRadiusResult } from './ux-graph-engine.js';
+import { AntiSlopScanResult } from './anti-slop-engine.js';
 export type GateVerdict = 'PASS' | 'HOLD';
 export type Viewport = 'desktop' | 'tablet' | 'mobile';
 export interface EvidenceItem {
@@ -16,6 +18,8 @@ export interface RealityGateInput {
     evidence: EvidenceItem[];
     findings: GateFinding[];
     designContractPath?: string;
+    blastRadiusResult?: BlastRadiusResult;
+    blastRadiusCount?: number;
 }
 export interface RealityGateResult {
     verdict: GateVerdict;
@@ -33,4 +37,8 @@ export declare class RealityGate {
      * Por padrão, assume 'HOLD' caso qualquer critério falhe.
      */
     evaluate(input: RealityGateInput): RealityGateResult;
+    /**
+     * Avalia a prontidão com base diretamente no resultado do AntiSlopEngine.
+     */
+    evaluateFromSlopResult(slopResult: AntiSlopScanResult, options?: Partial<RealityGateInput>): RealityGateResult;
 }

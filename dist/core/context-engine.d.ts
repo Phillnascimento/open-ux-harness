@@ -1,3 +1,4 @@
+import { UXGraphEngine } from './ux-graph-engine.js';
 export interface MCPServerDefinition {
     name: string;
     transport: string;
@@ -18,6 +19,13 @@ export interface PrunedContextResult {
     tokenSavingsEstimatePercentage: number;
     staticCacheablePromptBlock: string;
 }
+export interface SubGraphContextResult {
+    targetId: string;
+    subGraphNodesCount: number;
+    subGraphEdgesCount: number;
+    contextPromptBlock: string;
+    estimatedTokenReductionPercentage: number;
+}
 export declare class ContextEngine {
     private baseDir;
     private registry;
@@ -29,6 +37,11 @@ export declare class ContextEngine {
      * Apenas os servidores que a skill precisa e que estão autorizados no preset ativo são mantidos no contexto.
      */
     pruneForSkill(skillName: string): PrunedContextResult;
+    /**
+     * Monta o micro-contexto cirúrgico para uma tarefa focada em um nó específico do UX Graph.
+     * Inspirado no Graphify para evitar context rot e economizar tokens.
+     */
+    assembleSubGraphContext(graph: UXGraphEngine, targetNodeId: string, maxHops?: number): SubGraphContextResult;
     /**
      * Gera o bloco de prompt estático para Prompt Caching (W3C DTCG, WCAG 2.2, 8pt grid).
      * Por ser imutável e colocado no topo, pode usufruir de cache e economizar até 90% dos tokens de entrada.

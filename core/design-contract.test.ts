@@ -11,6 +11,7 @@ import {
   validateDesignContract,
   checkAgainstContract,
   extractForbiddenPatterns,
+  extractVoiceSamples,
 } from './design-contract.js';
 
 const VALID_SAMPLE_CONTRACT = `# Design Contract — Plataforma de Pagamentos B2B
@@ -160,5 +161,17 @@ describe('Design Contract Engine', () => {
     assert.ok(patterns.length >= 4);
     assert.ok(patterns.some((p) => p.includes('Gradientes decorativos arbitrários')));
     assert.ok(patterns.some((p) => p.includes('Empty states genéricos')));
+  });
+
+  test('extractVoiceSamples extrai amostras de voz canônicas do template (Inspirado no Humanizer)', () => {
+    const templatePath = path.resolve(process.cwd(), 'templates', 'design-contract.md');
+    const content = fs.readFileSync(templatePath, 'utf-8');
+    const samples = extractVoiceSamples(content);
+
+    assert.ok(Array.isArray(samples), 'extractVoiceSamples deve retornar array');
+    assert.strictEqual(samples.length, 3, 'Deve extrair exatamente as 3 amostras canônicas de microcopy');
+    assert.ok(samples[0].includes('chave de API'));
+    assert.ok(samples[1].includes('fatura pendente'));
+    assert.ok(samples[2].includes('Lote #4892'));
   });
 });

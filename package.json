@@ -14,7 +14,13 @@
     "lint:tokens": "node --loader ts-node/esm core/lint-tokens.ts",
     "lint:skills": "node --loader ts-node/esm core/lint-skills.ts",
     "lint:runbooks": "node --loader ts-node/esm core/lint-runbooks.ts",
-    "test:gate": "npm run build && npm test && npm run lint:tokens && npm run lint:runbooks && npm run lint:skills && npm run build:adapters"
+    "humanize": "node --loader ts-node/esm adapters/terminal-cli/src/cli.ts humanize",
+    "lint:copy": "npm run humanize",
+    "audit:slop": "node --loader ts-node/esm adapters/terminal-cli/src/cli.ts audit:slop",
+    "steer": "node --loader ts-node/esm adapters/terminal-cli/src/cli.ts steer",
+    "graph:build": "node --loader ts-node/esm adapters/terminal-cli/src/cli.ts graph:build",
+    "graph:audit": "npm run graph:build",
+    "test:gate": "npm run build && npm test && npm run lint:tokens && npm run lint:runbooks && npm run lint:skills && npm run graph:build && npm run build:adapters"
   },
   "keywords": [
     "ux",

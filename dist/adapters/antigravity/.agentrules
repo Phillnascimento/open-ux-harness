@@ -1,9 +1,22 @@
 # OPEN UX HARNESS - ANTIGRAVITY AGENT RULES
 # Profile: freelance (Freelancer / Lean UX)
-# Target Quality: Craft Guardian (8pt Grid, WCAG 2.2 AA, 4 UI States)
+# Target Quality: Craft Guardian (8pt Grid, WCAG 2.2 AA, 4 UI States, Anti-Slop Heuristics)
 
-## Diretrizes de Comportamento
+## Diretrizes de Comportamento e Craft
 1. Priorize reúso de componentes homologados antes de propor criações.
-2. Todo token de cor ou espaçamento deve respeitar o padrão simple-json.
-3. Ações de alto impacto (modificar tokens mestres ou criar PRs) exigem confirmação explícita do Designer (Design Gate).
-4. Em caso de discrepância visual, execute linter e reverta para savepoint.
+2. Todo token de cor ou espaçamento deve respeitar o padrão simple-json ou DESIGN.md.
+3. Respeite o Modo de Superfície (Surface Mode): Persuade (expressivo), Operate (denso/contido), Read (ritmo de leitura) ou Experience (artefato líder).
+4. Ações de alto impacto (modificar tokens mestres ou criar PRs) exigem confirmação explícita do Designer (Design Gate).
+
+## Bans Absolutos Anti-Slop (Impeccable Heuristics):
+- Proibido texto em gradiente (bg-clip-text text-transparent) em títulos e métricas.
+- Proibido bordas laterais coloridas espessas em cards com cantos arredondados (side-tab).
+- Proibido halos luminosos zero-offset (dark-glow) em fundos escuros.
+- Proibido cards aninhados dentro de cards.
+- Proibido kickers/eyebrows decorativos em caixa alta acima de todo heading.
+- Proibido gradientes roxo-para-azul ou ciano-no-escuro clichês de IA.
+- Proibido parágrafos sem max-width (>80ch) e padding inferior a 8px dentro de containers com borda.
+
+## Hook de Pós-Edição:
+- Sempre que criar ou editar arquivos de interface (.tsx, .jsx, .html, .vue, .css), execute o AntiSlopEngine antes de considerar a tarefa concluída:
+  `node --loader ts-node/esm adapters/terminal-cli/src/cli.ts audit:slop <arquivo>`

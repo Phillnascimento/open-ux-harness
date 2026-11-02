@@ -54,6 +54,20 @@ export class GuardrailsEngine {
     }
 
     if (
+      actionType === 'high_blast_radius_change' ||
+      (typeof payload.blastRadiusCount === 'number' && payload.blastRadiusCount > 5) ||
+      payload.isHighRiskBlast === true
+    ) {
+      return {
+        action: actionType,
+        level: 'ASK',
+        reason: `Ação com Alto Raio de Impacto estrutural (${payload.blastRadiusCount || 'crítico'} nós impactados). Exige validação explícita do Designer (Design Gate).`,
+        requiresPromptToUser: true,
+        blocked: false
+      };
+    }
+
+    if (
       actionType === 'modify_global_tokens' ||
       actionType === 'batch_update_master_components' ||
       actionType === 'publish_storybook_package' ||

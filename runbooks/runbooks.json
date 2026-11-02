@@ -96,10 +96,11 @@
           ]
         },
         {
-          "group": "Quality Assurance",
-          "activation": "Fase 3: Verificação de contraste, estados de formulário e Reality Gate",
+          "group": "Quality Assurance & Microcopy",
+          "activation": "Fase 3: Verificação de contraste, estados de formulário, purificação de microcopy anti-slop e Reality Gate",
           "skills": [
             "05-craft-and-accessibility",
+            "10-ux-humanizer",
             "08-reality-gate"
           ]
         },

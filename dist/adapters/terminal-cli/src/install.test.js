@@ -5,10 +5,10 @@ import path from 'node:path';
 import os from 'node:os';
 import { listAvailable, installSelective } from './install.js';
 import { runCli } from './cli.js';
-test('1. listAvailable retorna catálogo com as 8 plataformas e 24 skills', () => {
+test('1. listAvailable retorna catálogo com as 8 plataformas e 25 skills', () => {
     const catalog = listAvailable();
     assert.strictEqual(catalog.platforms.length, 8, 'Deve retornar exatamente 8 plataformas suportadas');
-    assert.strictEqual(catalog.skills.length, 24, 'Deve retornar exatamente as 24 skills ativas');
+    assert.strictEqual(catalog.skills.length, 25, 'Deve retornar exatamente as 25 skills ativas');
     const expectedPlatforms = [
         'antigravity',
         'claude-code',
@@ -125,10 +125,10 @@ test('7. AC-IN3: Comandos list e install acessíveis via CLI', async () => {
         await runCli(['install', '--platform', 'terminal-cli', '--skills', '03-design-tokens,05-craft-and-accessibility', '--dry-run']);
     }, 'Comando install deve executar com sucesso no CLI');
 });
-test('8. Instalação padrão sem argumentos usa terminal-cli e todas as 24 skills', () => {
+test('8. Instalação padrão sem argumentos usa terminal-cli e todas as 25 skills', () => {
     const result = installSelective({ dryRun: true });
     assert.strictEqual(result.platform, 'terminal-cli', 'Default deve ser terminal-cli');
-    assert.strictEqual(result.installedSkills.length, 24, 'Deve instalar todas as 24 skills quando omitido');
+    assert.strictEqual(result.installedSkills.length, 25, 'Deve instalar todas as 25 skills quando omitido');
     assert.strictEqual(result.dryRun, true);
     assert.strictEqual(result.success, true);
 });

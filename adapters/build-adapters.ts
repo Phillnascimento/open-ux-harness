@@ -155,13 +155,26 @@ export class AdapterCompiler {
     // Gera .agentrules para Antigravity
     const agentRulesContent = `# OPEN UX HARNESS - ANTIGRAVITY AGENT RULES
 # Profile: ${preset.id} (${preset.name})
-# Target Quality: Craft Guardian (8pt Grid, WCAG 2.2 AA, 4 UI States)
+# Target Quality: Craft Guardian (8pt Grid, WCAG 2.2 AA, 4 UI States, Anti-Slop Heuristics)
 
-## Diretrizes de Comportamento
+## Diretrizes de Comportamento e Craft
 1. Priorize reúso de componentes homologados antes de propor criações.
-2. Todo token de cor ou espaçamento deve respeitar o padrão ${preset.tokens.format}.
-3. Ações de alto impacto (modificar tokens mestres ou criar PRs) exigem confirmação explícita do Designer (Design Gate).
-4. Em caso de discrepância visual, execute linter e reverta para savepoint.
+2. Todo token de cor ou espaçamento deve respeitar o padrão ${preset.tokens.format} ou DESIGN.md.
+3. Respeite o Modo de Superfície (Surface Mode): Persuade (expressivo), Operate (denso/contido), Read (ritmo de leitura) ou Experience (artefato líder).
+4. Ações de alto impacto (modificar tokens mestres ou criar PRs) exigem confirmação explícita do Designer (Design Gate).
+
+## Bans Absolutos Anti-Slop (Impeccable Heuristics):
+- Proibido texto em gradiente (bg-clip-text text-transparent) em títulos e métricas.
+- Proibido bordas laterais coloridas espessas em cards com cantos arredondados (side-tab).
+- Proibido halos luminosos zero-offset (dark-glow) em fundos escuros.
+- Proibido cards aninhados dentro de cards.
+- Proibido kickers/eyebrows decorativos em caixa alta acima de todo heading.
+- Proibido gradientes roxo-para-azul ou ciano-no-escuro clichês de IA.
+- Proibido parágrafos sem max-width (>80ch) e padding inferior a 8px dentro de containers com borda.
+
+## Hook de Pós-Edição:
+- Sempre que criar ou editar arquivos de interface (.tsx, .jsx, .html, .vue, .css), execute o AntiSlopEngine antes de considerar a tarefa concluída:
+  \`node --loader ts-node/esm adapters/terminal-cli/src/cli.ts audit:slop <arquivo>\`
 `;
     fs.writeFileSync(path.resolve(targetDir, '.agentrules'), agentRulesContent, 'utf-8');
 
@@ -195,15 +208,20 @@ export class AdapterCompiler {
 ## Comandos Rápidos do Harness
 - Validar Design Tokens: \`npm run lint:tokens\`
 - Rodar Auditoria de A11y e Grid: \`node --loader ts-node/esm core/craft-guardian-linter.ts\`
+- Rodar Auditoria Anti-Slop: \`node --loader ts-node/esm adapters/terminal-cli/src/cli.ts audit:slop [caminho]\`
+- Comandos de Micro-Steering: \`node --loader ts-node/esm adapters/terminal-cli/src/cli.ts steer <bolder|quieter|distill|harden|typeset|polish> [alvo]\`
 - Compilar Adaptadores: \`npm run build:adapters\`
 
-## Diretrizes Fundamentais
+## Diretrizes Fundamentais de Craft & Anti-Slop
 - **Grid de 8 Pontos:** Todos os paddings e margens devem ser múltiplos de 8px (ou 4px defensivo).
 - **Acessibilidade Inegociável:** Contraste mínimo de 4.5:1 para texto normal (WCAG 2.2 AA).
+- **Bans Absolutos Anti-Slop:** Sem bordas laterais em cards redondos, sem texto em gradiente, sem halos zero-offset, sem cards aninhados, sem kickers acima de títulos.
+- **Surface Modes:** Respeite o modo da tela (Persuade, Operate, Read, Experience).
 - **Zero YOLO Mode:** Solicite confirmação do usuário antes de sobrescrever componentes mestre.
-- **Formato de Tokens:** ${preset.tokens.format}.
+- **Formato de Tokens:** ${preset.tokens.format} / DESIGN.md.
 `;
     fs.writeFileSync(path.resolve(targetDir, 'CLAUDE.md'), claudeMdContent, 'utf-8');
+
 
     // Gera .mcp.json para Claude Code
     const registryPath = path.resolve(this.baseDir, 'mcp-registry', 'servers.json');
@@ -221,7 +239,48 @@ export class AdapterCompiler {
       }
     }
     fs.writeFileSync(path.resolve(targetDir, '.mcp.json'), JSON.stringify(claudeMcp, null, 2), 'utf-8');
-    console.log('  -> Compilado adaptador Claude Code');
+
+    // Gera manifestos .claude-plugin para Claude Code Marketplace (Inspirado no blader/humanizer)
+    const claudePluginDir = path.resolve(targetDir, '.claude-plugin');
+    fs.mkdirSync(claudePluginDir, { recursive: true });
+
+    const pluginManifest = {
+      "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+      "name": "open-ux-harness",
+      "description": "Agentic Infrastructure & Harness de Alta Performance para Product Designers e Engenharia de Interface.",
+      "version": config.version || "1.0.0",
+      "author": {
+        "name": "Open UX Harness",
+        "url": "https://github.com/open-ux-harness/open-ux-harness"
+      },
+      "homepage": "https://github.com/open-ux-harness/open-ux-harness",
+      "repository": "https://github.com/open-ux-harness/open-ux-harness",
+      "license": "MIT",
+      "keywords": ["ux", "design-tokens", "a11y", "craft-guardian", "mcp", "agentic-design"],
+      "skills": ["./skills"]
+    };
+    fs.writeFileSync(path.resolve(claudePluginDir, 'plugin.json'), JSON.stringify(pluginManifest, null, 2), 'utf-8');
+
+    const marketplaceManifest = {
+      "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+      "name": "open-ux-harness",
+      "owner": {
+        "name": "Open UX Harness",
+        "url": "https://github.com/open-ux-harness/open-ux-harness"
+      },
+      "description": "Install Open UX Harness as a native Claude plugin.",
+      "plugins": [
+        {
+          "name": "open-ux-harness",
+          "source": "./",
+          "description": "Agentic Infrastructure & Harness de Alta Performance para Product Designers e Engenharia de Interface.",
+          "license": "MIT",
+          "keywords": ["ux", "design-tokens", "a11y", "craft-guardian", "mcp", "agentic-design"]
+        }
+      ]
+    };
+    fs.writeFileSync(path.resolve(claudePluginDir, 'marketplace.json'), JSON.stringify(marketplaceManifest, null, 2), 'utf-8');
+    console.log('  -> Compilado adaptador Claude Code (com suporte a plugin)');
   }
 
   public compileCursor(config: any, preset: any): void {
@@ -235,15 +294,37 @@ You are an expert Principal Product Designer and UI Systems Engineer operating w
 ## Core Rules:
 1. SPACING: Strictly use 8-point spatial grid (4px, 8px, 12px, 16px, 24px, 32px, 48px). No arbitrary margins or paddings.
 2. COLOR CONTRAST: Ensure text colors have at least 4.5:1 contrast against surface background (WCAG 2.2 AA).
-3. 4-STATES: When generating any UI screen or component, ALWAYS provide:
-   - Default/Happy state
-   - Empty state
-   - Loading/Skeleton state
-   - Error state with recovery CTA
-4. DESIGN TOKENS: Format ${preset.tokens.format}. Never invent ad-hoc hex codes.
+3. 4-STATES: When generating any UI screen or component, ALWAYS provide Default, Empty, Loading/Skeleton, and Error with recovery CTA.
+4. DESIGN TOKENS: Format ${preset.tokens.format} / DESIGN.md. Never invent ad-hoc hex codes.
+5. ANTI-SLOP BANS:
+   - No gradient text on headings (bg-clip-text text-transparent).
+   - No thick side accent borders on rounded cards (side-tab).
+   - No zero-offset chromatic halos (dark-glow).
+   - No nested cards inside cards.
+   - No tracked uppercase kickers above every heading.
+   - Enforce max-w-prose (65-75ch) on paragraphs.
 `;
     fs.writeFileSync(path.resolve(targetDir, '.cursorrules'), cursorRulesContent, 'utf-8');
-    console.log('  -> Compilado adaptador Cursor');
+
+
+    // Gera manifesto .cursor-plugin para ecossistema Cursor (Inspirado no blader/humanizer)
+    const cursorPluginDir = path.resolve(targetDir, '.cursor-plugin');
+    fs.mkdirSync(cursorPluginDir, { recursive: true });
+
+    const cursorPluginManifest = {
+      "name": "open-ux-harness",
+      "description": "Agentic Infrastructure & Harness de Alta Performance para Product Designers e Engenharia de Interface.",
+      "version": config.version || "1.0.0",
+      "author": {
+        "name": "Open UX Harness"
+      },
+      "homepage": "https://github.com/open-ux-harness/open-ux-harness",
+      "repository": "https://github.com/open-ux-harness/open-ux-harness",
+      "license": "MIT",
+      "keywords": ["ux", "design-tokens", "a11y", "craft-guardian", "cursor-rules"]
+    };
+    fs.writeFileSync(path.resolve(cursorPluginDir, 'plugin.json'), JSON.stringify(cursorPluginManifest, null, 2), 'utf-8');
+    console.log('  -> Compilado adaptador Cursor (com suporte a plugin)');
   }
 
   public compileTerminalCli(config: any, preset: any): void {

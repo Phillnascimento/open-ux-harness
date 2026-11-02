@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "open-ux-harness",
+  "owner": {
+    "name": "Open UX Harness",
+    "url": "https://github.com/open-ux-harness/open-ux-harness"
+  },
+  "description": "Install Open UX Harness as a native Claude plugin.",
+  "plugins": [
+    {
+      "name": "open-ux-harness",
+      "source": "./",
+      "description": "Agentic Infrastructure & Harness de Alta Performance para Product Designers e Engenharia de Interface.",
+      "license": "MIT",
+      "keywords": [
+        "ux",
+        "design-tokens",
+        "a11y",
+        "craft-guardian",
+        "mcp",
+        "agentic-design"
+      ]
+    }
+  ]
+}

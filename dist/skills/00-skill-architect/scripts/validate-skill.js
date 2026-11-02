@@ -29,6 +29,7 @@ export function validateSkillDirectory(skillDirPath) {
             skill_path: resolvedDir,
             skill_name: null,
             line_count: 0,
+            word_count: 0,
             confidence_score: 0,
             validation_errors: [
                 {
@@ -45,6 +46,7 @@ export function validateSkillDirectory(skillDirPath) {
             skill_path: resolvedDir,
             skill_name: null,
             line_count: 0,
+            word_count: 0,
             confidence_score: 0,
             validation_errors: [
                 {
@@ -71,6 +73,22 @@ export function validateSkillDirectory(skillDirPath) {
             code: 'LINE_BUDGET_WARNING',
             severity: 'warning',
             message: `SKILL.md possui ${lineCount} linhas. Recomenda-se manter abaixo de 300 linhas para otimizar o KV-Cache.`,
+        });
+    }
+    // 1.1 Check Word Budget (Word Budget Policy inspirada no blader/humanizer para mitigar Lost-in-the-Middle)
+    const wordCount = rawContent.trim().split(/\s+/).filter(Boolean).length;
+    if (wordCount > 5000) {
+        issues.push({
+            code: 'WORD_BUDGET_EXCEEDED',
+            severity: 'error',
+            message: `SKILL.md possui ${wordCount} palavras (limite máximo permitido: 5.000 palavras). Mova especificações densas para references/ ou assets/.`,
+        });
+    }
+    else if (wordCount > 3500) {
+        issues.push({
+            code: 'WORD_BUDGET_WARNING',
+            severity: 'warning',
+            message: `SKILL.md possui ${wordCount} palavras. Recomenda-se manter abaixo de 3.500 palavras para otimizar o KV-Cache e a janela de contexto.`,
         });
     }
     // 2. Parse YAML Frontmatter
@@ -231,6 +249,7 @@ export function validateSkillDirectory(skillDirPath) {
         skill_path: resolvedDir,
         skill_name: extractedName,
         line_count: lineCount,
+        word_count: wordCount,
         confidence_score: confidenceScore,
         validation_errors: issues,
     };

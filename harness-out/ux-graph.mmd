@@ -1,0 +1,57 @@
+flowchart TD
+    token_color_brand_primary(("color.brand.primary"))
+    token_color_brand_secondary(("color.brand.secondary"))
+    token_color_surface_base(("color.surface.base"))
+    token_color_surface_subtle(("color.surface.subtle"))
+    token_color_text_primary(("color.text.primary"))
+    token_color_text_muted(("color.text.muted"))
+    token_color_feedback_success(("color.feedback.success"))
+    token_color_feedback_error(("color.feedback.error"))
+    token_spacing_scale_none(("spacing.scale.none"))
+    token_spacing_scale_xs(("spacing.scale.xs"))
+    token_spacing_scale_sm(("spacing.scale.sm"))
+    token_spacing_scale_md(("spacing.scale.md"))
+    token_spacing_scale_lg(("spacing.scale.lg"))
+    token_spacing_scale_xl(("spacing.scale.xl"))
+    token_spacing_scale_2xl(("spacing.scale.2xl"))
+    token_borderRadius_sm(("borderRadius.sm"))
+    token_borderRadius_md(("borderRadius.md"))
+    token_borderRadius_lg(("borderRadius.lg"))
+    token_borderRadius_full(("borderRadius.full"))
+    contract_design_contract["Design Contract Anti-Slop"]
+    comp_Button["Button Primary/Secondary/Ghost"]
+    comp_Card["Surface Card"]
+    comp_Header["Navigation Header"]
+    comp_Input["Text Input Field"]
+    comp_Badge["Status Badge"]
+    comp_Modal["Interactive Modal Dialog"]
+    screen_LandingPage["Landing Page Hero & Features"]
+    screen_Checkout["Checkout & Payment Flow"]
+    screen_Dashboard["Main User Dashboard"]
+    screen_Profile["Portfolio & Profile Page"]
+    persona_EcomShopper["Comprador Mobile Impulsivo"]
+    persona_Recruiter["Recrutador Técnico LinkedIn"]
+    comp_Button -->|uses_token| token_color_brand_primary
+    comp_Header -->|uses_token| token_color_brand_primary
+    comp_Badge -->|uses_token| token_color_feedback_success
+    comp_Modal -->|composes_component| comp_Button
+    screen_LandingPage -->|composes_component| comp_Header
+    screen_LandingPage -->|composes_component| comp_Button
+    screen_LandingPage -->|composes_component| comp_Card
+    screen_Checkout -->|composes_component| comp_Header
+    screen_Checkout -->|composes_component| comp_Button
+    screen_Checkout -->|composes_component| comp_Input
+    screen_Checkout -->|composes_component| comp_Card
+    screen_Checkout -->|composes_component| comp_Badge
+    screen_Dashboard -->|composes_component| comp_Header
+    screen_Dashboard -->|composes_component| comp_Card
+    screen_Dashboard -->|composes_component| comp_Button
+    screen_Dashboard -->|composes_component| comp_Badge
+    screen_Profile -->|composes_component| comp_Header
+    screen_Profile -->|composes_component| comp_Card
+    screen_Profile -->|composes_component| comp_Button
+    screen_LandingPage -->|navigates_to| screen_Checkout
+    screen_Checkout -->|navigates_to| screen_Dashboard
+    screen_Checkout -->|satisfies_contract| contract_design_contract
+    screen_Checkout -->|impacts_persona| persona_EcomShopper
+    screen_Profile -->|impacts_persona| persona_Recruiter

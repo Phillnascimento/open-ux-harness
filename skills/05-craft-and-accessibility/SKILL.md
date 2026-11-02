@@ -39,6 +39,8 @@ Sua missão é erradicar o *"visual slop"* gerado por LLMs e atuar como um **Qua
 <reference_index>
 Carregue os arquivos abaixo **sob demanda (estritamente 1 arquivo por vez)** apenas na fase correspondente para preservar o KV-Cache:
 - **Matriz Normativa WCAG 2.2, APCA & Heurísticas de Craft:** [references/wcag22-and-ui-craft-gates.md](references/wcag22-and-ui-craft-gates.md) — Carregar na Fase 2.
+- **Craft Floor (Bans Absolutos e Heurísticas Anti-Slop):** [references/craft-floor-rules.md](references/craft-floor-rules.md) — Carregar na Fase 1/2.
+- **Protocolo Dual-Agent para Crítica Sem Viés de Ancoragem:** [references/dual-agent-critique-protocol.md](references/dual-agent-critique-protocol.md) — Carregar na Fase 2.
 - **Protocolo de Auditoria com Tecnologias Assistivas (Leitores, Foco e ARIA):** [references/assistive-tech-audit.md](references/assistive-tech-audit.md) — Carregar sob demanda na Fase 2/3.
 - **Diretrizes de Visuais Inclusivos, Viés de IA e Daltonismo (CVD):** [references/inclusive-visuals.md](references/inclusive-visuals.md) — Carregar sob demanda na Fase 1/2.
 - **Engenharia de Micro-Interações, Easing e Deleite Funcional:** [references/micro-interactions-and-delight.md](references/micro-interactions-and-delight.md) — Carregar sob demanda na Fase 2/4.
@@ -56,15 +58,17 @@ Carregue os arquivos abaixo **sob demanda (estritamente 1 arquivo por vez)** ape
    - Presença das variantes dos 4 estados (`default`, `loading`, `empty`, `error`).
 2. Se o contexto não especificar a plataforma primária (`mobile` exige alvos $\ge 44\times44\text{px}$; `desktop` exige $\ge 24\times24\text{px}$ AA), faça até **3 perguntas objetivas** ao usuário.
 
-## Fase 2: Auditoria Determinística WCAG 2.2, APCA & Craft (*Code as Action*)
-1. Leia [references/wcag22-and-ui-craft-gates.md](references/wcag22-and-ui-craft-gates.md).
-2. Monte o JSON de entrada com `colorPairs`, `targets`, `spacings` e `statesCovered` e execute o motor determinístico:
-   `npx tsx skills/05-craft-and-accessibility/scripts/audit-craft-a11y.ts <caminho-do-input.json>`
-3. Verifique adicionalmente as heurísticas de alto craft: aplicação de `tabular-nums` em dados numéricos, presença de `:focus-visible` não obscurecido (WCAG 2.4.11) e bordas sutis de `1px`.
+## Fase 2: Auditoria Dual-Agent & AntiSlopEngine (*Code as Action*)
+1. Leia [references/dual-agent-critique-protocol.md](references/dual-agent-critique-protocol.md) e [references/craft-floor-rules.md](references/craft-floor-rules.md).
+2. Execute o **Protocolo Dual-Agent**:
+   - **Subagente A (Design Review):** Avalia especificidade de design, pontua as 10 Heurísticas de Nielsen (0 a 4), avalia Carga Cognitiva (Leis de Hick e Miller 7±2) e mapeia a Jornada Emocional (Peak-End Rule) sem ver o log de linter.
+   - **Subagente B (Evidence Inspector):** Executa o `AntiSlopEngine` (`scanSource` / `scanFile`) e o `CraftGuardianLinter` determinístico (`auditComponent` / `auditSourceCode`), checando as 62 regras anti-slop, contraste numérico WCAG/APCA e grid de 8px.
+3. O Agente Orquestrador sintetiza os dois fluxos, elimina falsos positivos e classifica todos os achados em severidades **P0 (Bloqueante)**, **P1 (Major)**, **P2 (Minor)** e **P3 (Polimento)**.
 
 ## Fase 3: Emissão do Relatório Prescritivo do Craft Guardian
 1. Carregue [assets/craft-a11y-audit-report-template.md](assets/craft-a11y-audit-report-template.md).
-2. Gere o relatório executivo detalhando o veredito (`APROVADO` ou `REPROVADO`), a tabela matemática de contraste (WCAG + APCA $L_c$) e a prescrição exata de substituição de tokens para cada violação encontrada.
+2. Gere o relatório executivo detalhando o veredito (`APROVADO` ou `REPROVADO`), o Health Score da auditoria, os achados P0-P3 com impacto e correção prescrita, a tabela matemática de contraste (WCAG + APCA $L_c$) e as ações recomendadas de micro-steering (`bolder`, `harden`, `typeset`, `polish`).
+
 
 ## Fase 4: Persistência do Gate & Roteador de Próximos Passos (*Next-Step Router*)
 1. Salve `.harness/memory/craft-audit-state.json` obedecendo estritamente a [assets/craft-audit-state-schema.json](assets/craft-audit-state-schema.json).

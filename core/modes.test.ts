@@ -110,13 +110,13 @@ test('2. Resolução de modo "sprint" retorna o fluxo de desenvolvimento de feat
   ]);
 });
 
-test('3. Resolução de modo "full" retorna todas as skills (24 skills)', () => {
+test('3. Resolução de modo "full" retorna todas as skills (25 skills)', () => {
   const config = createMockConfig();
   const preset = createMockPreset();
 
   const skills = resolveSkillsForMode(preset, config, 'full');
 
-  assert.strictEqual(skills.length, 24, 'Modo full deve retornar exatamente 24 skills');
+  assert.strictEqual(skills.length, 25, 'Modo full deve retornar exatamente 25 skills');
   assert.deepStrictEqual(skills, config.activeSkills);
 });
 
@@ -196,7 +196,7 @@ test('7. Presets do projeto (default, freelance, enterprise) contêm modes e sat
 
     assert.strictEqual(micro.length, 3, `Preset '${id}' micro deve ter 3 skills`);
     assert.strictEqual(sprint.length, 7, `Preset '${id}' sprint deve ter 7 skills`);
-    assert.strictEqual(full.length, 24, `Preset '${id}' full deve ter 24 skills`);
+    assert.strictEqual(full.length, 25, `Preset '${id}' full deve ter 25 skills`);
 
     // micro ⊂ sprint: todo elemento de micro deve estar em sprint
     for (const skill of micro) {
@@ -243,7 +243,7 @@ test('9. Fallback canônico quando preset não define modes', () => {
   assert.deepStrictEqual(sprintSkills, CANONICAL_SPRINT_SKILLS);
 
   const fullSkills = resolveSkillsForMode(presetWithoutModes, config, 'full');
-  assert.strictEqual(fullSkills.length, 24);
+  assert.strictEqual(fullSkills.length, 25);
   assert.deepStrictEqual(fullSkills, config.activeSkills);
 
   // micro ⊂ sprint ⊂ full no fallback canônico

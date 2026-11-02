@@ -66,6 +66,16 @@ export class RealityGate {
                 reasons.push(`HOLD: Anti-Fantasy Approval: score perfeito (>= 100) sem contra-prova completa é tratado como suspeito. Exige screenshots nos 3 viewports, relatório de auditoria e contrato de design. Ausente(s): ${missingCounterProofs.join(', ')}.`);
             }
         }
+        // 6. Verificação de Alto Raio de Impacto (Blast Radius Guardrail)
+        const blastCount = input.blastRadiusCount ?? (input.blastRadiusResult ? input.blastRadiusResult.totalImpactedCount : 0);
+        const isHighRiskBlast = input.blastRadiusResult?.isHighRisk ?? (blastCount > 5);
+        if (isHighRiskBlast) {
+            const hasDownstreamEvidence = (input.evidence || []).some((ev) => (ev.kind === 'audit-report' || ev.kind === 'test-result') && typeof ev.path === 'string' && ev.path.trim().length > 0);
+            if (!hasDownstreamEvidence) {
+                missingEvidence.push('downstream-impact-evidence');
+                reasons.push(`HOLD: Alto Raio de Impacto detectado pelo UX Graph (${blastCount} nós impactados). Exige evidência de auditoria ou testes de regressão downstream.`);
+            }
+        }
         // Decisão final: PASS somente se não houver razões de bloqueio e nenhuma evidência faltante
         const isPass = reasons.length === 0 && missingEvidence.length === 0;
         const verdict = isPass ? 'PASS' : 'HOLD';
@@ -78,5 +88,24 @@ export class RealityGate {
             missingEvidence,
             suspiciousPerfectScore,
         };
+    }
+    /**
+     * Avalia a prontidão com base diretamente no resultado do AntiSlopEngine.
+     */
+    evaluateFromSlopResult(slopResult, options = {}) {
+        const findings = slopResult.findings.map((f) => ({
+            severity: f.priority === 'P0' ? 'critical' : f.priority === 'P1' ? 'major' : 'minor',
+            message: `[${f.ruleId}] ${f.message}`
+        }));
+        return this.evaluate({
+            craftPassed: slopResult.passed,
+            craftScore: slopResult.score,
+            claimedStates: options.claimedStates || ['default', 'empty', 'loading', 'error'],
+            evidence: options.evidence || [],
+            findings,
+            designContractPath: options.designContractPath,
+            blastRadiusResult: options.blastRadiusResult,
+            blastRadiusCount: options.blastRadiusCount
+        });
     }
 }

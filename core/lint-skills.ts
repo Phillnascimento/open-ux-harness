@@ -25,8 +25,10 @@ export function isNewSkill(name: string): boolean {
     name === '08-reality-gate' ||
     name === '09-persona-walkthrough' ||
     name === '00-skill-architect' ||
+    name === '10-ux-humanizer' ||
     name.startsWith('08-') ||
-    name.startsWith('09-')
+    name.startsWith('09-') ||
+    name.startsWith('10-')
   );
 }
 

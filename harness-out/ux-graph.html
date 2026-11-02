@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UX Knowledge Graph</title>
+  <style>
+    :root {
+      --bg: #0F172A;
+      --panel: #1E293B;
+      --border: #334155;
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+      --token: #8B5CF6;
+      --component: #3B82F6;
+      --screen: #10B981;
+      --user-flow: #06B6D4;
+      --contract: #F59E0B;
+      --story: #EC4899;
+      --persona: #6366F1;
+      --high-risk: #EF4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 10;
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    header h1 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    header p { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    #controls {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      display: flex;
+      gap: 10px;
+    }
+    input[type="text"] {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      width: 240px;
+    }
+    input[type="text"]:focus { border-color: var(--component); }
+    .filter-btn {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { background: var(--border); }
+    #canvas-container {
+      flex: 1;
+      height: 100%;
+      position: relative;
+    }
+    svg {
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+    }
+    svg:active { cursor: grabbing; }
+    #sidebar {
+      width: 360px;
+      background: var(--panel);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      z-index: 20;
+      box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .node-title { font-size: 18px; font-weight: 700; word-break: break-all; }
+    .node-id { font-size: 11px; color: var(--muted); font-family: monospace; margin-top: 4px; }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .metric-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+    .metric-value { font-size: 20px; font-weight: 700; }
+    .metric-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin: 16px 0 8px 0; }
+    .list-item {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 12px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .btn-blast {
+      background: var(--component);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 16px;
+      transition: background 0.2s;
+    }
+    .btn-blast:hover { opacity: 0.9; }
+    .legend {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      max-width: 600px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-color { width: 10px; height: 10px; border-radius: 50%; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🚀 Open UX Harness — Knowledge Graph</h1>
+    <p>GraphRAG Visualizer | Nós: <span id="stat-nodes">0</span> | Arestas: <span id="stat-edges">0</span></p>
+  </header>
+
+  <div id="controls">
+    <input type="text" id="search-input" placeholder="Buscar nós por nome ou id...">
+    <button class="filter-btn" id="btn-reset">Resetar Vista</button>
+  </div>
+
+  <div id="canvas-container">
+    <svg id="viewport">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748B" />
+        </marker>
+        <marker id="arrow-active" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#3B82F6" />
+        </marker>
+      </defs>
+      <g id="transform-group">
+        <g id="edges-layer"></g>
+        <g id="nodes-layer"></g>
+      </g>
+    </svg>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-color" style="background: var(--token)"></div> Token</div>
+      <div class="legend-item"><div class="legend-color" style="background: var(--component)"></div> Component</div>
+      <div class="legend-item"><div class="legend-color" style="background: var(--screen)"></div> Screen</div>
+      <div class="legend-item"><div class="legend-color" style="background: var(--user-flow)"></div> Flow</div>
+      <div class="legend-item"><div class="legend-color" style="background: var(--contract)"></div> Contract</div>
+      <div class="legend-item"><div class="legend-color" style="background: var(--persona)"></div> Persona</div>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <span class="badge" id="side-badge">SELECIONE UM NÓ</span>
+      <h2 class="node-title" id="side-title">Inspeção de Grafo</h2>
+      <div class="node-id" id="side-id">Clique em qualquer nó para detalhes</div>
+    </div>
+
+    <div id="side-content" style="display: none;">
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-value" id="val-incoming">0</div>
+          <div class="metric-label">Quem Depende Dele</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="val-outgoing">0</div>
+          <div class="metric-label">O que ele Consome</div>
+        </div>
+      </div>
+
+      <button class="btn-blast" id="btn-calc-blast">Calcular Blast Radius 💥</button>
+
+      <div class="section-title">Metadados & Contrato</div>
+      <div id="side-metadata"></div>
+
+      <div class="section-title">Conexões Imediatas</div>
+      <div id="side-neighbors"></div>
+    </div>
+  </div>
+
+  <script>
+    const graphData = {"version":"1.0.0","createdAt":"2026-11-02T21:22:37.362Z","nodes":[{"id":"token:color.brand.primary","type":"token","label":"color.brand.primary","filePath":"templates/tokens-starter.json","metadata":{"value":"#2563EB","type":"color","description":"Cor primária para CTAs e elementos de destaque"}},{"id":"token:color.brand.secondary","type":"token","label":"color.brand.secondary","filePath":"templates/tokens-starter.json","metadata":{"value":"#475569","type":"color","description":"Cor de apoio e ênfase secundária"}},{"id":"token:color.surface.base","type":"token","label":"color.surface.base","filePath":"templates/tokens-starter.json","metadata":{"value":"#FFFFFF","type":"color","description":"Fundo de cartões e telas em modo claro"}},{"id":"token:color.surface.subtle","type":"token","label":"color.surface.subtle","filePath":"templates/tokens-starter.json","metadata":{"value":"#F8FAFC","type":"color"}},{"id":"token:color.text.primary","type":"token","label":"color.text.primary","filePath":"templates/tokens-starter.json","metadata":{"value":"#0F172A","type":"color","description":"Texto principal com contraste mínimo de 7:1 contra surface.base"}},{"id":"token:color.text.muted","type":"token","label":"color.text.muted","filePath":"templates/tokens-starter.json","metadata":{"value":"#64748B","type":"color","description":"Texto de apoio com contraste mínimo de 4.5:1"}},{"id":"token:color.feedback.success","type":"token","label":"color.feedback.success","filePath":"templates/tokens-starter.json","metadata":{"value":"#16A34A","type":"color"}},{"id":"token:color.feedback.error","type":"token","label":"color.feedback.error","filePath":"templates/tokens-starter.json","metadata":{"value":"#DC2626","type":"color"}},{"id":"token:spacing.scale.none","type":"token","label":"spacing.scale.none","filePath":"templates/tokens-starter.json","metadata":{"value":"0px","type":"dimension"}},{"id":"token:spacing.scale.xs","type":"token","label":"spacing.scale.xs","filePath":"templates/tokens-starter.json","metadata":{"value":"4px","type":"dimension"}},{"id":"token:spacing.scale.sm","type":"token","label":"spacing.scale.sm","filePath":"templates/tokens-starter.json","metadata":{"value":"8px","type":"dimension"}},{"id":"token:spacing.scale.md","type":"token","label":"spacing.scale.md","filePath":"templates/tokens-starter.json","metadata":{"value":"16px","type":"dimension"}},{"id":"token:spacing.scale.lg","type":"token","label":"spacing.scale.lg","filePath":"templates/tokens-starter.json","metadata":{"value":"24px","type":"dimension"}},{"id":"token:spacing.scale.xl","type":"token","label":"spacing.scale.xl","filePath":"templates/tokens-starter.json","metadata":{"value":"32px","type":"dimension"}},{"id":"token:spacing.scale.2xl","type":"token","label":"spacing.scale.2xl","filePath":"templates/tokens-starter.json","metadata":{"value":"48px","type":"dimension"}},{"id":"token:borderRadius.sm","type":"token","label":"borderRadius.sm","filePath":"templates/tokens-starter.json","metadata":{"value":"4px","type":"dimension"}},{"id":"token:borderRadius.md","type":"token","label":"borderRadius.md","filePath":"templates/tokens-starter.json","metadata":{"value":"8px","type":"dimension"}},{"id":"token:borderRadius.lg","type":"token","label":"borderRadius.lg","filePath":"templates/tokens-starter.json","metadata":{"value":"12px","type":"dimension"}},{"id":"token:borderRadius.full","type":"token","label":"borderRadius.full","filePath":"templates/tokens-starter.json","metadata":{"value":"9999px","type":"dimension"}},{"id":"contract:design-contract","type":"contract","label":"Design Contract (Anti-Slop)","filePath":"templates/design-contract.md","metadata":{"rawLength":7330}},{"id":"comp:Button","type":"component","label":"Button (Primary/Secondary/Ghost)","filePath":"core/components/Button.tsx"},{"id":"comp:Card","type":"component","label":"Surface Card","filePath":"core/components/Card.tsx"},{"id":"comp:Header","type":"component","label":"Navigation Header","filePath":"core/components/Header.tsx"},{"id":"comp:Input","type":"component","label":"Text Input Field","filePath":"core/components/Input.tsx"},{"id":"comp:Badge","type":"component","label":"Status Badge","filePath":"core/components/Badge.tsx"},{"id":"comp:Modal","type":"component","label":"Interactive Modal Dialog","filePath":"core/components/Modal.tsx"},{"id":"screen:LandingPage","type":"screen","label":"Landing Page Hero & Features","filePath":"runbooks/scenarios/landingpage.md"},{"id":"screen:Checkout","type":"screen","label":"Checkout & Payment Flow","filePath":"runbooks/scenarios/checkout.md"},{"id":"screen:Dashboard","type":"screen","label":"Main User Dashboard","filePath":"runbooks/scenarios/dashboard.md"},{"id":"screen:Profile","type":"screen","label":"Portfolio & Profile Page","filePath":"runbooks/scenarios/profile.md"},{"id":"persona:EcomShopper","type":"persona","label":"Comprador Mobile Impulsivo","filePath":"skills/09-persona-walkthrough/SKILL.md"},{"id":"persona:Recruiter","type":"persona","label":"Recrutador Técnico LinkedIn","filePath":"skills/09-persona-walkthrough/SKILL.md"}],"edges":[{"source":"comp:Button","target":"token:color.brand.primary","type":"uses_token","provenance":"EXTRACTED","confidence":1},{"source":"comp:Header","target":"token:color.brand.primary","type":"uses_token","provenance":"EXTRACTED","confidence":1},{"source":"comp:Badge","target":"token:color.feedback.success","type":"uses_token","provenance":"EXTRACTED","confidence":1},{"source":"comp:Modal","target":"comp:Button","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:LandingPage","target":"comp:Header","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:LandingPage","target":"comp:Button","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:LandingPage","target":"comp:Card","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Checkout","target":"comp:Header","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Checkout","target":"comp:Button","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Checkout","target":"comp:Input","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Checkout","target":"comp:Card","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Checkout","target":"comp:Badge","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Dashboard","target":"comp:Header","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Dashboard","target":"comp:Card","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Dashboard","target":"comp:Button","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Dashboard","target":"comp:Badge","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Profile","target":"comp:Header","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Profile","target":"comp:Card","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:Profile","target":"comp:Button","type":"composes_component","provenance":"EXTRACTED","confidence":1},{"source":"screen:LandingPage","target":"screen:Checkout","type":"navigates_to","provenance":"EXTRACTED","confidence":1},{"source":"screen:Checkout","target":"screen:Dashboard","type":"navigates_to","provenance":"EXTRACTED","confidence":1},{"source":"screen:Checkout","target":"contract:design-contract","type":"satisfies_contract","provenance":"EXTRACTED","confidence":1},{"source":"screen:Checkout","target":"persona:EcomShopper","type":"impacts_persona","provenance":"INFERRED","confidence":0.85},{"source":"screen:Profile","target":"persona:Recruiter","type":"impacts_persona","provenance":"INFERRED","confidence":0.85}],"stats":{"totalNodes":32,"totalEdges":24,"byNodeType":{"token":19,"component":6,"screen":4,"user-flow":0,"contract":1,"story":0,"persona":2},"byEdgeType":{"uses_token":3,"composes_component":16,"navigates_to":2,"satisfies_contract":1,"renders_state":0,"impacts_persona":2},"byProvenance":{"EXTRACTED":22,"INFERRED":2,"AMBIGUOUS":0}}};
+    document.getElementById('stat-nodes').textContent = graphData.nodes.length;
+    document.getElementById('stat-edges').textContent = graphData.edges.length;
+
+    const colorMap = {
+      token: '#8B5CF6',
+      component: '#3B82F6',
+      screen: '#10B981',
+      'user-flow': '#06B6D4',
+      contract: '#F59E0B',
+      story: '#EC4899',
+      persona: '#6366F1'
+    };
+
+    // Inicialização da simulação espacial circular em SVG
+    const nodes = graphData.nodes.map((n, i) => {
+      const angle = (i / graphData.nodes.length) * 2 * Math.PI;
+      const radius = 260 + (i % 3) * 60;
+      return {
+        ...n,
+        x: 500 + radius * Math.cos(angle),
+        y: 400 + radius * Math.sin(angle),
+        vx: 0,
+        vy: 0
+      };
+    });
+
+    const nodeById = new Map();
+    nodes.forEach(n => nodeById.set(n.id, n));
+
+    const edges = graphData.edges.map(e => ({
+      ...e,
+      sourceNode: nodeById.get(e.source),
+      targetNode: nodeById.get(e.target)
+    })).filter(e => e.sourceNode && e.targetNode);
+
+    const svg = document.getElementById('viewport');
+    const transformGroup = document.getElementById('transform-group');
+    const nodesLayer = document.getElementById('nodes-layer');
+    const edgesLayer = document.getElementById('edges-layer');
+
+    let scale = 0.9;
+    let panX = 100;
+    let panY = 50;
+    let isPanning = false;
+    let startX = 0;
+    let startY = 0;
+
+    function updateTransform() {
+      transformGroup.setAttribute('transform', `translate(${panX}, ${panY}) scale(${scale})`);
+    }
+    updateTransform();
+
+    svg.addEventListener('mousedown', (e) => {
+      if (e.target.tagName === 'svg' || e.target.id === 'transform-group') {
+        isPanning = true;
+        startX = e.clientX - panX;
+        startY = e.clientY - panY;
+      }
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (isPanning) {
+        panX = e.clientX - startX;
+        panY = e.clientY - startY;
+        updateTransform();
+      }
+    });
+    window.addEventListener('mouseup', () => { isPanning = false; });
+    svg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+      scale = Math.max(0.2, Math.min(3, scale * zoomFactor));
+      updateTransform();
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      scale = 0.9;
+      panX = 100;
+      panY = 50;
+      updateTransform();
+      render(nodes, edges);
+    });
+
+    function render(renderNodes, renderEdges, highlightedIds = new Set()) {
+      nodesLayer.innerHTML = '';
+      edgesLayer.innerHTML = '';
+
+      renderEdges.forEach(e => {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', e.sourceNode.x);
+        line.setAttribute('y1', e.sourceNode.y);
+        line.setAttribute('x2', e.targetNode.x);
+        line.setAttribute('y2', e.targetNode.y);
+        const isActive = highlightedIds.has(e.source) && highlightedIds.has(e.target);
+        line.setAttribute('stroke', isActive ? '#3B82F6' : '#334155');
+        line.setAttribute('stroke-width', isActive ? '2.5' : '1.2');
+        line.setAttribute('stroke-opacity', highlightedIds.size > 0 && !isActive ? '0.2' : '0.8');
+        line.setAttribute('marker-end', isActive ? 'url(#arrow-active)' : 'url(#arrow)');
+        edgesLayer.appendChild(line);
+      });
+
+      renderNodes.forEach(n => {
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('transform', `translate(${n.x}, ${n.y})`);
+        g.style.cursor = 'pointer';
+
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('r', n.type === 'token' ? '12' : '16');
+        circle.setAttribute('fill', colorMap[n.type] || '#94A3B8');
+        const isHighlight = highlightedIds.has(n.id);
+        if (isHighlight) {
+          circle.setAttribute('stroke', '#FFFFFF');
+          circle.setAttribute('stroke-width', '3');
+        } else if (highlightedIds.size > 0) {
+          circle.setAttribute('opacity', '0.3');
+        }
+        g.appendChild(circle);
+
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.textContent = n.label;
+        text.setAttribute('y', n.type === 'token' ? '24' : '28');
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('fill', '#F8FAFC');
+        text.setAttribute('font-size', '10px');
+        text.setAttribute('font-weight', '500');
+        if (highlightedIds.size > 0 && !isHighlight) {
+          text.setAttribute('opacity', '0.2');
+        }
+        g.appendChild(text);
+
+        g.addEventListener('click', (evt) => {
+          evt.stopPropagation();
+          selectNode(n);
+        });
+
+        nodesLayer.appendChild(g);
+      });
+    }
+
+    render(nodes, edges);
+
+    let selectedNode = null;
+    function selectNode(node) {
+      selectedNode = node;
+      document.getElementById('side-content').style.display = 'block';
+      const badge = document.getElementById('side-badge');
+      badge.textContent = node.type;
+      badge.style.backgroundColor = colorMap[node.type] || '#334155';
+      document.getElementById('side-title').textContent = node.label;
+      document.getElementById('side-id').textContent = node.id;
+
+      const incoming = edges.filter(e => e.target === node.id);
+      const outgoing = edges.filter(e => e.source === node.id);
+      document.getElementById('val-incoming').textContent = incoming.length;
+      document.getElementById('val-outgoing').textContent = outgoing.length;
+
+      const metaDiv = document.getElementById('side-metadata');
+      metaDiv.innerHTML = '';
+      if (node.metadata) {
+        for (const [k, v] of Object.entries(node.metadata)) {
+          const item = document.createElement('div');
+          item.className = 'list-item';
+          item.innerHTML = `<span>${k}</span><strong style="color: #38BDF8;">${v}</strong>`;
+          metaDiv.appendChild(item);
+        }
+      } else {
+        metaDiv.innerHTML = '<span style="color: var(--muted); font-size: 12px;">Sem metadados extras.</span>';
+      }
+
+      const neighborsDiv = document.getElementById('side-neighbors');
+      neighborsDiv.innerHTML = '';
+      const activeIds = new Set([node.id]);
+
+      incoming.forEach(e => {
+        activeIds.add(e.source);
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.innerHTML = `<span>⬅️ ${e.sourceNode.label}</span><small style="color:var(--muted)">${e.type}</small>`;
+        neighborsDiv.appendChild(item);
+      });
+
+      outgoing.forEach(e => {
+        activeIds.add(e.target);
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.innerHTML = `<span>➡️ ${e.targetNode.label}</span><small style="color:var(--muted)">${e.type}</small>`;
+        neighborsDiv.appendChild(item);
+      });
+
+      render(nodes, edges, activeIds);
+    }
+
+    document.getElementById('btn-calc-blast').addEventListener('click', () => {
+      if (!selectedNode) return;
+      // Propagação downstream (quem depende deste nó)
+      const blastSet = new Set([selectedNode.id]);
+      const queue = [selectedNode.id];
+      while (queue.length > 0) {
+        const curr = queue.shift();
+        edges.filter(e => e.target === curr).forEach(e => {
+          if (!blastSet.has(e.source)) {
+            blastSet.add(e.source);
+            queue.push(e.source);
+          }
+        });
+      }
+      render(nodes, edges, blastSet);
+      alert(`Raio de Impacto (Blast Radius): ${blastSet.size - 1} nós downstream afetados por '${selectedNode.label}'.`);
+    });
+
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', () => {
+      const term = searchInput.value.toLowerCase().trim();
+      if (!term) {
+        render(nodes, edges);
+        return;
+      }
+      const matchIds = new Set(
+        nodes
+          .filter(n => n.label.toLowerCase().includes(term) || n.id.toLowerCase().includes(term))
+          .map(n => n.id)
+      );
+      render(nodes, edges, matchIds);
+    });
+  </script>
+</body>
+</html>

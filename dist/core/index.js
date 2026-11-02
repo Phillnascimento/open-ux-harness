@@ -11,3 +11,8 @@ export * from './handoff-validator.js';
 export * from './modes.js';
 export * from './runbook-validator.js';
 export * from './lint-skills.js';
+export * from './ux-graph-engine.js';
+export * from './ux-graph-reporter.js';
+export * from './graph-builder.js';
+export * from './ux-humanizer-linter.js';
+export * from './anti-slop-engine.js';

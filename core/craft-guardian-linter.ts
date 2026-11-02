@@ -1,15 +1,19 @@
+import { AntiSlopEngine, SlopFinding } from './anti-slop-engine.js';
+
 export interface LinterIssue {
-  type: 'grid' | 'contrast' | 'state' | 'typography';
+  type: 'grid' | 'contrast' | 'state' | 'typography' | 'slop' | 'quality' | 'drift';
   severity: 'error' | 'warning';
   message: string;
   element?: string;
   suggestedFix?: string;
+  priority?: 'P0' | 'P1' | 'P2' | 'P3';
 }
 
 export interface CraftAuditResult {
   passed: boolean;
   score: number; // 0 a 100
   issues: LinterIssue[];
+  slopFindings?: SlopFinding[];
 }
 
 export class CraftGuardianLinter {
@@ -45,7 +49,7 @@ export class CraftGuardianLinter {
   }
 
   /**
-   * Executa auditoria heurística completa em uma especificação de UI.
+   * Executa auditoria heurística completa em uma especificação de UI em memória.
    */
   public auditComponent(spec: {
     textColorHex: string;
@@ -61,6 +65,7 @@ export class CraftGuardianLinter {
       issues.push({
         type: 'contrast',
         severity: 'error',
+        priority: 'P1',
         message: `Relação de contraste insuficiente: ${ratio}:1. O padrão WCAG 2.2 AA exige no mínimo 4.5:1.`,
         suggestedFix: 'Ajuste a cor do texto para uma tonalidade mais escura ou o fundo para mais claro.'
       });
@@ -72,6 +77,7 @@ export class CraftGuardianLinter {
         issues.push({
           type: 'grid',
           severity: 'error',
+          priority: 'P2',
           message: `Valor de espaçamento ${p}px viola o sistema espacial de 8 pontos.`,
           suggestedFix: `Ajuste para ${Math.round(p / 8) * 8}px ou múltiplo de 4px mais próximo.`
         });
@@ -85,6 +91,7 @@ export class CraftGuardianLinter {
       issues.push({
         type: 'state',
         severity: 'warning',
+        priority: 'P1',
         message: `Estados defensivos ausentes na especificação: [${missingStates.join(', ')}].`,
         suggestedFix: 'Projete explicitamente os estados de carregamento (skeleton), vazio e erro com botão de recuperação.'
       });
@@ -100,4 +107,28 @@ export class CraftGuardianLinter {
       issues
     };
   }
+
+  /**
+   * Executa auditoria heurística profunda diretamente no código-fonte de interface,
+   * integrando o AntiSlopEngine e as 62 regras de qualidade e blindagem visual.
+   */
+  public auditSourceCode(code: string, filePath: string, knownTokens?: Set<string>): CraftAuditResult {
+    const slopResult = AntiSlopEngine.scan(code, filePath, knownTokens);
+    const issues: LinterIssue[] = slopResult.findings.map(f => ({
+      type: f.category,
+      severity: f.severity === 'advisory' ? 'warning' : f.severity,
+      priority: f.priority,
+      message: `[${f.ruleId}] ${f.message}`,
+      element: f.line ? `linha ${f.line}` : undefined,
+      suggestedFix: f.suggestedFix
+    }));
+
+    return {
+      passed: slopResult.passed,
+      score: slopResult.score,
+      issues,
+      slopFindings: slopResult.findings
+    };
+  }
 }
+

@@ -88,10 +88,17 @@ O compilador criará os arquivos de integração prontos para uso em `dist/adapt
 - **Cursor / Windsurf:** `dist/adapters/cursor/` (`.cursorrules`).
 - **Terminal CLI:** `dist/adapters/terminal-cli/` (`harness-runtime.json`).
 
-### 4. Executar Comandos Utilitários
+### 4. Executar Comandos Utilitários & Micro-Steering
 ```bash
 # Validar arquivo de Design Tokens contra W3C DTCG
 npm run lint:tokens
+
+# Executar varredura determinística Anti-Slop (62 regras de craft visual)
+npm run audit:slop examples/checkout-flow/04-component.tsx
+
+# Aplicar playbooks cirúrgicos de micro-steering (bolder, quieter, distill, harden, typeset, polish)
+npm run steer bolder "PricingSection"
+npm run steer harden "CheckoutForm"
 
 # Simular MCP Dynamic Pruning e verificar economia de tokens
 npx ts-node adapters/terminal-cli/src/cli.ts prune 05-craft-and-accessibility
@@ -102,18 +109,28 @@ npx ts-node adapters/terminal-cli/src/cli.ts audit
 
 ---
 
-## 🛡️ O Craft Guardian: Eliminando o Visual Slop
+## 🛡️ O Craft Guardian & AntiSlopEngine: Eliminando o Visual Slop
 
-O harness implementa um checklist determinístico obrigatório para qualquer tela ou componente gerado:
+Inspirado nas heurísticas e motor de alta precisão do **Impeccable** (`pbakaus/impeccable`), o harness implementa um checklist determinístico obrigatório para qualquer tela ou componente gerado:
 
+- [x] **AntiSlopEngine (62 Regras Determinísticas):**
+  - **Bans Absolutos de Slop:** Rejeição de `side-tab` (bordas laterais espessas em cards redondos), `gradient-text` (degradê recortado em títulos), `ai-color-palette` (gradientes roxo/azul padrão), `dark-glow` (halos cromáticos zero-offset), `nested-cards` (cards aninhados dentro de cards) e `kicker-above-heading` (micro-rótulos em caixa alta acima de todo heading).
+  - **Integridade & Qualidade:** Detecção de `broken-image`, `cramped-padding` (<8px dentro de contornos), `line-length` (>80ch), `body-text-viewport-edge` (<16px), `tight-leading` (<1.3x) e `tiny-text` (<12px).
+- [x] **Surface Modes (Modos de Superfície):** Calibração de ambição estética e restrições por contexto:
+  - `Persuade` (Landing pages, conversão): alta expressividade, imagens reais, tipografia marcante.
+  - `Operate` (Dashboards, ferramentas SaaS): alta densidade, numerais tabulares, escaneabilidade e moderação visual.
+  - `Read` (Docs, artigos): ritmo de leitura, entrelinha confortável e largura 65-75ch.
+  - `Experience` (Portfólios, showcases): interface recuada com destaque absoluto para a obra.
 - [x] **Grid Espacial de 8 Pontos:** Todos os paddings e margens são múltiplos de 8px (ou 4px defensivo). Valores arbitrários (13px, 7px) são rejeitados.
-- [x] **Contraste de Acessibilidade (WCAG 2.2 AA):** Mínimo 4.5:1 para texto normal e 3.0:1 para elementos de destaque.
+- [x] **Contraste de Acessibilidade (WCAG 2.2 AA & APCA):** Mínimo 4.5:1 para texto normal e 3.0:1 para elementos de destaque.
 - [x] **Cobertura dos 4 Estados de Interface:**
   1. *Default / Happy Path*
   2. *Empty State (orientando a primeira ação)*
   3. *Loading / Skeleton (evitando Layout Shift)*
   4. *Error / Degraded Feedback (com botão de recuperação)*
-- [x] **Touch Targets:** Área mínima de toque de 44x44px em mobile e 32x32px em desktop.
+- [x] **Touch Targets:** Área mínima de toque de 44x44px em mobile e 24x24px em desktop.
+- [x] **Superfícies Nativas de Navegador:** Estilos para `::selection`, `caret-color`, `tabular-nums` e scrollbars customizadas.
+- [x] **Suporte Bidirecional a DESIGN.md:** Compatibilidade nativa com a especificação aberta `DESIGN.md` (Google Labs standard: tokens YAML frontmatter + 8 seções canônicas de design).
 
 ---
 
@@ -139,10 +156,13 @@ open-ux-harness/
 │   ├── config-loader.ts         # Carregador de configurações e presets
 │   ├── context-engine.ts        # Motor de MCP Pruning e Prompt Caching
 │   ├── guardrails.ts            # Matriz Allow / Ask / Deny e Design Gates
+│   ├── anti-slop-engine.ts      # 62 Regras determinísticas anti-slop e qualidade de código
 │   ├── craft-guardian-linter.ts # Linter de contraste e grid de 8px
 │   ├── lint-tokens.ts           # Validador de Design Tokens W3C DTCG
+│   ├── design-contract.ts       # Validador de contratos, Surface Modes e DESIGN.md
 │   └── memory-manager.ts        # Gestão de memória Semântica, Episódica e Procedural
-├── skills/                      # 7 Skills agnósticas (Markdown + frontmatter)
+├── playbooks/                   # Playbooks cirúrgicos de Micro-Steering (bolder, quieter, distill, harden, typeset, polish)
+├── skills/                      # Skills agnósticas (Markdown + frontmatter)
 ├── mcp-registry/                # Registro unificado de servidores MCP e filtros
 │   ├── servers.json             # Catálogo de MCPs suportados
 │   └── filters/                 # Filtros Server-Side (Figma, Storybook, PostHog)

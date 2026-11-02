@@ -216,3 +216,322 @@ export function checkAgainstContract(
 
   return { violations };
 }
+
+/**
+ * Extrai amostras canônicas de tom de voz (Brand Voice Samples) do Design Contract.
+ * Inspirado no padrão Voice Matching do Humanizer para calibrar microcopy.
+ */
+export function extractVoiceSamples(markdown: string): string[] {
+  const pattern = /^#+\s+(?:\d+[.\-\)]\s*)?(?:amostras\s+de\s+voz|brand\s+(?:and\s+ux\s+)?voice)/i;
+  const body = getSectionBody(markdown, pattern);
+  if (!body) return [];
+
+  const samples: string[] = [];
+  const lines = body.split(/\r?\n/);
+  for (const line of lines) {
+    const quoteMatch = line.match(/^\s*>\s*["'“]([^"'”]+)["'”]/);
+    if (quoteMatch) {
+      samples.push(quoteMatch[1].trim());
+    } else {
+      const bulletMatch = line.match(/^\s*[-*]\s+["'“]([^"'”]+)["'”]/);
+      if (bulletMatch) {
+        samples.push(bulletMatch[1].trim());
+      }
+    }
+  }
+  return samples;
+}
+
+/**
+ * Modos canônicos de superfície (Surface Modes), inspirados na filosofia Impeccable:
+ * Calibram o grau de ambição estética, densidade e restrições da interface.
+ */
+export type SurfaceMode = 'persuade' | 'operate' | 'read' | 'experience';
+
+export interface SurfaceModeGuidelines {
+  mode: SurfaceMode;
+  intent: string;
+  expressiveness: 'high' | 'restrained' | 'balanced' | 'receding';
+  strictBans: string[];
+  keyHeuristics: string[];
+}
+
+/**
+ * Identifica o Modo de Superfície declarado no Design Contract.
+ * Fallback padrão: 'operate' (foco em ferramentas e produto digital).
+ */
+export function extractSurfaceMode(markdown: string): SurfaceMode {
+  const match = markdown.match(/(?:Modo\s+de\s+Superf[ií]cie|Surface\s+Mode):\s*["'`]?(\w+)["'`]?/i);
+  if (match) {
+    const val = match[1].toLowerCase();
+    if (['persuade', 'operate', 'read', 'experience'].includes(val)) {
+      return val as SurfaceMode;
+    }
+  }
+  return 'operate';
+}
+
+/**
+ * Retorna as diretrizes normativas para o modo de superfície correspondente.
+ */
+export function getSurfaceModeGuidelines(mode: SurfaceMode): SurfaceModeGuidelines {
+  switch (mode) {
+    case 'persuade':
+      return {
+        mode: 'persuade',
+        intent: 'O visitante decide e age. Landing pages, marketing e conversão.',
+        expressiveness: 'high',
+        strictBans: [
+          'telas genéricas pasteurizadas',
+          'cards idênticos repetidos em grid preguiçoso',
+          'gradientes roxo/azul padrão de IA'
+        ],
+        keyHeuristics: [
+          'Imagens reais e com propósito claro',
+          'Hierarquia tipográfica display forte',
+          'Ritmo dinâmico de scroll'
+        ]
+      };
+    case 'operate':
+      return {
+        mode: 'operate',
+        intent: 'O visitante conclui uma tarefa operacional com precisão e velocidade. Dashboards, admin, editores e ferramentas.',
+        expressiveness: 'restrained',
+        strictBans: [
+          'gradientes decorativos em texto e botões',
+          'cards aninhados dentro de cards',
+          'sombras difusas excessivas (ghost cards)',
+          'eyebrows/kickers decorativos acima de cada heading'
+        ],
+        keyHeuristics: [
+          'Alta densidade e escaneabilidade instantânea',
+          'Numerais tabulares em tabelas e métricas (tabular-nums)',
+          'Grid rigoroso de 8px e 4 estados obrigatórios',
+          'Atalhos de teclado e alvos de toque >= 24px desktop / 44px mobile'
+        ]
+      };
+    case 'read':
+      return {
+        mode: 'read',
+        intent: 'O visitante compreende algo em profundidade. Documentação, artigos, guias e changelogs.',
+        expressiveness: 'balanced',
+        strictBans: [
+          'largura de linha maior que 75ch',
+          'leading comprimido menor que 1.4x',
+          'elementos animados ou flutuantes que distraem a leitura'
+        ],
+        keyHeuristics: [
+          'Largura de linha de 65ch a 75ch (max-w-prose)',
+          'Espaço acima de headings maior do que abaixo (heading rhythm)',
+          'Conforto visual e alto contraste WCAG AA'
+        ]
+      };
+    case 'experience':
+      return {
+        mode: 'experience',
+        intent: 'O visitante está imerso no próprio conteúdo ou artefato. Portfólios, galerias e vitrines.',
+        expressiveness: 'receding',
+        strictBans: [
+          'chrome decorativo pesado',
+          'barras de ferramentas desnecessárias que competem com o artefato'
+        ],
+        keyHeuristics: [
+          'A interface recua e deixa o conteúdo/obra liderar',
+          'Transições sutis e navegação minimalista'
+        ]
+      };
+  }
+}
+
+/**
+ * Especificação estruturada do formato DESIGN.md (Google Labs standard com tokens YAML + seções canônicas).
+ */
+export interface DesignMdSpec {
+  name: string;
+  description: string;
+  surfaceMode?: SurfaceMode;
+  colors: Record<string, string>;
+  typography?: Record<string, {
+    fontFamily: string;
+    fontSize?: string;
+    fontWeight?: string | number;
+    lineHeight?: string | number;
+  }>;
+  rounded?: Record<string, string>;
+  spacing?: Record<string, string>;
+  components?: Record<string, Record<string, string>>;
+  overview?: string;
+  dosAndDonts?: { dos: string[]; donts: string[] };
+}
+
+/**
+ * Gera um documento DESIGN.md no padrão da especificação aberta oficial (Google Labs standard),
+ * com tokens em frontmatter YAML seguidos pelas seções canônicas de documentação.
+ */
+export function generateDesignMd(spec: DesignMdSpec): string {
+  const yamlLines: string[] = ['---'];
+  yamlLines.push(`name: "${spec.name}"`);
+  yamlLines.push(`description: "${spec.description}"`);
+  if (spec.surfaceMode) {
+    yamlLines.push(`surfaceMode: "${spec.surfaceMode}"`);
+  }
+
+  // Colors
+  yamlLines.push('colors:');
+  for (const [key, val] of Object.entries(spec.colors)) {
+    yamlLines.push(`  ${key}: "${val}"`);
+  }
+
+  // Typography
+  if (spec.typography && Object.keys(spec.typography).length > 0) {
+    yamlLines.push('typography:');
+    for (const [role, conf] of Object.entries(spec.typography)) {
+      yamlLines.push(`  ${role}:`);
+      yamlLines.push(`    fontFamily: "${conf.fontFamily}"`);
+      if (conf.fontSize) yamlLines.push(`    fontSize: "${conf.fontSize}"`);
+      if (conf.fontWeight) yamlLines.push(`    fontWeight: ${conf.fontWeight}`);
+      if (conf.lineHeight) yamlLines.push(`    lineHeight: ${conf.lineHeight}`);
+    }
+  }
+
+  // Rounded
+  if (spec.rounded && Object.keys(spec.rounded).length > 0) {
+    yamlLines.push('rounded:');
+    for (const [key, val] of Object.entries(spec.rounded)) {
+      yamlLines.push(`  ${key}: "${val}"`);
+    }
+  }
+
+  // Spacing
+  if (spec.spacing && Object.keys(spec.spacing).length > 0) {
+    yamlLines.push('spacing:');
+    for (const [key, val] of Object.entries(spec.spacing)) {
+      yamlLines.push(`  ${key}: "${val}"`);
+    }
+  }
+
+  // Components
+  if (spec.components && Object.keys(spec.components).length > 0) {
+    yamlLines.push('components:');
+    for (const [compName, props] of Object.entries(spec.components)) {
+      yamlLines.push(`  ${compName}:`);
+      for (const [propName, propVal] of Object.entries(props)) {
+        yamlLines.push(`    ${propName}: "${propVal}"`);
+      }
+    }
+  }
+
+  yamlLines.push('---');
+  yamlLines.push('');
+
+  // 8 Canonical Sections
+  const sections: string[] = [
+    `# ${spec.name} — Design System`,
+    '',
+    '## 1. Overview',
+    spec.overview || `${spec.description} Configurado para o modo de superfície **${spec.surfaceMode || 'operate'}**.`,
+    '',
+    '## 2. Colors',
+    'Paleta canônica com contrastes acessíveis validados contra WCAG 2.2 AA / APCA.',
+    ...Object.entries(spec.colors).map(([k, v]) => `- \`${k}\`: \`${v}\``),
+    '',
+    '## 3. Typography',
+    'Hierarquia tipográfica deliberada com ritmo e escala >= 1.25x.',
+    spec.typography ? Object.entries(spec.typography).map(([k, v]) => `- **${k}**: \`${v.fontFamily}\` (${v.fontSize || 'base'})`).join('\n') : '- Sans: Inter / System UI',
+    '',
+    '## 4. Layout',
+    'Grid espacial de 8pt (múltiplos defensivos de 4px) e largura de linha restrita a 65-75ch.',
+    '',
+    '## 5. Elevation & Depth',
+    'Elevação declarada uma única vez por componente: borda sutil de 1px OU sombra suave.',
+    '',
+    '## 6. Shapes',
+    'Contornos e raios consistentes de acordo com a escala tokens.',
+    spec.rounded ? Object.entries(spec.rounded).map(([k, v]) => `- \`${k}\`: \`${v}\``).join('\n') : '- `md`: `8px`',
+    '',
+    '## 7. Components',
+    'Cobertura obrigatória de 4 estados: Default, Loading, Empty, Error.',
+    '',
+    '## 8. Do\'s and Don\'ts',
+    spec.dosAndDonts ? [
+      '### Do\'s:',
+      ...spec.dosAndDonts.dos.map(d => `- ${d}`),
+      '### Don\'ts:',
+      ...spec.dosAndDonts.donts.map(d => `- ${d}`)
+    ].join('\n') : [
+      '### Do\'s:',
+      '- Use tokens semânticos em vez de valores hex brutos.',
+      '- Projete os 4 estados de UI para todo controle interativo.',
+      '### Don\'ts:',
+      '- Não utilize gradientes decorativos em texto ou botões operacionais.',
+      '- Não aninhe cards dentro de containers de cards.'
+    ].join('\n')
+  ];
+
+  return [...yamlLines, ...sections].join('\n');
+}
+
+/**
+ * Faz o parsing de um documento DESIGN.md extraindo seus tokens YAML e seções textuais.
+ */
+export function parseDesignMd(content: string): DesignMdSpec {
+  const frontmatterMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  const spec: DesignMdSpec = {
+    name: 'Untitled System',
+    description: '',
+    colors: {},
+    typography: {},
+    rounded: {},
+    spacing: {},
+    components: {}
+  };
+
+  if (frontmatterMatch) {
+    const yamlBody = frontmatterMatch[1];
+    const lines = yamlBody.split(/\r?\n/);
+    let currentBlock: string | null = null;
+    let currentSubBlock: string | null = null;
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+
+      if (!line.startsWith(' ') && trimmed.includes(':')) {
+        const [k, v] = trimmed.split(':').map(s => s.trim().replace(/^["']|["']$/g, ''));
+        if (k === 'name') spec.name = v;
+        else if (k === 'description') spec.description = v;
+        else if (k === 'surfaceMode') spec.surfaceMode = v as SurfaceMode;
+        else if (['colors', 'typography', 'rounded', 'spacing', 'components'].includes(k)) {
+          currentBlock = k;
+          currentSubBlock = null;
+        }
+      } else if (line.startsWith('  ') && !line.startsWith('    ') && currentBlock) {
+        const [k, v] = trimmed.split(':').map(s => s.trim().replace(/^["']|["']$/g, ''));
+        if (currentBlock === 'colors') {
+          spec.colors[k] = v;
+        } else if (currentBlock === 'rounded') {
+          spec.rounded![k] = v;
+        } else if (currentBlock === 'spacing') {
+          spec.spacing![k] = v;
+        } else if (currentBlock === 'typography' || currentBlock === 'components') {
+          currentSubBlock = k;
+          if (currentBlock === 'typography') {
+            spec.typography![k] = { fontFamily: '' };
+          } else {
+            spec.components![k] = {};
+          }
+        }
+      } else if (line.startsWith('    ') && currentBlock && currentSubBlock) {
+        const [k, v] = trimmed.split(':').map(s => s.trim().replace(/^["']|["']$/g, ''));
+        if (currentBlock === 'typography' && spec.typography![currentSubBlock]) {
+          (spec.typography![currentSubBlock] as any)[k] = v;
+        } else if (currentBlock === 'components' && spec.components![currentSubBlock]) {
+          spec.components![currentSubBlock][k] = v;
+        }
+      }
+    }
+  }
+
+  return spec;
+}
+

@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UXHumanizerStateSchema",
+  "description": "Schema de validação determinística de estado e diagnósticos da skill 10-ux-humanizer",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "failed", "pending"]
+    },
+    "skill_id": {
+      "type": "string",
+      "const": "10-ux-humanizer"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "execution_mode": {
+      "type": "string",
+      "enum": ["pasted", "file", "embedded"]
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "originalLength": { "type": "integer" },
+        "humanizedLength": { "type": "integer" },
+        "reductionPercentage": { "type": "number" },
+        "voiceSampleApplied": { "type": "boolean" },
+        "targetFilePath": { "type": "string" },
+        "detectedTells": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "patternId": { "type": "string" },
+              "patternName": { "type": "string" },
+              "componentType": { "type": "string" },
+              "originalSnippet": { "type": "string" },
+              "humanizedSnippet": { "type": "string" },
+              "rationale": { "type": "string" }
+            },
+            "required": ["patternId", "patternName", "originalSnippet", "humanizedSnippet"]
+          }
+        },
+        "finalResult": { "type": "string" }
+      },
+      "required": ["detectedTells", "finalResult"]
+    }
+  },
+  "required": ["status", "skill_id", "timestamp", "execution_mode", "confidence_score", "payload"]
+}

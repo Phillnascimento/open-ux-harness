@@ -14,8 +14,10 @@ export function isNewSkill(name) {
     return (name === '08-reality-gate' ||
         name === '09-persona-walkthrough' ||
         name === '00-skill-architect' ||
+        name === '10-ux-humanizer' ||
         name.startsWith('08-') ||
-        name.startsWith('09-'));
+        name.startsWith('09-') ||
+        name.startsWith('10-'));
 }
 /**
  * Executa o lint determinístico de todas as skills do repositório ou diretório base.

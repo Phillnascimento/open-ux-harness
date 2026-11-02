@@ -75,12 +75,30 @@ test('2. AC-PL1: Compilação dos 4 adaptadores originais preserva funcionamento
   const claudeMcp = JSON.parse(fs.readFileSync(claudeMcpPath, 'utf-8'));
   assert.ok(claudeMcp.mcpServers, '.mcp.json deve conter mcpServers');
 
+  // Claude Code Plugin Manifests (Inspirado no blader/humanizer)
+  const claudePluginPath = path.resolve(baseDist, 'claude-code', '.claude-plugin', 'plugin.json');
+  assert.ok(fs.existsSync(claudePluginPath), 'dist/adapters/claude-code/.claude-plugin/plugin.json deve existir');
+  const claudePlugin = JSON.parse(fs.readFileSync(claudePluginPath, 'utf-8'));
+  assert.strictEqual(claudePlugin.name, 'open-ux-harness');
+  assert.ok(Array.isArray(claudePlugin.skills));
+
+  const claudeMarketplacePath = path.resolve(baseDist, 'claude-code', '.claude-plugin', 'marketplace.json');
+  assert.ok(fs.existsSync(claudeMarketplacePath), 'dist/adapters/claude-code/.claude-plugin/marketplace.json deve existir');
+  const claudeMarketplace = JSON.parse(fs.readFileSync(claudeMarketplacePath, 'utf-8'));
+  assert.ok(Array.isArray(claudeMarketplace.plugins));
+
   // Cursor
   const cursorRulesPath = path.resolve(baseDist, 'cursor', '.cursorrules');
   assert.ok(fs.existsSync(cursorRulesPath), 'dist/adapters/cursor/.cursorrules deve existir');
   const cursorRules = fs.readFileSync(cursorRulesPath, 'utf-8');
   assert.match(cursorRules, /8-point spatial grid/);
   assert.match(cursorRules, /4-STATES/);
+
+  // Cursor Plugin Manifest (Inspirado no blader/humanizer)
+  const cursorPluginPath = path.resolve(baseDist, 'cursor', '.cursor-plugin', 'plugin.json');
+  assert.ok(fs.existsSync(cursorPluginPath), 'dist/adapters/cursor/.cursor-plugin/plugin.json deve existir');
+  const cursorPlugin = JSON.parse(fs.readFileSync(cursorPluginPath, 'utf-8'));
+  assert.strictEqual(cursorPlugin.name, 'open-ux-harness');
 
   // Terminal CLI
   const terminalCliPath = path.resolve(baseDist, 'terminal-cli', 'harness-runtime.json');

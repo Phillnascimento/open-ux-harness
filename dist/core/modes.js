@@ -39,6 +39,7 @@ export const CANONICAL_FULL_SKILLS = [
     '07-telemetry-and-impact',
     '08-reality-gate',
     '09-persona-walkthrough',
+    '10-ux-humanizer',
     'li-career',
     'li-brand',
     'li-voice',

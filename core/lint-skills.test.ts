@@ -260,7 +260,68 @@ test('isNewSkill identifica corretamente skills novas prioritárias e legadas', 
   assert.strictEqual(isNewSkill('08-reality-gate'), true);
   assert.strictEqual(isNewSkill('09-persona-walkthrough'), true);
   assert.strictEqual(isNewSkill('00-skill-architect'), true);
+  assert.strictEqual(isNewSkill('10-ux-humanizer'), true);
   assert.strictEqual(isNewSkill('01-briefing-discovery'), false);
   assert.strictEqual(isNewSkill('05-craft-and-accessibility'), false);
   assert.strictEqual(isNewSkill('li-post'), false);
+});
+
+test('Word Budget: skill que excede 5.000 palavras dispara erro WORD_BUDGET_EXCEEDED', () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ux-lint-word-budget-'));
+  try {
+    const skillsDir = path.join(tempDir, 'skills');
+    fs.mkdirSync(skillsDir, { recursive: true });
+
+    const heavySkill = 'bloated-skill';
+    const heavyPath = path.join(skillsDir, heavySkill);
+    fs.mkdirSync(heavyPath, { recursive: true });
+
+    // Gera um conteúdo com mais de 5.000 palavras
+    const repeatedWords = 'lorem ipsum dolor sit amet '.repeat(1050); // ~5250 palavras
+    const bloatedContent = `---
+name: ${heavySkill}
+description: Skill de teste com inchaço de palavras. NUNCA utilize esta skill para fluxos reais.
+---
+
+<role>
+${repeatedWords}
+</role>
+
+<context>
+Contexto de teste de orcamento de palavras.
+</context>
+
+<reference_index>
+- ref/doc.md
+</reference_index>
+
+<execution_steps>
+1. Passo único
+</execution_steps>
+
+<examples>
+Exemplo simples
+</examples>
+
+<constraints>
+IF erro THEN retry. Máximo de 3 tentativas com escalonamento SCHEMA_MISMATCH. NEVER falhar.
+</constraints>
+
+<output_schema>
+{ "type": "object" }
+</output_schema>
+`;
+
+    fs.writeFileSync(path.join(heavyPath, 'SKILL.md'), bloatedContent, 'utf-8');
+
+    const report = lintAllSkills(tempDir, false);
+    assert.strictEqual(report.failed.length, 1, 'Skill inchada deve falhar');
+    assert.ok(report.failed.includes(heavySkill));
+    assert.ok(
+      report.errors[heavySkill].some((msg) => msg.includes('WORD_BUDGET_EXCEEDED')),
+      'Deve registrar erro WORD_BUDGET_EXCEEDED'
+    );
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
 });

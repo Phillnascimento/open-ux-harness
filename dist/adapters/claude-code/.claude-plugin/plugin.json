@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "open-ux-harness",
+  "description": "Agentic Infrastructure & Harness de Alta Performance para Product Designers e Engenharia de Interface.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Open UX Harness",
+    "url": "https://github.com/open-ux-harness/open-ux-harness"
+  },
+  "homepage": "https://github.com/open-ux-harness/open-ux-harness",
+  "repository": "https://github.com/open-ux-harness/open-ux-harness",
+  "license": "MIT",
+  "keywords": [
+    "ux",
+    "design-tokens",
+    "a11y",
+    "craft-guardian",
+    "mcp",
+    "agentic-design"
+  ],
+  "skills": [
+    "./skills"
+  ]
+}

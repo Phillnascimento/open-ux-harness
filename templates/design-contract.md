@@ -6,6 +6,7 @@
 ---
 
 ## 1. Usuário e Job Principal
+- **Modo de Superfície (Surface Mode):** `operate` (opções: `persuade` para landing pages de marketing; `operate` para dashboards e ferramentas; `read` para documentação; `experience` para showcases).
 - **Usuário-Alvo:** [Perfil específico de usuário, ex.: Analista de Operações Financeiras em empresas B2B].
 - **Contexto de Uso:** [Ambiente e circunstâncias, ex.: Desktop com 2 monitores durante fechamento contábil sob pressão de tempo].
 - **Job Principal (JTBD):** *"Quando [situação/gatilho], eu preciso [motivação/ação chave], para que eu possa [resultado esperado sem atrito]."*
@@ -79,11 +80,27 @@ Referências reais de produtos de mercado para orientar decisões de arquitetura
 ---
 
 ## 6. Padrões Genéricos Proibidos
-Anti-patterns terminantemente proibidos na concepção de telas deste produto:
-- Gradientes decorativos arbitrários sem propósito semântico ou funcional
+Anti-patterns terminantemente proibidos na concepção de telas deste produto (Anti-Slop Heuristics):
+- Borda lateral espessa em cards arredondados (side-tab tell de IA)
+- Texto estilizado em gradiente recortado (gradient-text)
+- Halos luminosos zero-offset em fundos escuros (dark-glow)
+- Cards aninhados dentro de containers de cards (aninhamento excessivo)
+- Micro-rótulos em caixa alta rastreada (kickers/eyebrows) acima de todo título
+- Gradientes decorativos arbitrários sem propósito semântico ou funcional (paleta roxo/ciano clichê)
 - Dashboards com métricas vazias sem workflow claro ou ação recomendada
-- Cards sem hierarquia visual e com sombras difusas exageradas
+- Cards sem hierarquia visual e com sombras difusas exageradas (ghost cards)
 - Empty states genéricos com ilustrações tridimensionais sem atalho direto para ação
 - Modais bloqueantes para confirmações triviais reversíveis
 - Gráficos de pizza ou rosca multicoloridos para dados contínuos ou temporais
 - Botões primários com cores discordantes do design token semântico aprovado
+
+---
+
+## 7. Amostras de Voz e Microcopy (Brand Voice Matching)
+Amostras canônicas reais para calibração de tom da interface (Inspirado no padrão de Voice Matching do Humanizer). O agente deve mimetizar a cadência, concisão e estilo de pontuação destas referências:
+1. **Ação Crítica / Modal:**
+   > "Sua chave de API de produção será revogada imediatamente. Aplicações que dependem desta credencial perderão acesso às consultas."
+2. **Estado Vazio / Informativo:**
+   > "Nenhuma fatura pendente de conciliação. As transações de hoje foram aprovadas automaticamente."
+3. **Feedback de Sucesso:**
+   > "Lote #4892 conciliado. O comprovante foi enviado para a fila de liquidação."

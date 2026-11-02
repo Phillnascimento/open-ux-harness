@@ -51,6 +51,45 @@ export class ContextEngine {
         };
     }
     /**
+     * Monta o micro-contexto cirúrgico para uma tarefa focada em um nó específico do UX Graph.
+     * Inspirado no Graphify para evitar context rot e economizar tokens.
+     */
+    assembleSubGraphContext(graph, targetNodeId, maxHops = 2) {
+        const targetNode = graph.getNode(targetNodeId);
+        if (!targetNode) {
+            throw new Error(`Nó-alvo não encontrado no grafo para montagem de contexto: ${targetNodeId}`);
+        }
+        const sub = graph.getSubGraph(targetNodeId, maxHops);
+        const totalNodesInGraph = graph.getAllNodes().length;
+        const reduction = totalNodesInGraph > 0
+            ? Math.max(0, Math.round(((totalNodesInGraph - sub.nodes.length) / totalNodesInGraph) * 100))
+            : 0;
+        const tokensList = sub.nodes.filter(n => n.type === 'token').map(n => `- Token: ${n.label} (${n.metadata?.value || 'N/A'})`).join('\n');
+        const compList = sub.nodes.filter(n => n.type === 'component').map(n => `- Componente: ${n.label}`).join('\n');
+        const screenList = sub.nodes.filter(n => n.type === 'screen').map(n => `- Tela: ${n.label}`).join('\n');
+        const contextPromptBlock = `<!-- GRAPH_AWARE_MICRO_CONTEXT: ${targetNodeId} (Hops: ${maxHops}) -->
+# SUBGRAFO TOPOLÓGICO DA TAREFA ATIVA
+- Nó em Foco: [${targetNode.type.toUpperCase()}] ${targetNode.label} (${targetNode.id})
+- Total de Nós Conectados: ${sub.nodes.length} (Economia de contexto: ~${reduction}%)
+
+## Tokens Diretamente Relacionados:
+${tokensList || '- Nenhum token imediato.'}
+
+## Componentes Conectados:
+${compList || '- Nenhum componente vizinho.'}
+
+## Telas de Impacto:
+${screenList || '- Nenhuma tela no subgrafo.'}
+<!-- END_GRAPH_AWARE_MICRO_CONTEXT -->`;
+        return {
+            targetId: targetNodeId,
+            subGraphNodesCount: sub.nodes.length,
+            subGraphEdgesCount: sub.edges.length,
+            contextPromptBlock,
+            estimatedTokenReductionPercentage: reduction
+        };
+    }
+    /**
      * Gera o bloco de prompt estático para Prompt Caching (W3C DTCG, WCAG 2.2, 8pt grid).
      * Por ser imutável e colocado no topo, pode usufruir de cache e economizar até 90% dos tokens de entrada.
      */

@@ -17,6 +17,7 @@ export interface SkillValidationResult {
     skill_path: string;
     skill_name: string | null;
     line_count: number;
+    word_count: number;
     confidence_score: number;
     validation_errors: ValidationIssue[];
 }
