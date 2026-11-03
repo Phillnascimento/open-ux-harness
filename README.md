@@ -3,11 +3,15 @@
 > **Agentic Infrastructure & Harness de Alta Performance para Product Designers e Engenharia de Interface**  
 > *Agnóstico a modelos de IA | Agnóstico a plataformas de desenvolvimento | 100% Open Source (MIT)*
 
+[![Status: Alpha](https://img.shields.io/badge/Status-Alpha%20(v0.1.0)-blueviolet.svg)](https://github.com/Phillnascimento/open-ux-harness)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Format: W3C DTCG](https://img.shields.io/badge/Tokens-W3C%20DTCG%202025.10-purple.svg)](https://design-tokens.github.io/community-group/format/)
 [![A11y: WCAG 2.2 AA/AAA](https://img.shields.io/badge/A11y-WCAG%202.2%20AA%2FAAA-green.svg)](https://www.w3.org/TR/WCAG22/)
 [![MCP: Supported](https://img.shields.io/badge/MCP-Model%20Context%20Protocol-orange.svg)](https://modelcontextprotocol.io/)
 [![Quality Gate: Passing](https://img.shields.io/badge/RealityGate-Passing%20(123%20tests)-success.svg)](https://github.com/Phillnascimento/open-ux-harness)
+
+> [!NOTE]
+> **Versão 0.1.0 (Alpha):** Este projeto encontra-se em estágio inicial de desenvolvimento ativo (fase Alfa). As interfaces de contratos, os esquemas de skills e os compiladores de adaptadores estão sujeitos a refinamentos contínuos com base nos testes práticos da comunidade.
 
 ---
 
@@ -16,18 +20,18 @@
 A utilização ingênua de Modelos de Linguagem (LLMs) em Product Design e Desenvolvimento de UI gera dois problemas crônicos documentados pela indústria:
 
 1. **O "Scaffold Effect" (Desperdício de até 40x em Tokens):**  
-   Carregar dezenas de ferramentas MCP brutas e transcrições extensas na janela de contexto de um modelo encarece a inferência em até 40 vezes e causa degradação de atenção (*lost-in-the-middle*). Modelos de fronteira operando em invólucros arquiteturais frágeis perdem em precisão para modelos intermediários contidos em um **harness otimizado**.
+   Carregar dezenas de ferramentas MCP brutas e transcrições extensas na janela de contexto de um modelo encarece a inferência em até 40 vezes e causa degradação de atenção (*lost-in-the-middle*). Modelos avançados operando em invólucros arquiteturais frágeis perdem em precisão para modelos intermediários contidos em um **harness otimizado**.
 2. **"Visual Slop" e Desconexão Técnica:**  
-   LLMs sem restrições heurísticas alucinam margens arbitrárias (como 13px ou 21px), violam taxas de contraste de acessibilidade (WCAG 2.2), geram gradientes clichês de IA (roxo/azul genérico com halos luminosos), ignoram design systems homologados e produzem componentes duplicados em vez de reutilizar código existente.
+   Modelos sem restrições heurísticas alucinam margens arbitrárias (como 13px ou 21px), violam taxas de contraste de acessibilidade (WCAG 2.2), geram gradientes clichês de IA (paletas genéricas com halos luminosos), ignoram design systems homologados e produzem componentes duplicados em vez de reutilizar código existente.
 
-O **Open UX Harness (v3.0)** é a infraestrutura de engenharia criada para solucionar esses desafios: um ecossistema modular com governança determinística que atua como co-piloto técnico e estratégico, cobrindo todo o ciclo de vida do design — **do briefing à telemetria de impacto pós-deploy**.
+O **Open UX Harness** é a infraestrutura de engenharia criada para solucionar esses desafios: um ecossistema modular com governança determinística que atua como co-piloto técnico e estratégico, cobrindo todo o ciclo de vida do design — **do briefing à telemetria de impacto pós-deploy**.
 
 ---
 
 ## Pilares Fundamentais
 
 * **Totalmente Agnóstico a Motores de IA:**  
-  A inteligência atua como um recurso intercambiável (*AI as a commodity*). Troque livremente entre modelos proprietários de ponta ou execute modelos abertos locais sem alterar a lógica de governança.
+  A inteligência atua como um recurso intercambiável (*AI as a commodity*). O harness abstrai chamadas, tokens e ferramentas, operando de forma transparente com qualquer motor moderno (seja proprietário via API comercial ou pesos abertos executados localmente).
 * **Agnóstico a Plataformas de Desenvolvimento:**  
   Compila nativamente para Google Antigravity, Claude Code CLI, Cursor, Windsurf, Roo Code, Cline e Terminal puro (Codex).
 * **Versatilidade Operacional (Do Freelance à Grande Empresa):**
@@ -40,17 +44,17 @@ O **Open UX Harness (v3.0)** é a infraestrutura de engenharia criada para soluc
 
 ---
 
-## Matriz de Modelos de IA Recomendados (Atualizada)
+## Matriz de Arquétipos Cognitivos & Capacidades de IA
 
-O Open UX Harness foi calibrado para extrair o melhor de cada família de modelos modernos, respeitando suas características arquiteturais:
+Em vez de se acoplar a nomes comerciais ou versões passageiras de modelos, o Open UX Harness divide a orquestração em **arquétipos funcionais baseados em capacidades arquiteturais**:
 
-| Função no Harness | Modelos Primários Recomendados | Características Arquiteturais |
-| :--- | :--- | :--- |
-| **Crítica Cognitiva & Heurística (Subagente A)** | **Claude 3.7 Sonnet** (Extended Thinking)<br>**OpenAI o3 / o3-mini** (High reasoning effort)<br>**Gemini 2.5 Pro** (Thinking Mode) | Modelos de raciocínio profundo com cadeia de pensamento auditável (*visible chain-of-thought*), capazes de identificar atritos em modelos mentais e hierarquia de informação complexa. |
-| **Auditoria Determinística de Slop (Subagente B)** | **Gemini 2.0 Flash / 2.5 Flash**<br>**Claude 3.7 Sonnet** (Standard Mode)<br>**GPT-4.5** | Baixa latência, alto rendimento por token e inspeção regex/AST veloz para checagem das 62 regras de qualidade e conformidade de tokens. |
-| **Geração de Componentes & Handoff de Código** | **Claude 3.7 Sonnet** (via Claude Code)<br>**OpenAI o3-mini**<br>**DeepSeek-V3 / DeepSeek-R1**<br>**Qwen 2.5 Coder 32B** | Alta fidelidade de sintaxe TypeScript/React/Tailwind, respeito rígido a contratos de design e zero duplicação de componentes. |
-| **Inspeção Visual Multimodal (Figma Diff)** | **Claude 3.7 Sonnet** (Visão de Alta Fidelidade)<br>**Gemini 2.0 Flash** (Multimodal sub-segundo)<br>**GPT-4o** | Alinhamento pixel-a-pixel entre artefatos visuais do Figma e screenshots de renderização Playwright. |
-| **Execução Local & Soberania de Dados (Offline)** | **Qwen 2.5 Coder 32B**<br>**DeepSeek-R1 Distill (Qwen 32B / Llama 70B)** | Suporte via Ollama ou vLLM para ambientes corporativos com exigência estrita de isolamento de rede e zero telemetria em nuvem. |
+| Papel no Harness | Perfil Cognitivo Requerido | Responsabilidades no Fluxo | Classe Arquitetural de IA |
+| :--- | :--- | :--- | :--- |
+| **Crítica Cognitiva & Heurística (Subagente A)** | Raciocínio analítico profundo, planejamento passo a passo e empatia com modelos mentais do usuário. | Avaliação de atrito de usabilidade, clareza na proposta de valor, hierarquia visual e coerência da arquitetura de informação. | **Modelos com Raciocínio Estendido / Cadeia de Pensamento:** Modelos capazes de auditar internamente premissas e avaliar trade-offs ergonômicos antes de gerar respostas. |
+| **Auditoria Determinística & Linter (Subagente B)** | Baixa latência, execução veloz de chamadas estruturadas (*tool use*) e rigor sintático. | Varredura de código contra as 62 regras anti-slop, cálculo de taxas de contraste WCAG, e validação de tokens contra o grid de 8px. | **Modelos Rápidos de Ferramentas / Alta Eficiência:** Motores focados em velocidade, alto throughput e inspeção precisa de AST/regex sem sobrecarga computacional desnecessária. |
+| **Engenharia de Interface & Handoff** | Precisão estrita em TypeScript/CSS/HTML semântico e capacidade de reutilização modular. | Geração de componentes limpos, montagem de variações de estado (default, empty, loading, error) e alinhamento com bibliotecas homologadas. | **Modelos Especializados em Código:** Motores com alto desempenho em síntese de software, refatoração e respeito a contratos formais de tipos. |
+| **Inspeção Visual Multimodal** | Alta resolução perceptual em análise de imagens e comparação visual comparativa. | Validação visual contra pranchetas do Figma, detecção de desvios visuais (*visual drift*) e auditoria de capturas de tela Playwright. | **Modelos Multimodais Nativos de Alta Fidelidade:** Motores capazes de correlacionar coordenadas espaciais de layouts com capturas reais de navegadores. |
+| **Operação Local & Soberania de Dados** | Execução totalmente desconectada da nuvem para segurança corporativa estrita. | Processamento de código proprietário, design systems confidenciais e conformidade com políticas rígidas de privacidade. | **Modelos Abertos Locais (Local Inference):** Qualquer modelo open-weights executado via provedores locais compatíveis com API padrão, garantindo zero telemetria externa. |
 
 ---
 
@@ -83,7 +87,7 @@ flowchart LR
 
 ### 1. AntiSlopEngine (62 Regras Determinísticas)
 Inspirado nas heurísticas do projeto **Impeccable**, o motor analisa o código e o design em busca de defeitos típicos de geração sintética:
-* **Bans Absolutos de Slop:** Rejeição de `side-tab` (bordas laterais espessas em cards redondos), `gradient-text` (degradê recortado em títulos), `ai-color-palette` (paletas roxo/azul clichê de IA), `dark-glow` (halos cromáticos com zero-offset), `nested-cards` (cards aninhados dentro de cards) e `kicker-above-heading` (micro-rótulos em caixa alta acima de todo heading).
+* **Bans Absolutos de Slop:** Rejeição de `side-tab` (bordas laterais espessas em cards redondos), `gradient-text` (degradê recortado em títulos), `ai-color-palette` (paletas roxo/azul genéricas com halos luminosos), `dark-glow` (sombras cromáticas com zero-offset), `nested-cards` (cards aninhados dentro de cards) e `kicker-above-heading` (micro-rótulos em caixa alta acima de todo heading).
 * **Integridade Estrutural & Qualidade:** Detecção de `broken-image`, `cramped-padding` (<8px dentro de contornos com borda/fundo), `line-length` (>80ch sem quebra), `body-text-viewport-edge` (<16px das bordas da tela), `tight-leading` (<1.3x) e `tiny-text` (<12px).
 * **Execução Híbrida:** Avaliação local via expressões regulares/AST com fallback transparente para a CLI `impeccable` caso esteja instalada.
 
